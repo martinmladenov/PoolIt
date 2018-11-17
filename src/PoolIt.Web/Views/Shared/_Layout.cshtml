@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/site.css">
 
     <title>@ViewData["Title"] - PoolIt</title>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-gray">
     <div class="container">
         <a class="navbar-brand" asp-controller="Home" asp-action="Index">PoolIt</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -35,9 +36,18 @@
     </div>
 </main>
 
+<footer class="sticky-footer bg-gray">
+    <div class="container">
+        <span class="text-muted">Copyright &copy; 2018 PoolIt. Licensed under GPL v3.0</span>
+        <a class="float-right" href="https://github.com/martinmladenov/PoolIt">Source</a>
+    </div>
+</footer>
+
 <script src="~/js/jquery-3.3.1.slim.min.js"></script>
 <script src="~/js/popper.min.js"></script>
 <script src="~/js/bootstrap.min.js"></script>
+
+<partial name="_ValidationScriptsPartial"/>
 
 @RenderSection("Scripts", required: false)
 </body>
