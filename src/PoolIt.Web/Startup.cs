@@ -1,6 +1,8 @@
 ﻿namespace PoolIt.Web
 {
+    using AutoMapper;
     using Data;
+    using Infrastructure.Mapping;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -46,11 +48,17 @@
             .AddDefaultTokenProviders()
             .AddEntityFrameworkStores<PoolItDbContext>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            })
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            Mapper.Initialize(config => config.AddProfile<AutoMapperProfile>());
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

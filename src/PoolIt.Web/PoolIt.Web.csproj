@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.6" PrivateAssets="All" />
@@ -13,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PoolIt.Data\PoolIt.Data.csproj" />
+    <ProjectReference Include="..\PoolIt.Infrastructure\PoolIt.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

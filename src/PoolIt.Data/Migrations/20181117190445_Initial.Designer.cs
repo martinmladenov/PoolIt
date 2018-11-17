@@ -10,8 +10,8 @@ using PoolIt.Data;
 namespace PoolIt.Data.Migrations
 {
     [DbContext(typeof(PoolItDbContext))]
-    [Migration("20181117183634_InitialDatabase")]
-    partial class InitialDatabase
+    [Migration("20181117190445_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -263,7 +263,9 @@ namespace PoolIt.Data.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<string>("FullName");
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("LastName");
 
                     b.Property<bool>("LockoutEnabled");
 

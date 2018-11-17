@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoolIt.Models", "PoolIt.Mod
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoolIt.Data", "PoolIt.Data\PoolIt.Data.csproj", "{47D38A08-34DE-41C0-A981-B1E872FD29C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoolIt.Infrastructure", "PoolIt.Infrastructure\PoolIt.Infrastructure.csproj", "{1B65213A-89C8-469C-BCE9-56AE35582A90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoolIt.Services", "PoolIt.Services\PoolIt.Services.csproj", "{9FF57DA6-E8C0-4366-B876-7E901E74D19A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{47D38A08-34DE-41C0-A981-B1E872FD29C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47D38A08-34DE-41C0-A981-B1E872FD29C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47D38A08-34DE-41C0-A981-B1E872FD29C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B65213A-89C8-469C-BCE9-56AE35582A90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B65213A-89C8-469C-BCE9-56AE35582A90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B65213A-89C8-469C-BCE9-56AE35582A90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B65213A-89C8-469C-BCE9-56AE35582A90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FF57DA6-E8C0-4366-B876-7E901E74D19A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FF57DA6-E8C0-4366-B876-7E901E74D19A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FF57DA6-E8C0-4366-B876-7E901E74D19A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FF57DA6-E8C0-4366-B876-7E901E74D19A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
