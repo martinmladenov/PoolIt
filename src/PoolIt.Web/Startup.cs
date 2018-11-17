@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using Data;
+    using Extensions;
     using Infrastructure.Mapping;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -58,6 +59,8 @@
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             Mapper.Initialize(config => config.AddProfile<AutoMapperProfile>());
+
+            app.EnsureAdminRoleCreatedAsync().Wait();
             
             if (env.IsDevelopment())
             {
