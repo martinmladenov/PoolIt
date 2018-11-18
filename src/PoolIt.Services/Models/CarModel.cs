@@ -8,9 +8,9 @@ namespace PoolIt.Services.Models
     {
         public string Id { get; set; }
 
-        [Required]
         public string ManufacturerId { get; set; }
         
+        [Required]
         public CarManufacturerServiceModel Manufacturer { get; set; }
         
         [Required]

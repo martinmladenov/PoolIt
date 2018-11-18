@@ -9,14 +9,14 @@ namespace PoolIt.Services.Models
     {
         public string Id { get; set; }
 
-        [Required]
         public string ConversationId { get; set; }
 
+        [Required]
         public ConversationServiceModel Conversation { get; set; }
 
-        [Required]
         public string AuthorId { get; set; }
 
+        [Required]
         public PoolItUserServiceModel Author { get; set; }
 
         [Required]

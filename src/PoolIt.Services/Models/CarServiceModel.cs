@@ -12,9 +12,9 @@ namespace PoolIt.Services.Models
 
         public CarModelServiceModel Model { get; set; }
 
-        [Required]
         public string OwnerId { get; set; }
 
+        [Required]
         public PoolItUserServiceModel Owner { get; set; }
 
         [Required]
