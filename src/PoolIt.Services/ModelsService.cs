@@ -58,10 +58,10 @@ namespace PoolIt.Services
                 return null;
             }
 
-            var models = this.context.CarModels
+            var models = await this.context.CarModels
                 .Where(m => m.ManufacturerId == manufacturerId)
                 .ProjectTo<CarModelServiceModel>()
-                .ToArray();
+                .ToArrayAsync();
 
             return models;
         }
