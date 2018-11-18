@@ -1,0 +1,26 @@
+@model CarModelCreateBindingModel
+
+@{
+    ViewData["Title"] = "Create Car Model";
+}
+
+<div class="text-center w-50 mx-auto my-4">
+    <h2>@ViewData["Title"]</h2>
+    <form method="post">
+        <hr/>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Manufacturer"></label>
+            <input class="form-control" asp-for="Manufacturer" class="form-control"/>
+            <span asp-validation-for="Manufacturer" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CarModel"></label>
+            <input class="form-control" asp-for="CarModel" class="form-control"/>
+            <span asp-validation-for="CarModel" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Create</button>
+        </div>
+    </form>
+</div>
