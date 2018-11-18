@@ -26,7 +26,7 @@ namespace PoolIt.Web.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Create(CarModelCreateBindingModel model)
+        public async Task<IActionResult> Create(CarModelCreateBindingModel model, string returnUrl)
         {
             if (!this.ModelState.IsValid)
             {
@@ -51,7 +51,9 @@ namespace PoolIt.Web.Controllers
 
             await this.modelsService.Create(carModel);
 
-            return this.RedirectToAction("Index", "Home");
+            returnUrl = returnUrl ?? "/";
+
+            return this.LocalRedirect(returnUrl);
         }
     }
 }
