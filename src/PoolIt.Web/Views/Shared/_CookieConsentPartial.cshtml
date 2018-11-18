@@ -8,34 +8,28 @@
 
 @if (showBanner)
 {
-    <nav id="cookieConsent" class="navbar navbar-default navbar-fixed-top" role="alert">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#cookieConsent .navbar-collapse">
-                    <span class="sr-only">Toggle cookie consent banner</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <span class="navbar-brand"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></span>
+    <div class="alert alert-warning fade show" role="alert" id="cookieConsent">
+        <div class="container d-flex flex-row">
+            <i class="fas fa-cookie-bite fa-2x align-self-center"></i>
+            <div class="pl-3">
+                <strong>PoolIt uses cookies to provide you with a better experience.</strong>
+                <p class="mb-0">By continuing to use this website, you consent to the use of cookies.</p>
             </div>
-            <div class="collapse navbar-collapse">
-                <p class="navbar-text">
-                    Use this space to summarize your privacy and cookie use policy.
-                </p>
-                <div class="navbar-right">
-                    <a asp-controller="Home" asp-action="Privacy" class="btn btn-info navbar-btn">Learn More</a>
-                    <button type="button" class="btn btn-default navbar-btn" data-cookie-string="@cookieString">Accept</button>
-                </div>
+            <div class="align-self-center ml-auto">
+                <button type="button" class="btn btn-secondary" id="cookieAcceptButton" data-cookie-string="@cookieString">Accept</button>
             </div>
         </div>
-    </nav>
+    </div>
     <script>
-        (function () {
-            document.querySelector("#cookieConsent button[data-cookie-string]").addEventListener("click", function (el) {
-                document.cookie = el.target.dataset.cookieString;
-                document.querySelector("#cookieConsent").classList.add("hidden");
-            }, false);
-        })();
+        (function() {
+                    document.getElementById("cookieAcceptButton").addEventListener("click",
+                        function(el) {
+                            document.cookie = el.target.dataset.cookieString;
+                            document.getElementById("cookieConsent").classList.add("d-none");
+                        },
+                        false);
+                }
+            )
+            ();
     </script>
 }
