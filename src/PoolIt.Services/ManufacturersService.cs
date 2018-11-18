@@ -1,7 +1,9 @@
 namespace PoolIt.Services
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using Contracts;
     using Data;
     using Microsoft.EntityFrameworkCore;
@@ -52,6 +54,15 @@ namespace PoolIt.Services
             await this.context.SaveChangesAsync();
 
             return true;
+        }
+
+        public async Task<IEnumerable<CarManufacturerServiceModel>> GetAll()
+        {
+            var manufacturers = await this.context.CarManufacturers
+                .ProjectTo<CarManufacturerServiceModel>()
+                .ToArrayAsync();
+
+            return manufacturers;
         }
     }
 }
