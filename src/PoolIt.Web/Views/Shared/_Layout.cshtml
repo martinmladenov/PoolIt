@@ -26,6 +26,15 @@
                 <li class="nav-item">
                     <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
                 </li>
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cars</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" asp-controller="Cars" asp-action="Index">My cars</a>
+                        <a class="dropdown-item" asp-controller="Cars" asp-action="Create">Add a car</a>
+                    </div>
+                </li>
             </ul>
             <partial name="_LoginPartial"/>
         </div>
