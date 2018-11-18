@@ -72,5 +72,15 @@ namespace PoolIt.Web.Controllers
 
             return manufacturers;
         }
+        
+        [Authorize]
+        public async Task<IActionResult> Index()
+        {
+            var models = (await this.carsService
+                .GetAllForUser(this.User.Identity.Name))
+                .Select(Mapper.Map<CarListingViewModel>);
+            
+            return this.View(models);
+        }
     }
 }
