@@ -58,6 +58,7 @@
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddTransient<IManufacturersService, ManufacturersService>();
+            services.AddTransient<IModelsService, ModelsService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
