@@ -13,9 +13,9 @@ namespace PoolIt.Services.Models
         [StringLength(50, MinimumLength = 3)]
         public string Title { get; set; }
         
-        [Required]
         public string CarId { get; set; }
 
+        [Required]
         public CarServiceModel Car { get; set; }
 
         [Required]

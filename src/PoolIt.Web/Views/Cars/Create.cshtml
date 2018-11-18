@@ -1,0 +1,88 @@
+@model CarEditBindingModel
+
+@{
+    ViewData["Title"] = "Add a Car";
+}
+
+<div class="text-center w-50 mx-auto my-4">
+    <h2>@ViewData["Title"]</h2>
+    <form method="post">
+        <hr/>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label>Manufacturer</label>
+            <div class="row">
+                <div class="col-11 pr-2">
+                    <select class="form-control selectpicker" data-live-search="true" title="Select manufacturer..."
+                            id="manufacturer" asp-items="Model.Manufacturers">
+                    </select>
+                </div>
+                <a class="btn btn-secondary col-1" asp-controller="Models" asp-action="Create"
+                   asp-route-returnUrl="/Cars/Create">
+                    <i class="fas fa-plus"></i>
+                </a>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ModelId"></label>
+            <div class="row">
+                <div class="col-11 pr-2">
+                    <select class="form-control selectpicker" data-live-search="true" disabled="disabled"
+                            title="Select manufacturer first" id="model" asp-for="ModelId">
+                    </select>
+                </div>
+                <a class="btn btn-secondary col-1" asp-controller="Models" asp-action="Create"
+                   asp-route-returnUrl="/Cars/Create">
+                    <i class="fas fa-plus"></i>
+                </a>
+            </div>
+            <span asp-validation-for="ModelId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Colour"></label>
+            <input class="form-control" asp-for="Colour" class="form-control"/>
+            <span asp-validation-for="Colour" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Details"></label>
+            <input class="form-control" asp-for="Details" class="form-control" placeholder="(optional)"/>
+            <span asp-validation-for="Details" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Add</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        $('#manufacturer').change(function() {
+            var manufacturerId = $(this).val();
+            $.ajax({
+                url: '@Url.Action("GetByManufacturerJson", "Models")',
+                type: "GET",
+                data: { manufacturerId: manufacturerId },
+                success: function(result) {
+                    var modelsList = $('#model');
+                    modelsList.empty();;
+                    modelsList.prop('disabled', false);
+                    $.each(result,
+                        function() {
+                            modelsList.append(
+                                $('<option/>',
+                                    {
+                                        value: this.id,
+                                        text: this.model
+                                    })
+                            );
+                        });
+                    modelsList.selectpicker({
+                        title: 'Select model...'
+                    });
+                    modelsList.selectpicker('refresh');
+                    modelsList.selectpicker('toggle');
+                }
+            });
+        });
+    </script>
+}

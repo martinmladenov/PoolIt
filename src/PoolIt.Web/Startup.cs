@@ -13,6 +13,8 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using PoolIt.Models;
+    using Services;
+    using Services.Contracts;
 
     public class Startup
     {
@@ -54,6 +56,10 @@
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddTransient<IManufacturersService, ManufacturersService>();
+            services.AddTransient<IModelsService, ModelsService>();
+            services.AddTransient<ICarsService, CarsService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
