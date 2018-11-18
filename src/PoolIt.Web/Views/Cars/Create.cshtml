@@ -1,7 +1,7 @@
 @model CarEditBindingModel
 
 @{
-    ViewData["Title"] = "Create Car";
+    ViewData["Title"] = "Add a Car";
 }
 
 <div class="text-center w-50 mx-auto my-4">
@@ -19,7 +19,7 @@
                 </div>
                 <a class="btn btn-secondary col-1" asp-controller="Models" asp-action="Create"
                    asp-route-returnUrl="/Cars/Create">
-                    +
+                    <i class="fas fa-plus"></i>
                 </a>
             </div>
         </div>
@@ -33,7 +33,7 @@
                 </div>
                 <a class="btn btn-secondary col-1" asp-controller="Models" asp-action="Create"
                    asp-route-returnUrl="/Cars/Create">
-                    +
+                    <i class="fas fa-plus"></i>
                 </a>
             </div>
             <span asp-validation-for="ModelId" class="text-danger"></span>
@@ -49,7 +49,7 @@
             <span asp-validation-for="Details" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary">Add</button>
         </div>
     </form>
 </div>
@@ -64,8 +64,7 @@
                 data: { manufacturerId: manufacturerId },
                 success: function(result) {
                     var modelsList = $('#model');
-                    modelsList.empty();
-                    ;
+                    modelsList.empty();;
                     modelsList.prop('disabled', false);
                     $.each(result,
                         function() {
