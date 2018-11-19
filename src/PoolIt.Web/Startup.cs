@@ -63,6 +63,7 @@
             services.AddTransient<IManufacturersService, ManufacturersService>();
             services.AddTransient<IModelsService, ModelsService>();
             services.AddTransient<ICarsService, CarsService>();
+            services.AddTransient<IRidesService, RidesService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

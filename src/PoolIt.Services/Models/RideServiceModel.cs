@@ -13,20 +13,20 @@ namespace PoolIt.Services.Models
         [StringLength(50, MinimumLength = 3)]
         public string Title { get; set; }
         
+        [Required]
         public string CarId { get; set; }
 
-        [Required]
         public CarServiceModel Car { get; set; }
 
         [Required]
         public DateTime Date { get; set; }
 
         [Required]
-        [StringLength(100, MinimumLength = 10)]
+        [StringLength(100, MinimumLength = 3)]
         public string From { get; set; }
         
         [Required]
-        [StringLength(100, MinimumLength = 10)]
+        [StringLength(100, MinimumLength = 3)]
         public string To { get; set; }
 
         [Required]
@@ -39,7 +39,6 @@ namespace PoolIt.Services.Models
         [StringLength(300, MinimumLength = 3)]
         public string Notes { get; set; }
 
-        [Required]
         public string ConversationId { get; set; }
 
         public ConversationServiceModel Conversation { get; set; }
