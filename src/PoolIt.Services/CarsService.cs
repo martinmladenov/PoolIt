@@ -69,5 +69,19 @@ namespace PoolIt.Services
 
             return cars;
         }
+
+        public async Task<CarServiceModel> Get(string id)
+        {
+            if (id == null)
+            {
+                return null;
+            }
+
+            var car = await this.context.Cars
+                .ProjectTo<CarServiceModel>()
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            return car;
+        }
     }
 }

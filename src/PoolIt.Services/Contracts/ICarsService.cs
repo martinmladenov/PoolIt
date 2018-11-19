@@ -8,5 +8,6 @@ namespace PoolIt.Services.Contracts
     {
         Task<bool> Create(CarServiceModel model);
         Task<IEnumerable<CarServiceModel>> GetAllForUser(string userName);
+        Task<CarServiceModel> Get(string id);
     }
 }

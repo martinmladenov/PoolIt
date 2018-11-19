@@ -1,0 +1,99 @@
+@model RideCreateBindingModel
+
+@{
+    ViewData["Title"] = "Create Ride";
+}
+
+<div class="text-center w-50 mx-auto my-4">
+    <h2>@ViewData["Title"]</h2>
+    <form method="post">
+        <hr/>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Title"></label>
+            <input class="form-control" asp-for="Title" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CarId"></label>
+            <div class="row">
+                <div class="col-11 pr-2">
+                    <select class="form-control selectpicker" data-live-search="true" title="Select car..."
+                            asp-for="CarId" asp-items="Model.OwnedCars">
+                    </select>
+                </div>
+                <a class="btn btn-secondary col-1" asp-controller="Cars" asp-action="Create">
+                    <i class="fas fa-plus"></i>
+                </a>
+            </div>            
+            <span asp-validation-for="CarId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Date"></label>
+            <input id="date" class="form-control" asp-for="Date" />
+            <span asp-validation-for="Date" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="From"></label>
+            <div class="row">
+                <div class="col-11 pr-2">
+                    <input class="form-control" asp-for="From" />
+                </div>
+                <button type="button" class="btn btn-secondary col-1">
+                    <i class="fas fa-crosshairs"></i>
+                </button>
+            </div>
+            <span asp-validation-for="From" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="To"></label>
+            <div class="row">
+                <div class="col-11 pr-2">
+                    <input class="form-control" asp-for="To" />
+                </div>
+                <button type="button" class="btn btn-secondary col-1">
+                    <i class="fas fa-crosshairs"></i>
+                </button>
+            </div>
+            <span asp-validation-for="To" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="AvailableSeats"></label>
+            <input type="number" min="1" max="6" class="form-control" asp-for="AvailableSeats" />
+            <span asp-validation-for="AvailableSeats" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="PhoneNumber"></label>
+            <input class="form-control" asp-for="PhoneNumber" class="form-control" placeholder="(optional)"/>
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Notes"></label>
+            <textarea class="form-control" asp-for="Notes" placeholder="(optional)"></textarea>
+            <span asp-validation-for="Notes" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Create</button>
+        </div>
+        
+    </form>
+</div>
+
+@section CustomCss {
+    <link href="~/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+}
+
+@section Scripts {
+    <script src="~/js/moment.min.js" type="text/javascript"></script>
+    <script src="~/js/bootstrap-datetimepicker.min.js"></script>
+
+    <script>
+        $('#date').datetimepicker({
+            format: 'DD/MM/YYYY HH:mm',
+            minDate: moment(),
+            icons: {
+                time: 'fas fa-clock'
+            }
+        });
+    </script>
+}
