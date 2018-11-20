@@ -11,7 +11,7 @@
         <div asp-validation-summary="All" class="text-danger"></div>
         <div class="form-group">
             <label asp-for="Title"></label>
-            <input class="form-control" asp-for="Title" />
+            <input class="form-control" asp-for="Title"/>
             <span asp-validation-for="Title" class="text-danger"></span>
         </div>
         <div class="form-group">
@@ -25,22 +25,23 @@
                 <a class="btn btn-secondary col-1" asp-controller="Cars" asp-action="Create">
                     <i class="fas fa-plus"></i>
                 </a>
-            </div>            
+            </div>
             <span asp-validation-for="CarId" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="Date"></label>
-            <input id="date" class="form-control" asp-for="Date" />
+            <input id="date" class="form-control" asp-for="Date"/>
             <span asp-validation-for="Date" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="From"></label>
             <div class="row">
                 <div class="col-11 pr-2">
-                    <input class="form-control" asp-for="From" />
+                    <input id="fromField" class="form-control" asp-for="From"/>
                 </div>
-                <button type="button" class="btn btn-secondary col-1">
-                    <i class="fas fa-crosshairs"></i>
+                <button type="button" class="btn btn-secondary col-1"
+                        onclick="fillLocation('#fromImage', '#fromField')">
+                    <i id="fromImage" class="fas fa-crosshairs"></i>
                 </button>
             </div>
             <span asp-validation-for="From" class="text-danger"></span>
@@ -49,17 +50,18 @@
             <label asp-for="To"></label>
             <div class="row">
                 <div class="col-11 pr-2">
-                    <input class="form-control" asp-for="To" />
+                    <input id="toField" class="form-control" asp-for="To"/>
                 </div>
-                <button type="button" class="btn btn-secondary col-1">
-                    <i class="fas fa-crosshairs"></i>
+                <button type="button" class="btn btn-secondary col-1"
+                        onclick="fillLocation('#toImage', '#toField')">
+                    <i id="toImage" class="fas fa-crosshairs"></i>
                 </button>
             </div>
             <span asp-validation-for="To" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="AvailableSeats"></label>
-            <input type="number" min="1" max="6" class="form-control" asp-for="AvailableSeats" />
+            <input type="number" min="1" max="6" class="form-control" asp-for="AvailableSeats"/>
             <span asp-validation-for="AvailableSeats" class="text-danger"></span>
         </div>
         <div class="form-group">
@@ -75,7 +77,6 @@
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Create</button>
         </div>
-        
     </form>
 </div>
 
@@ -95,5 +96,59 @@
                 time: 'fas fa-clock'
             }
         });
+    </script>
+
+    <script>
+        function fillLocation(imageId, fieldId) {
+            var image = $(imageId);
+            image.addClass('fa-spin');
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(pos) {
+                        $.ajax({
+                            url: '@Url.Action("GetTownName", "Location", new {Area = "Api"})',
+                            type: "GET",
+                            data: {
+                                latitude: pos.coords.latitude,
+                                longitude: pos.coords.longitude
+                            },
+                            success: function(result) {
+                                $(fieldId).val(result.townName);
+                                image.removeClass('fa-spin');
+                            }
+                        });
+                    },
+                    function(error) {
+                        var text;
+
+                        switch (error.code) {
+                        case error.PERMISSION_DENIED:
+                            text = "You've denied the geolocation request. Check your browser's settings.";
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            text = "Location information is unavailable. Try again later.";
+                            break;
+                        case error.TIMEOUT:
+                            text = "The location request took too long. Try again later.";
+                            break;
+                        default:
+                            text = "An error occurred. Try again later.";
+                            break;
+                        }
+
+                        showPopover(image, text);
+                    });
+            } else {
+                showPopover(image, "Your browser doesn't support geolocation.");
+            }
+        }
+
+        function showPopover(target, text) {
+            target.popover({
+                content: text
+            });
+            target.popover('show');
+            target.removeClass('fa-spin');
+        }
     </script>
 }
