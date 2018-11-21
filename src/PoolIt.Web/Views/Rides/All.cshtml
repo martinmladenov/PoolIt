@@ -1,0 +1,47 @@
+@model IEnumerable<RideListingViewModel>
+
+@{
+    ViewData["Title"] = "Browse";
+    const string dateFormat = "dd/MM/yyyy HH:mm";
+}
+
+<div class="mx-auto my-4 text-center pb-3">
+    <h2>@ViewData["Title"]</h2>
+    <hr>
+    <div class="row justify-content-center">
+        @foreach (var ride in Model)
+        {
+            <div class="col-lg-4 col-md-6 col-sm-12 pb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <a asp-controller="Rides" asp-action="Details" asp-route-id="@ride.Id">
+                            <h4 class="card-title text-dark">@ride.Title</h4>
+                        </a>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <i class="fas fa-location-arrow"></i> @ride.From &mdash; @ride.To</li>
+                        <li class="list-group-item">
+                            <i class="fas fa-car"></i> @ride.CarModel</li>
+                        <li class="list-group-item">
+                            <i class="fas fa-calendar-alt"></i> @ride.Date.ToString(dateFormat)</li>
+                        <li class="list-group-item">
+                            <i class="fas fa-user-friends"></i> @ride.RemainingSeats remaining free 
+                            @(ride.RemainingSeats > 1 ? "seats" : "seat")
+                        </li>
+                    </ul>
+                    <div class="card-body">
+                        <a class="btn btn-primary" asp-controller="Rides" asp-action="Details" asp-route-id="@ride.Id">Details</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    @if (!Model.Any())
+    {
+        <p class="text-muted">There are no rides available.</p>
+    }
+    <a class="btn btn-outline-primary" asp-controller="Rides" asp-action="Create">Organise a ride</a>
+
+</div>

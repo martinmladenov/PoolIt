@@ -1,6 +1,7 @@
 namespace PoolIt.Services.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using Infrastructure.Mapping;
     using PoolIt.Models;
@@ -42,5 +43,7 @@ namespace PoolIt.Services.Models
         public string ConversationId { get; set; }
 
         public ConversationServiceModel Conversation { get; set; }
+        
+        public ICollection<UserRideServiceModel> Participants { get; set; }
     }
 }

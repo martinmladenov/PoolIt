@@ -71,5 +71,16 @@ namespace PoolIt.Web.Controllers
                     Value = c.Id
                 });
         }
+
+        [Route("/browse")]
+        public async Task<IActionResult> All()
+        {
+            var rides = (await this.ridesService
+                    .GetAllUpcomingWithFreeSeats())
+                .Select(Mapper.Map<RideListingViewModel>)
+                .ToArray();
+
+            return this.View(rides);
+        }
     }
 }
