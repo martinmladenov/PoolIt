@@ -1,5 +1,6 @@
 namespace PoolIt.Services
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using AutoMapper;
     using Contracts;
@@ -9,8 +10,11 @@ namespace PoolIt.Services
 
     public class RidesService : DataService, IRidesService
     {
-        public RidesService(PoolItDbContext context) : base(context)
+        private readonly ICarsService carsService;
+
+        public RidesService(PoolItDbContext context, ICarsService carsService) : base(context)
         {
+            this.carsService = carsService;
         }
 
         public async Task<string> Create(RideServiceModel model)
@@ -21,8 +25,18 @@ namespace PoolIt.Services
             }
 
             var ride = Mapper.Map<Ride>(model);
-            
+
             ride.Conversation = new Conversation();
+
+            var organiser = await this.carsService.Get(ride.CarId);
+
+            ride.Participants = new List<UserRide>
+            {
+                new UserRide
+                {
+                    UserId = organiser.OwnerId
+                }
+            };
 
             await this.context.Rides.AddAsync(ride);
 
