@@ -1,9 +1,11 @@
 namespace PoolIt.Web.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
+    using Infrastructure;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
@@ -81,6 +83,24 @@ namespace PoolIt.Web.Controllers
                 .ToArray();
 
             return this.View(rides);
+        }
+
+        [Route("/ride/{id}")]
+        public async Task<IActionResult> Details(string id)
+        {
+            var rideServiceModel = await this.ridesService.Get(id);
+
+            if (rideServiceModel == null ||
+                !this.User.IsInRole(GlobalConstants.AdminRoleName)
+                && rideServiceModel.Date < DateTime.Now
+                && rideServiceModel.Car.Owner.Email != this.User.Identity.Name)
+            {
+                return this.NotFound();
+            }
+
+            var viewModel = Mapper.Map<RideDetailsViewModel>(rideServiceModel);
+
+            return this.View(viewModel);
         }
     }
 }

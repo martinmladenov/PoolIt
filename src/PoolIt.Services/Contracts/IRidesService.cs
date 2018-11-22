@@ -8,5 +8,6 @@ namespace PoolIt.Services.Contracts
     {
         Task<string> Create(RideServiceModel model);
         Task<IEnumerable<RideServiceModel>> GetAllUpcomingWithFreeSeats();
+        Task<RideServiceModel> Get(string id);
     }
 }

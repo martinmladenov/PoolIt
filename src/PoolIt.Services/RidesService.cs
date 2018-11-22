@@ -60,5 +60,19 @@ namespace PoolIt.Services
 
             return rides;
         }
+
+        public async Task<RideServiceModel> Get(string id)
+        {
+            if (id == null)
+            {
+                return null;
+            }
+
+            var ride = await this.context.Rides
+                .ProjectTo<RideServiceModel>()
+                .FirstOrDefaultAsync(r => r.Id == id);
+
+            return ride;
+        }
     }
 }
