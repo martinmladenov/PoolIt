@@ -92,6 +92,7 @@ namespace PoolIt.Web.Controllers
             return rideServiceModel;
         }
 
+        [Route("/requests")]
         public async Task<IActionResult> Index()
         {
             var requests = await this.joinRequestsService.GetReceivedForUser(this.User.Identity.Name);
@@ -101,6 +102,35 @@ namespace PoolIt.Web.Controllers
                 .ToArray();
 
             return this.View(viewModels);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Accept(string id)
+        {
+            if (await this.CanUserAccessRequest(id))
+            {
+                await this.joinRequestsService.Accept(id);
+            }
+
+            return this.RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Refuse(string id)
+        {
+            if (await this.CanUserAccessRequest(id))
+            {
+                await this.joinRequestsService.Delete(id);
+            }
+
+            return this.RedirectToAction("Index");
+        }
+
+        private async Task<bool> CanUserAccessRequest(string id)
+        {
+            var request = await this.joinRequestsService.Get(id);
+
+            return request != null && request.Ride.Car.Owner.UserName == this.User.Identity.Name;
         }
     }
 }

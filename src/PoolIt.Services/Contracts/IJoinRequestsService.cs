@@ -8,5 +8,8 @@ namespace PoolIt.Services.Contracts
     {
         Task<bool> Create(JoinRequestServiceModel model);
         Task<IEnumerable<JoinRequestServiceModel>> GetReceivedForUser(string userName);
+        Task<JoinRequestServiceModel> Get(string id);
+        Task<bool> Accept(string id);
+        Task<bool> Delete(string id);
     }
 }

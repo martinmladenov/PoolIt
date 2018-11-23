@@ -16,7 +16,7 @@ namespace PoolIt.Services
         public JoinRequestsService(PoolItDbContext context) : base(context)
         {
         }
-        
+
         public async Task<bool> Create(JoinRequestServiceModel model)
         {
             if (!this.IsEntityStateValid(model))
@@ -62,6 +62,62 @@ namespace PoolIt.Services
                 .ToArrayAsync();
 
             return requests;
+        }
+
+        public async Task<JoinRequestServiceModel> Get(string id)
+        {
+            if (id == null)
+            {
+                return null;
+            }
+
+            var request = await this.context.JoinRequests
+                .ProjectTo<JoinRequestServiceModel>()
+                .SingleOrDefaultAsync(r => r.Id == id);
+
+            return request;
+        }
+
+        public async Task<bool> Accept(string id)
+        {
+            if (id == null)
+            {
+                return false;
+            }
+
+            var request = await this.context.JoinRequests
+                .SingleOrDefaultAsync(r => r.Id == id);
+
+            var userRide = new UserRide
+            {
+                UserId = request.UserId,
+                RideId = request.RideId,
+            };
+
+            await this.context.UserRides.AddAsync(userRide);
+
+            this.context.JoinRequests.Remove(request);
+
+            await this.context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> Delete(string id)
+        {
+            if (id == null)
+            {
+                return false;
+            }
+
+            var request = await this.context.JoinRequests
+                .SingleOrDefaultAsync(r => r.Id == id);
+
+            this.context.JoinRequests.Remove(request);
+
+            await this.context.SaveChangesAsync();
+
+            return true;
         }
     }
 }
