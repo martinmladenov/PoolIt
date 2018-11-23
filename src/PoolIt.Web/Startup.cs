@@ -64,6 +64,7 @@
             services.AddTransient<IModelsService, ModelsService>();
             services.AddTransient<ICarsService, CarsService>();
             services.AddTransient<IRidesService, RidesService>();
+            services.AddTransient<IJoinRequestsService, JoinRequestsService>();
             
             services.AddSingleton<ILocationService, LocationService>();
         }
