@@ -1,7 +1,10 @@
 namespace PoolIt.Services
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using Contracts;
     using Data;
     using Microsoft.EntityFrameworkCore;
@@ -44,6 +47,21 @@ namespace PoolIt.Services
             await this.context.SaveChangesAsync();
 
             return true;
+        }
+
+        public async Task<IEnumerable<JoinRequestServiceModel>> GetReceivedForUser(string userName)
+        {
+            if (userName == null)
+            {
+                return null;
+            }
+
+            var requests = await this.context.JoinRequests
+                .Where(r => r.Ride.Car.Owner.UserName == userName)
+                .ProjectTo<JoinRequestServiceModel>()
+                .ToArrayAsync();
+
+            return requests;
         }
     }
 }

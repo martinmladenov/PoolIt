@@ -5,7 +5,7 @@ namespace PoolIt.Web.Models
     using Infrastructure.Mapping;
     using Services.Models;
 
-    public class JoinRequestDetailsViewModel : IHaveCustomMapping
+    public class JoinRequestListingViewModel : IHaveCustomMapping
     {
         public string Id { get; set; }
 
@@ -25,7 +25,7 @@ namespace PoolIt.Web.Models
 
         public void ConfigureMapping(Profile mapper)
         {
-            mapper.CreateMap<JoinRequestServiceModel, JoinRequestDetailsViewModel>()
+            mapper.CreateMap<JoinRequestServiceModel, JoinRequestListingViewModel>()
                 .ForMember(dest => dest.UserFullName, opt =>
                     opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"))
                 .ForMember(dest => dest.UserEmail, opt =>

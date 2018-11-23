@@ -1,0 +1,44 @@
+@model IEnumerable<JoinRequestListingViewModel>
+
+@{
+    ViewData["Title"] = "Received requests";
+
+    const string dateFormat = "dd/MM/yyyy HH:mm";
+}
+
+<div class="mx-auto my-4 text-center">
+    <h2>@ViewData["Title"]</h2>
+    <table class="table table-hover mt-3">
+        <thead>
+        <tr class="row font-weight-bold">
+            <th scope="col" class="col-3">Ride</th>
+            <th scope="col" class="col-2">User</th>
+            <th scope="col" class="col-3">Message</th>
+            <th scope="col" class="col-2">Received on</th>
+            <th scope="col" class="col-2">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var request in Model)
+        {
+            <tr class="row">
+                <td class="col-3">@request.Ride.Title</td>
+                <td class="col-2">@request.UserFullName</td>
+                <td class="col-3">@request.Message</td>
+                <td class="col-2">@request.SentOn.ToString(dateFormat)</td>
+                <td class="col-2">
+                    <a class="btn btn-success" href="#">Accept</a>
+                    <a class="btn btn-danger" href="#">Decline</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    @if (!Model.Any())
+    {
+        <div>
+            <p class="text-muted">You don't have any pending requests.</p>
+        </div>
+    }
+</div>

@@ -10,6 +10,7 @@ namespace PoolIt.Web.Controllers
     using Services.Contracts;
     using Services.Models;
 
+    [Authorize]
     public class JoinRequestsController : Controller
     {
         private readonly IRidesService ridesService;
@@ -22,7 +23,6 @@ namespace PoolIt.Web.Controllers
             this.joinRequestsService = joinRequestsService;
         }
 
-        [Authorize]
         [Route("/ride/{id}/join")]
         public async Task<IActionResult> Create(string id)
         {
@@ -42,7 +42,6 @@ namespace PoolIt.Web.Controllers
             return this.View(bindingModel);
         }
 
-        [Authorize]
         [HttpPost]
         [Route("/ride/{id}/join")]
         public async Task<IActionResult> Create(string id, JoinRequestCreateBindingModel model)
@@ -91,6 +90,17 @@ namespace PoolIt.Web.Controllers
             }
 
             return rideServiceModel;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var requests = await this.joinRequestsService.GetReceivedForUser(this.User.Identity.Name);
+
+            var viewModels = requests.Select(Mapper.Map<JoinRequestListingViewModel>)
+                .OrderBy(r => r.RideId)
+                .ToArray();
+
+            return this.View(viewModels);
         }
     }
 }
