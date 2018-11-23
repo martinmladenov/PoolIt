@@ -32,7 +32,8 @@
     else if (User.Identity.IsAuthenticated)
     {
         <div class="card-body">
-            <a class="btn btn-primary btn-block py-3" href="#">
+            <a class="btn btn-primary btn-block py-3" 
+               asp-controller="JoinRequests" asp-action="Create" asp-route-id="@Model.Id">
                 <i class="fas fa-hand-point-right"></i> Join ride
             </a>
         </div>
