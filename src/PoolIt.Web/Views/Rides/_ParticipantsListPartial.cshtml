@@ -1,0 +1,15 @@
+@model IEnumerable<UserRideViewModel>
+
+<div class="card text-center">
+    <div class="card-header">
+        Participants
+    </div>
+    <ul class="list-group list-group-flush">
+        @foreach (var user in Model)
+        {
+            <li class="list-group-item">
+                <i class="fas fa-user"></i> @user.UserFullName
+            </li>
+        }
+    </ul>
+</div>

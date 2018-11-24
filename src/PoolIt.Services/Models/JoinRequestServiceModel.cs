@@ -11,7 +11,6 @@ namespace PoolIt.Services.Models
 
         public string RideId { get; set; }
 
-        [Required]
         public RideServiceModel Ride { get; set; }
 
         public string UserId { get; set; }
@@ -19,7 +18,6 @@ namespace PoolIt.Services.Models
         [Required]
         public PoolItUserServiceModel User { get; set; }
 
-        [Required]
         public DateTime SentOn { get; set; }
 
         [Required]

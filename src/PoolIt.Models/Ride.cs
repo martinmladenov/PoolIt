@@ -21,11 +21,11 @@ namespace PoolIt.Models
         public DateTime Date { get; set; }
 
         [Required]
-        [StringLength(100, MinimumLength = 10)]
+        [StringLength(100, MinimumLength = 3)]
         public string From { get; set; }
         
         [Required]
-        [StringLength(100, MinimumLength = 10)]
+        [StringLength(100, MinimumLength = 3)]
         public string To { get; set; }
 
         [Required]

@@ -1,0 +1,502 @@
+[
+  {
+    "name": "Ajtos",
+    "latitude": 42.7,
+    "longitude": 27.25
+  },
+  {
+    "name": "Asenovgrad",
+    "latitude": 42.0166667,
+    "longitude": 24.8666667
+  },
+  {
+    "name": "Bankja",
+    "latitude": 42.7,
+    "longitude": 23.1333333
+  },
+  {
+    "name": "Bansko",
+    "latitude": 41.8394444,
+    "longitude": 23.5
+  },
+  {
+    "name": "Belene",
+    "latitude": 43.65,
+    "longitude": 25.1166667
+  },
+  {
+    "name": "Beloslav",
+    "latitude": 43.1833333,
+    "longitude": 27.7
+  },
+  {
+    "name": "Berkovica",
+    "latitude": 43.2361111,
+    "longitude": 23.1258333
+  },
+  {
+    "name": "Bjala",
+    "latitude": 42.8833333,
+    "longitude": 27.8833333
+  },
+  {
+    "name": "Blagoevgrad",
+    "latitude": 42.0166667,
+    "longitude": 23.1
+  },
+  {
+    "name": "Bobovdol",
+    "latitude": 42.3697222,
+    "longitude": 23.0172222
+  },
+  {
+    "name": "Botevgrad",
+    "latitude": 42.9,
+    "longitude": 23.7833333
+  },
+  {
+    "name": "Burgas",
+    "latitude": 42.5,
+    "longitude": 27.4666667
+  },
+  {
+    "name": "Cirpan",
+    "latitude": 42.2,
+    "longitude": 25.3333333
+  },
+  {
+    "name": "Devin",
+    "latitude": 41.7333333,
+    "longitude": 24.4
+  },
+  {
+    "name": "Dimitrovgrad",
+    "latitude": 42.05,
+    "longitude": 25.6
+  },
+  {
+    "name": "Dobric",
+    "latitude": 43.5666667,
+    "longitude": 27.8333333
+  },
+  {
+    "name": "Drjanovo",
+    "latitude": 42.9827778,
+    "longitude": 25.4922222
+  },
+  {
+    "name": "Dupnica",
+    "latitude": 42.2666667,
+    "longitude": 23.1166667
+  },
+  {
+    "name": "Elhovo",
+    "latitude": 42.1666667,
+    "longitude": 26.5666667
+  },
+  {
+    "name": "Etropole",
+    "latitude": 42.8333333,
+    "longitude": 24
+  },
+  {
+    "name": "Gabrovo",
+    "latitude": 42.8747222,
+    "longitude": 25.3341667
+  },
+  {
+    "name": "Galabovo",
+    "latitude": 42.1333333,
+    "longitude": 25.85
+  },
+  {
+    "name": "Harmanli",
+    "latitude": 41.9333333,
+    "longitude": 25.9
+  },
+  {
+    "name": "Haskovo",
+    "latitude": 41.9402778,
+    "longitude": 25.5694444
+  },
+  {
+    "name": "Ihtiman",
+    "latitude": 42.4333333,
+    "longitude": 23.8166667
+  },
+  {
+    "name": "Isperih",
+    "latitude": 43.7166667,
+    "longitude": 26.8333333
+  },
+  {
+    "name": "Jambol",
+    "latitude": 42.4833333,
+    "longitude": 26.5
+  },
+  {
+    "name": "Karlovo",
+    "latitude": 42.6333333,
+    "longitude": 24.8
+  },
+  {
+    "name": "Karnobat",
+    "latitude": 42.65,
+    "longitude": 26.9833333
+  },
+  {
+    "name": "Kavarna",
+    "latitude": 43.4333333,
+    "longitude": 28.3333333
+  },
+  {
+    "name": "Kazanlak",
+    "latitude": 42.6166667,
+    "longitude": 25.4
+  },
+  {
+    "name": "Kjustendil",
+    "latitude": 42.2838889,
+    "longitude": 22.6911111
+  },
+  {
+    "name": "Kneza",
+    "latitude": 43.5,
+    "longitude": 24.0833333
+  },
+  {
+    "name": "Kostenec",
+    "latitude": 42.2666667,
+    "longitude": 23.8166667
+  },
+  {
+    "name": "Kostinbrod",
+    "latitude": 42.8166667,
+    "longitude": 23.2166667
+  },
+  {
+    "name": "Kotel",
+    "latitude": 42.8833333,
+    "longitude": 26.45
+  },
+  {
+    "name": "Kozloduj",
+    "latitude": 43.7833333,
+    "longitude": 23.7333333
+  },
+  {
+    "name": "Kricim",
+    "latitude": 42.05,
+    "longitude": 24.4666667
+  },
+  {
+    "name": "Kubrat",
+    "latitude": 43.8,
+    "longitude": 26.5
+  },
+  {
+    "name": "Levski",
+    "latitude": 43.3666667,
+    "longitude": 25.1333333
+  },
+  {
+    "name": "Ljaskovec",
+    "latitude": 43.1111111,
+    "longitude": 25.7283333
+  },
+  {
+    "name": "Ljubimec",
+    "latitude": 41.8333333,
+    "longitude": 26.0833333
+  },
+  {
+    "name": "Lom",
+    "latitude": 43.8138889,
+    "longitude": 23.2361111
+  },
+  {
+    "name": "Lovec",
+    "latitude": 43.1333333,
+    "longitude": 24.7166667
+  },
+  {
+    "name": "Lukovit",
+    "latitude": 43.2,
+    "longitude": 24.1666667
+  },
+  {
+    "name": "Madan",
+    "latitude": 41.5,
+    "longitude": 24.95
+  },
+  {
+    "name": "Mezdra",
+    "latitude": 43.15,
+    "longitude": 23.7
+  },
+  {
+    "name": "Momcilgrad",
+    "latitude": 41.5333333,
+    "longitude": 25.4166667
+  },
+  {
+    "name": "Montana",
+    "latitude": 43.4125,
+    "longitude": 23.225
+  },
+  {
+    "name": "Nova Zagora",
+    "latitude": 42.4833333,
+    "longitude": 26.0166667
+  },
+  {
+    "name": "Novi Iskar",
+    "latitude": 42.8,
+    "longitude": 23.35
+  },
+  {
+    "name": "Novi Pazar",
+    "latitude": 43.35,
+    "longitude": 27.2
+  },
+  {
+    "name": "Omurtag",
+    "latitude": 43.1,
+    "longitude": 26.4166667
+  },
+  {
+    "name": "Panagjuriste",
+    "latitude": 42.5,
+    "longitude": 24.1833333
+  },
+  {
+    "name": "Pavlikeni",
+    "latitude": 43.2427778,
+    "longitude": 25.3219444
+  },
+  {
+    "name": "Pazardzik",
+    "latitude": 42.2,
+    "longitude": 24.3333333
+  },
+  {
+    "name": "Pernik",
+    "latitude": 42.6,
+    "longitude": 23.0333333
+  },
+  {
+    "name": "Pestera",
+    "latitude": 42.0333333,
+    "longitude": 24.3
+  },
+  {
+    "name": "Petric",
+    "latitude": 41.4,
+    "longitude": 23.2166667
+  },
+  {
+    "name": "Pirdop",
+    "latitude": 42.7,
+    "longitude": 24.1833333
+  },
+  {
+    "name": "Pleven",
+    "latitude": 43.4166667,
+    "longitude": 24.6166667
+  },
+  {
+    "name": "Plovdiv",
+    "latitude": 42.15,
+    "longitude": 24.75
+  },
+  {
+    "name": "Pomorie",
+    "latitude": 42.55,
+    "longitude": 27.65
+  },
+  {
+    "name": "Popovo",
+    "latitude": 43.35,
+    "longitude": 26.2333333
+  },
+  {
+    "name": "Provadija",
+    "latitude": 43.1833333,
+    "longitude": 27.4333333
+  },
+  {
+    "name": "Radnevo",
+    "latitude": 42.3,
+    "longitude": 25.9333333
+  },
+  {
+    "name": "Radomir",
+    "latitude": 42.5444444,
+    "longitude": 22.9577778
+  },
+  {
+    "name": "Rakitovo",
+    "latitude": 41.9833333,
+    "longitude": 24.0833333
+  },
+  {
+    "name": "Rakovski",
+    "latitude": 42.3,
+    "longitude": 24.9666667
+  },
+  {
+    "name": "Razgrad",
+    "latitude": 43.5333333,
+    "longitude": 26.5166667
+  },
+  {
+    "name": "Razlog",
+    "latitude": 41.8902778,
+    "longitude": 23.4791667
+  },
+  {
+    "name": "Ruse",
+    "latitude": 43.8563889,
+    "longitude": 25.9708333
+  },
+  {
+    "name": "Samokov",
+    "latitude": 42.3333333,
+    "longitude": 23.55
+  },
+  {
+    "name": "Sandanski",
+    "latitude": 41.5666667,
+    "longitude": 23.2833333
+  },
+  {
+    "name": "Septemvri",
+    "latitude": 42.2166667,
+    "longitude": 24.1
+  },
+  {
+    "name": "Sevlievo",
+    "latitude": 43.0258333,
+    "longitude": 25.1136111
+  },
+  {
+    "name": "Silistra",
+    "latitude": 44.1166667,
+    "longitude": 27.2666667
+  },
+  {
+    "name": "Simeonovgrad",
+    "latitude": 42.0333333,
+    "longitude": 25.8333333
+  },
+  {
+    "name": "Simitli",
+    "latitude": 41.8833333,
+    "longitude": 23.1166667
+  },
+  {
+    "name": "Sliven",
+    "latitude": 42.6858333,
+    "longitude": 26.3291667
+  },
+  {
+    "name": "Smoljan",
+    "latitude": 41.5852778,
+    "longitude": 24.6919444
+  },
+  {
+    "name": "Sofia",
+    "latitude": 42.6833333,
+    "longitude": 23.3166667
+  },
+  {
+    "name": "Sopot",
+    "latitude": 43.0166667,
+    "longitude": 24.4166667
+  },
+  {
+    "name": "Sredec",
+    "latitude": 42.3488889,
+    "longitude": 27.1941667
+  },
+  {
+    "name": "Stara Zagora",
+    "latitude": 42.4327778,
+    "longitude": 25.6419444
+  },
+  {
+    "name": "Sumen",
+    "latitude": 43.2766667,
+    "longitude": 26.9291667
+  },
+  {
+    "name": "Svilengrad",
+    "latitude": 41.7666667,
+    "longitude": 26.2
+  },
+  {
+    "name": "Svistov",
+    "latitude": 43.6230556,
+    "longitude": 25.3538889
+  },
+  {
+    "name": "Svoge",
+    "latitude": 42.9666667,
+    "longitude": 23.35
+  },
+  {
+    "name": "Tervel",
+    "latitude": 43.75,
+    "longitude": 27.4
+  },
+  {
+    "name": "Teteven",
+    "latitude": 42.9166667,
+    "longitude": 24.2666667
+  },
+  {
+    "name": "Trjavna",
+    "latitude": 42.8666667,
+    "longitude": 25.5
+  },
+  {
+    "name": "Trojan",
+    "latitude": 42.8833333,
+    "longitude": 24.7166667
+  },
+  {
+    "name": "Tutrakan",
+    "latitude": 44.05,
+    "longitude": 26.6166667
+  },
+  {
+    "name": "Varna",
+    "latitude": 43.2166667,
+    "longitude": 27.9166667
+  },
+  {
+    "name": "Veliki Preslav",
+    "latitude": 43.1666667,
+    "longitude": 26.8166667
+  },
+  {
+    "name": "Velingrad",
+    "latitude": 42.0166667,
+    "longitude": 24
+  },
+  {
+    "name": "Vidin",
+    "latitude": 43.99,
+    "longitude": 22.8725
+  },
+  {
+    "name": "Vraca",
+    "latitude": 43.21,
+    "longitude": 23.5625
+  },
+  {
+    "name": "Zlatograd",
+    "latitude": 41.3833333,
+    "longitude": 25.1
+  }
+]
