@@ -4,6 +4,6 @@ namespace PoolIt.Services.Contracts
 
     public interface ILocationService
     {
-        Task<string> GetTownName(double longitude, double latitude);
+        Task<string> GetTownNameAsync(double longitude, double latitude);
     }
 }

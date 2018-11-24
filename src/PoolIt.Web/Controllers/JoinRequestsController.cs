@@ -71,14 +71,14 @@ namespace PoolIt.Web.Controllers
             serviceModel.RideId = id;
             serviceModel.SentOn = DateTime.Now;
 
-            await this.joinRequestsService.Create(serviceModel);
+            await this.joinRequestsService.CreateAsync(serviceModel);
 
             return this.RedirectToAction("Details", "Rides", new {id});
         }
 
         private async Task<RideServiceModel> GetRide(string id)
         {
-            var rideServiceModel = await this.ridesService.Get(id);
+            var rideServiceModel = await this.ridesService.GetAsync(id);
 
             if (rideServiceModel == null
                 || rideServiceModel.Date < DateTime.Now
@@ -95,7 +95,7 @@ namespace PoolIt.Web.Controllers
         [Route("/requests")]
         public async Task<IActionResult> Index()
         {
-            var requests = await this.joinRequestsService.GetReceivedForUser(this.User.Identity.Name);
+            var requests = await this.joinRequestsService.GetReceivedForUserAsync(this.User.Identity.Name);
 
             var viewModels = requests.Select(Mapper.Map<JoinRequestListingViewModel>)
                 .OrderBy(r => r.RideId)
@@ -109,7 +109,7 @@ namespace PoolIt.Web.Controllers
         {
             if (await this.CanUserAccessRequest(id))
             {
-                await this.joinRequestsService.Accept(id);
+                await this.joinRequestsService.AcceptAsync(id);
             }
 
             return this.RedirectToAction("Index");
@@ -120,7 +120,7 @@ namespace PoolIt.Web.Controllers
         {
             if (await this.CanUserAccessRequest(id))
             {
-                await this.joinRequestsService.Delete(id);
+                await this.joinRequestsService.DeleteAsync(id);
             }
 
             return this.RedirectToAction("Index");
@@ -128,7 +128,7 @@ namespace PoolIt.Web.Controllers
 
         private async Task<bool> CanUserAccessRequest(string id)
         {
-            var request = await this.joinRequestsService.Get(id);
+            var request = await this.joinRequestsService.GetAsync(id);
 
             return request != null && request.Ride.Car.Owner.UserName == this.User.Identity.Name;
         }

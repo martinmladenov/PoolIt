@@ -6,8 +6,8 @@ namespace PoolIt.Services.Contracts
 
     public interface IRidesService
     {
-        Task<string> Create(RideServiceModel model);
-        Task<IEnumerable<RideServiceModel>> GetAllUpcomingWithFreeSeats();
-        Task<RideServiceModel> Get(string id);
+        Task<string> CreateAsync(RideServiceModel model);
+        Task<IEnumerable<RideServiceModel>> GetAllUpcomingWithFreeSeatsAsync();
+        Task<RideServiceModel> GetAsync(string id);
     }
 }

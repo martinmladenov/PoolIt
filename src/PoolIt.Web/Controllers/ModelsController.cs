@@ -34,7 +34,7 @@ namespace PoolIt.Web.Controllers
                 return this.View();
             }
 
-            var manufacturer = await this.manufacturersService.Get(model.Manufacturer);
+            var manufacturer = await this.manufacturersService.GetAsync(model.Manufacturer);
 
             if (manufacturer == null)
             {
@@ -50,7 +50,7 @@ namespace PoolIt.Web.Controllers
                 Model = model.CarModel
             };
 
-            await this.modelsService.Create(carModel);
+            await this.modelsService.CreateAsync(carModel);
 
             returnUrl = returnUrl ?? "/";
 
@@ -66,7 +66,7 @@ namespace PoolIt.Web.Controllers
             }
 
             var models = (await this.modelsService
-                    .GetAllByManufacturer(manufacturerId))
+                    .GetAllByManufacturerAsync(manufacturerId))
                 .Select(m => new
                 {
                     m.Id,

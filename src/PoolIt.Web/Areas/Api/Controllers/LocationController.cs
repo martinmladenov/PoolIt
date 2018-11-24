@@ -17,7 +17,7 @@ namespace PoolIt.Web.Areas.Api.Controllers
 
         public async Task<IActionResult> GetTownName(double latitude, double longitude)
         {
-            var townName = await this.locationService.GetTownName(latitude, longitude);
+            var townName = await this.locationService.GetTownNameAsync(latitude, longitude);
 
             return new JsonResult(new
             {

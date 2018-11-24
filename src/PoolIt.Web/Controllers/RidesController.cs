@@ -50,7 +50,7 @@ namespace PoolIt.Web.Controllers
                 return this.View(model);
             }
 
-            var car = await this.carsService.Get(model.CarId);
+            var car = await this.carsService.GetAsync(model.CarId);
 
             if (car == null || car.Owner.Email != this.User.Identity.Name)
             {
@@ -59,14 +59,14 @@ namespace PoolIt.Web.Controllers
 
             var serviceModel = Mapper.Map<RideServiceModel>(model);
 
-            await this.ridesService.Create(serviceModel);
+            await this.ridesService.CreateAsync(serviceModel);
 
             return this.RedirectToAction("Index", "Home");
         }
 
         private async Task<IEnumerable<SelectListItem>> GetUserCars()
         {
-            return (await this.carsService.GetAllForUser(this.User.Identity.Name))
+            return (await this.carsService.GetAllForUserAsync(this.User.Identity.Name))
                 .Select(c => new SelectListItem
                 {
                     Text = $"{c.Colour} {c.Model.Manufacturer.Name} {c.Model.Model}",
@@ -78,7 +78,7 @@ namespace PoolIt.Web.Controllers
         public async Task<IActionResult> All()
         {
             var rides = (await this.ridesService
-                    .GetAllUpcomingWithFreeSeats())
+                    .GetAllUpcomingWithFreeSeatsAsync())
                 .Select(Mapper.Map<RideListingViewModel>)
                 .ToArray();
 
@@ -88,7 +88,7 @@ namespace PoolIt.Web.Controllers
         [Route("/ride/{id}")]
         public async Task<IActionResult> Details(string id)
         {
-            var rideServiceModel = await this.ridesService.Get(id);
+            var rideServiceModel = await this.ridesService.GetAsync(id);
 
             if (rideServiceModel == null ||
                 !this.User.IsInRole(GlobalConstants.AdminRoleName)

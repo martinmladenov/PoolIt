@@ -17,7 +17,7 @@ namespace PoolIt.Services
         {
         }
 
-        public async Task<bool> Create(JoinRequestServiceModel model)
+        public async Task<bool> CreateAsync(JoinRequestServiceModel model)
         {
             if (!this.IsEntityStateValid(model))
             {
@@ -31,7 +31,7 @@ namespace PoolIt.Services
             }
 
             var user = await this.context.Users
-                .FirstOrDefaultAsync(u => u.UserName == model.User.UserName);
+                .SingleOrDefaultAsync(u => u.UserName == model.User.UserName);
 
             if (user == null)
             {
@@ -49,7 +49,7 @@ namespace PoolIt.Services
             return true;
         }
 
-        public async Task<IEnumerable<JoinRequestServiceModel>> GetReceivedForUser(string userName)
+        public async Task<IEnumerable<JoinRequestServiceModel>> GetReceivedForUserAsync(string userName)
         {
             if (userName == null)
             {
@@ -64,7 +64,7 @@ namespace PoolIt.Services
             return requests;
         }
 
-        public async Task<JoinRequestServiceModel> Get(string id)
+        public async Task<JoinRequestServiceModel> GetAsync(string id)
         {
             if (id == null)
             {
@@ -78,7 +78,7 @@ namespace PoolIt.Services
             return request;
         }
 
-        public async Task<bool> Accept(string id)
+        public async Task<bool> AcceptAsync(string id)
         {
             if (id == null)
             {
@@ -103,7 +103,7 @@ namespace PoolIt.Services
             return true;
         }
 
-        public async Task<bool> Delete(string id)
+        public async Task<bool> DeleteAsync(string id)
         {
             if (id == null)
             {

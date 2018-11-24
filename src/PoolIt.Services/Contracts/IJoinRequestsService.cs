@@ -6,10 +6,10 @@ namespace PoolIt.Services.Contracts
 
     public interface IJoinRequestsService
     {
-        Task<bool> Create(JoinRequestServiceModel model);
-        Task<IEnumerable<JoinRequestServiceModel>> GetReceivedForUser(string userName);
-        Task<JoinRequestServiceModel> Get(string id);
-        Task<bool> Accept(string id);
-        Task<bool> Delete(string id);
+        Task<bool> CreateAsync(JoinRequestServiceModel model);
+        Task<IEnumerable<JoinRequestServiceModel>> GetReceivedForUserAsync(string userName);
+        Task<JoinRequestServiceModel> GetAsync(string id);
+        Task<bool> AcceptAsync(string id);
+        Task<bool> DeleteAsync(string id);
     }
 }

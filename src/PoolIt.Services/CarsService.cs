@@ -17,7 +17,7 @@ namespace PoolIt.Services
         {
         }
 
-        public async Task<bool> Create(CarServiceModel model)
+        public async Task<bool> CreateAsync(CarServiceModel model)
         {
             if (!this.IsEntityStateValid(model))
             {
@@ -30,7 +30,7 @@ namespace PoolIt.Services
                 return false;
             }
 
-            var owner = await this.context.Users.FirstOrDefaultAsync(u => u.UserName == model.Owner.UserName);
+            var owner = await this.context.Users.SingleOrDefaultAsync(u => u.UserName == model.Owner.UserName);
 
             if (owner == null)
             {
@@ -48,14 +48,14 @@ namespace PoolIt.Services
             return true;
         }
 
-        public async Task<IEnumerable<CarServiceModel>> GetAllForUser(string userName)
+        public async Task<IEnumerable<CarServiceModel>> GetAllForUserAsync(string userName)
         {
             if (userName == null)
             {
                 return null;
             }
 
-            var user = await this.context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
+            var user = await this.context.Users.SingleOrDefaultAsync(u => u.UserName == userName);
 
             if (user == null)
             {
@@ -70,7 +70,7 @@ namespace PoolIt.Services
             return cars;
         }
 
-        public async Task<CarServiceModel> Get(string id)
+        public async Task<CarServiceModel> GetAsync(string id)
         {
             if (id == null)
             {
@@ -79,7 +79,7 @@ namespace PoolIt.Services
 
             var car = await this.context.Cars
                 .ProjectTo<CarServiceModel>()
-                .FirstOrDefaultAsync(u => u.Id == id);
+                .SingleOrDefaultAsync(u => u.Id == id);
 
             return car;
         }

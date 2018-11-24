@@ -21,7 +21,7 @@ namespace PoolIt.Services
             this.carsService = carsService;
         }
 
-        public async Task<string> Create(RideServiceModel model)
+        public async Task<string> CreateAsync(RideServiceModel model)
         {
             if (!this.IsEntityStateValid(model))
             {
@@ -32,7 +32,7 @@ namespace PoolIt.Services
 
             ride.Conversation = new Conversation();
 
-            var organiser = await this.carsService.Get(ride.CarId);
+            var organiser = await this.carsService.GetAsync(ride.CarId);
 
             ride.Participants = new List<UserRide>
             {
@@ -49,7 +49,7 @@ namespace PoolIt.Services
             return ride.Id;
         }
 
-        public async Task<IEnumerable<RideServiceModel>> GetAllUpcomingWithFreeSeats()
+        public async Task<IEnumerable<RideServiceModel>> GetAllUpcomingWithFreeSeatsAsync()
         {
             var rides = await this.context.Rides
                 .Where(r => r.Date > DateTime.Now &&
@@ -61,7 +61,7 @@ namespace PoolIt.Services
             return rides;
         }
 
-        public async Task<RideServiceModel> Get(string id)
+        public async Task<RideServiceModel> GetAsync(string id)
         {
             if (id == null)
             {
@@ -70,7 +70,7 @@ namespace PoolIt.Services
 
             var ride = await this.context.Rides
                 .ProjectTo<RideServiceModel>()
-                .FirstOrDefaultAsync(r => r.Id == id);
+                .SingleOrDefaultAsync(r => r.Id == id);
 
             return ride;
         }

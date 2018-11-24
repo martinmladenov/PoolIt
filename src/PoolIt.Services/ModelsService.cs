@@ -17,25 +17,7 @@ namespace PoolIt.Services
         {
         }
 
-        public async Task<CarModelServiceModel> Get(string id)
-        {
-            if (id == null)
-            {
-                return null;
-            }
-
-            var model = await this.context.CarModels
-                .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (model == null)
-            {
-                return null;
-            }
-
-            return Mapper.Map<CarModelServiceModel>(model);
-        }
-
-        public async Task<bool> Create(CarModelServiceModel serviceModel)
+        public async Task<bool> CreateAsync(CarModelServiceModel serviceModel)
         {
             if (!this.IsEntityStateValid(serviceModel))
             {
@@ -51,7 +33,7 @@ namespace PoolIt.Services
             return true;
         }
 
-        public async Task<IEnumerable<CarModelServiceModel>> GetAllByManufacturer(string manufacturerId)
+        public async Task<IEnumerable<CarModelServiceModel>> GetAllByManufacturerAsync(string manufacturerId)
         {
             if (manufacturerId == null)
             {

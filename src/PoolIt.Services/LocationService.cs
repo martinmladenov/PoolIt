@@ -17,7 +17,7 @@ namespace PoolIt.Services
             this.LoadFromFile(TownsFileName);
         }
 
-        public async Task<string> GetTownName(double latitude, double longitude)
+        public async Task<string> GetTownNameAsync(double latitude, double longitude)
         {
             var name = await Task.Run(() =>
             {

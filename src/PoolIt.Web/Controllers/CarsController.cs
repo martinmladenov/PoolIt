@@ -55,7 +55,7 @@ namespace PoolIt.Web.Controllers
                 UserName = this.User.Identity.Name
             };
             
-            await this.carsService.Create(serviceModel);
+            await this.carsService.CreateAsync(serviceModel);
             
             return this.RedirectToAction("Index", "Home");
         }
@@ -63,7 +63,7 @@ namespace PoolIt.Web.Controllers
         private async Task<IEnumerable<SelectListItem>> GetAllManufacturers()
         {
             var manufacturers = (await this.manufacturersService
-                    .GetAll())
+                    .GetAllAsync())
                 .Select(m => new SelectListItem
                 {
                     Text = m.Name,
@@ -77,7 +77,7 @@ namespace PoolIt.Web.Controllers
         public async Task<IActionResult> Index()
         {
             var models = (await this.carsService
-                .GetAllForUser(this.User.Identity.Name))
+                .GetAllForUserAsync(this.User.Identity.Name))
                 .Select(Mapper.Map<CarListingViewModel>);
             
             return this.View(models);
