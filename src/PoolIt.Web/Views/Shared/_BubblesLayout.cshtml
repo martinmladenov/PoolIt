@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="~/css/reset.min.css">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    @RenderSection("CustomCss", required: false)
+
+    <link rel="stylesheet" href="~/css/site.css">
+
+    <title>@ViewData["Title"] - PoolIt</title>
+</head>
+<body>
+
+<main>
+    <partial name="_CookieConsentPartial"/>
+
+    <div class="mt-5 floating-circle px-md-4 py-5">
+        <div class="my-auto">
+            @RenderBody()
+        </div>
+    </div>
+
+    <div class="py-4 text-center">
+        <a class="mx-auto btn btn-outline-secondary text-white" href="/">Home page</a>
+    </div>
+</main>
+
+<script src="~/js/jquery-3.3.1.min.js"></script>
+<script src="~/js/popper.min.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+<script src="~/js/bootstrap-select.min.js"></script>
+
+<script src="~/js/bubbly.min.js"></script>
+<script>
+    bubbly({
+        blur: 15,
+        colorStart: '#194167',
+        colorStop: '#112144',
+        radiusFunc: () => 5 + Math.random() * 5,
+        angleFunc: () => -Math.PI * Math.random(),
+        velocityFunc: () => Math.random() * 2.5,
+        bubbleFunc: () => `hsla(${200 + Math.random() * 50}, 100%, 65%, .1)`,
+        bubbles: 50
+    });
+</script>
+
+<partial name="_ValidationScriptsPartial"/>
+
+@RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -18,3 +18,16 @@ body {
 .bg-gray {
     background-color: #f5f5f5;
 }
+
+.floating-circle {
+    display: flex;
+    flex-direction: column;
+    border-radius: 25em;
+    max-width: 40em;
+    width: 100%;
+    min-height: 40em;
+    text-align: center;
+    background: #fff;
+
+    margin: auto;
+}
