@@ -59,6 +59,8 @@
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+            
+            services.AddResponseCompression(opt => opt.EnableForHttps = true);
 
             services.AddTransient<IManufacturersService, ManufacturersService>();
             services.AddTransient<IModelsService, ModelsService>();
@@ -85,6 +87,8 @@
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+            
+            app.UseResponseCompression();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
