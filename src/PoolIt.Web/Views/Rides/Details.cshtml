@@ -3,8 +3,6 @@
 @{
     ViewData["Title"] = Model.Title;
 
-    const string dateFormat = "dd/MM/yyyy HH:mm";
-
     var isUserParticipant = User.Identity.IsAuthenticated && Model.Participants.Any(p => p.UserEmail == User.Identity.Name);
 }
 
@@ -92,7 +90,7 @@
                 <h5 class="card-header">Date and time</h5>
                 <div class="card-body card-text">
                     <h4 id="timeDisplay"></h4>
-                    <small class="text-muted">@Model.Date.ToString(dateFormat)</small>
+                    <small class="text-muted">@Model.Date.ToString(GlobalConstants.DateFormat)</small>
                 </div>
             </div>
 
@@ -110,7 +108,7 @@
 {
     <script src="~/js/moment.min.js" type="text/javascript"></script>
     <script>
-        $('#timeDisplay').text(moment('@Model.Date.ToString(dateFormat)', 'DD/MM/YYYY HH:mm')
+        $('#timeDisplay').text(moment('@Model.Date.ToString(GlobalConstants.DateFormat)', 'DD/MM/YYYY HH:mm')
             .calendar(null,
                 {
                     sameDay: '[Today at] HH:mm',

@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Browse";
-    const string dateFormat = "dd/MM/yyyy HH:mm";
 }
 
 <div class="mx-auto my-4 text-center pb-3">
@@ -24,7 +23,7 @@
                         <li class="list-group-item">
                             <i class="fas fa-car"></i> @ride.CarModel</li>
                         <li class="list-group-item">
-                            <i class="fas fa-calendar-alt"></i> @ride.Date.ToString(dateFormat)</li>
+                            <i class="fas fa-calendar-alt"></i> @ride.Date.ToString(GlobalConstants.DateFormat)</li>
                         <li class="list-group-item">
                             <i class="fas fa-user-friends"></i> @ride.RemainingSeats remaining free 
                             @(ride.RemainingSeats > 1 ? "seats" : "seat")

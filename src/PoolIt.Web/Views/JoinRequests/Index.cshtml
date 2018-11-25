@@ -2,8 +2,6 @@
 
 @{
     ViewData["Title"] = "Received requests";
-
-    const string dateFormat = "dd/MM/yyyy HH:mm";
 }
 
 <div class="mx-auto my-4 text-center">
@@ -25,7 +23,7 @@
                 <td class="col-3">@request.Ride.Title</td>
                 <td class="col-2">@request.UserFullName</td>
                 <td class="col-3">@request.Message</td>
-                <td class="col-2">@request.SentOn.ToString(dateFormat)</td>
+                <td class="col-2">@request.SentOn.ToString(GlobalConstants.DateFormat)</td>
                 <td class="col-2">
                     <div class="d-flex justify-content-around">
                         <form asp-controller="JoinRequests" asp-action="Accept" method="post">
