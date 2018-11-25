@@ -46,11 +46,18 @@
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredUniqueChars = 0;
             })
-            .AddDefaultUI()
             .AddRoles<IdentityRole>()
             .AddRoleManager<RoleManager<IdentityRole>>()
             .AddDefaultTokenProviders()
             .AddEntityFrameworkStores<PoolItDbContext>();
+            
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.AccessDeniedPath = "/Error403";
+                options.Cookie.HttpOnly = true;
+                options.LoginPath = "/login";
+                options.LogoutPath = "/logout";
+            });
 
             services.AddMvc(options =>
             {

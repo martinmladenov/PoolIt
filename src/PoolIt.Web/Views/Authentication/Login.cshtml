@@ -1,0 +1,39 @@
+@model UserLoginBindingModel
+
+@{
+    ViewData["Title"] = "Login";
+
+    Layout = "_BubblesLayout";
+}
+
+<div class="text-center w-50 mx-auto">
+    <h2>@ViewData["Title"]</h2>
+    <form method="post">
+        <hr/>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Email"></label>
+            <input class="form-control" asp-for="Email" class="form-control"/>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password"></label>
+            <input class="form-control" asp-for="Password" class="form-control"/>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="form-check">
+            <label asp-for="RememberMe">
+                <input class="form-check-input" asp-for="RememberMe"/>
+                @Html.DisplayNameFor(m => m.RememberMe)
+            </label>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Log in</button>
+        </div>
+        <div class="form-group">
+            <p>
+                <a asp-controller="Authentication" asp-action="Register">Register as a new user</a>
+            </p>
+        </div>
+    </form>
+</div>
