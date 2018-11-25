@@ -46,11 +46,18 @@
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredUniqueChars = 0;
             })
-            .AddDefaultUI()
             .AddRoles<IdentityRole>()
             .AddRoleManager<RoleManager<IdentityRole>>()
             .AddDefaultTokenProviders()
             .AddEntityFrameworkStores<PoolItDbContext>();
+            
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.AccessDeniedPath = "/Error403";
+                options.Cookie.HttpOnly = true;
+                options.LoginPath = "/login";
+                options.LogoutPath = "/logout";
+            });
 
             services.AddMvc(options =>
             {
@@ -59,6 +66,8 @@
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+            
+            services.AddResponseCompression(opt => opt.EnableForHttps = true);
 
             services.AddTransient<IManufacturersService, ManufacturersService>();
             services.AddTransient<IModelsService, ModelsService>();
@@ -85,6 +94,11 @@
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+            
+            app.UseResponseCompression();
+
+            app.UseStatusCodePages();
+            app.UseStatusCodePagesWithReExecute("/Error{0}");
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

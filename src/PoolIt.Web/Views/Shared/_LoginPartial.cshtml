@@ -17,7 +17,7 @@
         <li class="nav-item">
             <p class="nav navbar-text">Hello, @User.Identity.Name</p>
         </li>
-        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home")"
+        <form asp-controller="Authentication" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home")"
               method="post" id="logoutForm">
             <li class="nav-item">
                 <a class="nav-link"
@@ -30,10 +30,10 @@
     else
     {
         <li class="nav-item">
-            <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a>
+            <a class="nav-link" asp-controller="Authentication" asp-action="Register">Register</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a>
+            <a class="nav-link" asp-controller="Authentication" asp-action="Login">Login</a>
         </li>
     }
 </ul>

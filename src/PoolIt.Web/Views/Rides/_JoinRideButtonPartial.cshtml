@@ -42,7 +42,7 @@
     {
         <div class="card-header">Login now to join this ride</div>
         <div class="card-body">
-            <a class="btn btn-primary btn-block py-3" asp-area="Identity" asp-page="/Account/Login"
+            <a class="btn btn-primary btn-block py-3" asp-controller="Authentication" asp-action="Login"
                asp-route-returnUrl="@Url.Action("Details", "Rides", new {id = Model.Id})">
                 <i class="fas fa-hand-point-right"></i> Login now
             </a>

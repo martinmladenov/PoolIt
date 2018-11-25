@@ -1,0 +1,50 @@
+@model UserRegisterBindingModel
+
+@{
+    ViewData["Title"] = "Register";
+
+    Layout = "_BubblesLayout";
+}
+
+<div class="text-center w-50 mx-auto">
+    <h2>@ViewData["Title"]</h2>
+    <form method="post">
+        <h4>Create a new account.</h4>
+        <hr/>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="@Model.Email"></label>
+            <input class="form-control" asp-for="@Model.Email" class="form-control"/>
+            <span asp-validation-for="@Model.Email" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Password"></label>
+            <input class="form-control" asp-for="@Model.Password" class="form-control"/>
+            <span asp-validation-for="@Model.Password" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.ConfirmPassword"></label>
+            <input class="form-control" asp-for="@Model.ConfirmPassword" class="form-control"/>
+            <span asp-validation-for="@Model.ConfirmPassword" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.FirstName"></label>
+            <input class="form-control" asp-for="@Model.FirstName" class="form-control"/>
+            <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.LastName"></label>
+            <input class="form-control" asp-for="@Model.LastName" class="form-control"/>
+            <span asp-validation-for="@Model.LastName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Register</button>
+        </div>
+        <div class="form-group">
+            <p>
+                <a asp-controller="Authentication" asp-action="Login">Login as an existing user</a>
+            </p>
+        </div>
+    </form>
+</div>

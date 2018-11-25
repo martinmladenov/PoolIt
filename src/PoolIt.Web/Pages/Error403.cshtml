@@ -1,0 +1,13 @@
+@page
+
+@{
+    ViewData["Title"] = "403 Forbidden";
+    Layout = "_BubblesLayout";
+
+    Response.StatusCode = 403;
+}
+
+<i class="fas fa-times-circle fa-5x mb-5 text-danger"></i>
+<h2>Access Denied</h2>
+<h5>You don't have permission to access this page</h5>
+<a href="javascript:window.history.back();" class="btn btn-primary p-4 mt-5 w-50">Go back</a>
