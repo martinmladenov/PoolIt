@@ -90,6 +90,9 @@
             
             app.UseResponseCompression();
 
+            app.UseStatusCodePages();
+            app.UseStatusCodePagesWithReExecute("/Error{0}");
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
