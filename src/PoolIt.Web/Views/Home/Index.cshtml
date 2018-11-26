@@ -60,6 +60,23 @@
     </header>
 }
 
+<div class="mx-auto my-4 text-center pb-3">
+
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <h1 class="mb-4">Welcome to PoolIt!</h1>
+        <a class="btn btn-primary py-3 px-5 mr-4" asp-controller="Authentication" asp-action="Register">Register</a>
+        <a class="btn btn-outline-primary py-3 px-5 ml-4" asp-controller="Authentication" asp-action="Login">Login</a>
+    }
+    else if (Model.MyRides?.Any() ?? false)
+    {
+        <h3>My rides</h3>
+        <partial name="../Rides/_MyRidesPartial" model="@Model.MyRides"/>
+    }
+
+    <partial name="../Rides/_SearchPartial" model="@null"/>
+</div>
+
 @section CustomCss {
     <link rel="stylesheet" href="~/css/home.css">
 }
@@ -71,23 +88,6 @@
             pause: false
         });
     </script>
+
+    @Html.Partial("_LocationScriptPartial")
 }
-
-<div class="mx-auto my-4 text-center pb-3">
-
-    @if (!User.Identity.IsAuthenticated)
-    {
-        <h1 class="mb-4">Welcome to PoolIt!</h1>
-        <a class="btn btn-primary py-3 px-5 mr-4" asp-controller="Authentication" asp-action="Register">Register</a>
-        <a class="btn btn-outline-primary py-3 px-5 ml-4" asp-controller="Authentication" asp-action="Login">Login</a>
-        <hr>
-    }
-    else if (Model.MyRides?.Any() ?? false)
-    {
-        <h3>My rides</h3>
-        <partial name="../Rides/_MyRidesPartial" model="@Model.MyRides"/>
-        <hr>
-    }
-
-    <h3>Find a ride</h3>
-</div>
