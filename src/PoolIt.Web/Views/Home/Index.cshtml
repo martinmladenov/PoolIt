@@ -1,3 +1,5 @@
+﻿@model HomeBindingModel
+
 @{
     ViewData["Title"] = "Home";
 }
@@ -25,26 +27,26 @@
                         <h3>Save money</h3>
                     </div>
                 </div>
-                
+
                 <div class="carousel-item" style="background-image: url('/img/home-3.jpg')">
                     <div class="carousel-caption d-none d-md-block">
                         <h3>Meet new people</h3>
                     </div>
                 </div>
-                
+
                 <div class="carousel-item" style="background-image: url('/img/home-4.jpg')">
                     <div class="carousel-caption d-none d-md-block">
                         <h3>Help the environment</h3>
                     </div>
                 </div>
-                
+
                 <div class="carousel-item" style="background-image: url('/img/home-5.jpg')">
                     <div class="carousel-caption d-none d-md-block">
                         <h3>Visit new places</h3>
                     </div>
                 </div>
-                
-                
+
+
             </div>
             <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -78,8 +80,14 @@
         <h1 class="mb-4">Welcome to PoolIt!</h1>
         <a class="btn btn-primary py-3 px-5 mr-4" asp-controller="Authentication" asp-action="Register">Register</a>
         <a class="btn btn-outline-primary py-3 px-5 ml-4" asp-controller="Authentication" asp-action="Login">Login</a>
+        <hr>
     }
-    <hr>
+    else if (Model.MyRides?.Any() ?? false)
+    {
+        <h3>My rides</h3>
+        <partial name="../Rides/_MyRidesPartial" model="@Model.MyRides"/>
+        <hr>
+    }
 
     <h3>Find a ride</h3>
 </div>
