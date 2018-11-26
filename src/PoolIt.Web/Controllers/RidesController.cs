@@ -102,5 +102,22 @@ namespace PoolIt.Web.Controllers
 
             return this.View(viewModel);
         }
+
+        public async Task<IActionResult> Search(SearchBindingModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View();
+            }
+
+            var rides = (await this.ridesService
+                    .GetAllUpcomingWithFreeSeatsAsync())
+                .Where(r => string.Equals(r.From, model.From, StringComparison.OrdinalIgnoreCase))
+                .Select(Mapper.Map<RideListingViewModel>);
+
+            model.FoundRides = rides;
+
+            return this.View(model);
+        }
     }
 }
