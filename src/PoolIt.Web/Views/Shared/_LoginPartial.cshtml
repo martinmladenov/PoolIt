@@ -1,39 +1,21 @@
-@using PoolIt.Infrastructure
-
-<ul class="navbar-nav ml-auto">
-    @if (User.Identity.IsAuthenticated)
-    {
-        if (User.IsInRole(GlobalConstants.AdminRoleName))
-        {
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Home</a>
-                </div>
-            </li>
-        }
-
+@if (User.Identity.IsAuthenticated)
+{
+    <form asp-controller="Authentication" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home")"
+          method="post" id="logoutForm">
         <li class="nav-item">
-            <p class="nav navbar-text">Hello, @User.Identity.Name</p>
+            <a class="nav-link"
+               href="javascript:document.getElementById('logoutForm').submit()">
+                <i class="fas fa-sign-out-alt"></i>
+            </a>
         </li>
-        <form asp-controller="Authentication" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home")"
-              method="post" id="logoutForm">
-            <li class="nav-item">
-                <a class="nav-link"
-                   href="javascript:document.getElementById('logoutForm').submit()">
-                    <i class="fas fa-sign-out-alt"></i>
-                </a>
-            </li>
-        </form>
-    }
-    else
-    {
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Authentication" asp-action="Register">Register</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Authentication" asp-action="Login">Login</a>
-        </li>
-    }
-</ul>
+    </form>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link" asp-controller="Authentication" asp-action="Register">Register</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-controller="Authentication" asp-action="Login">Login</a>
+    </li>
+}

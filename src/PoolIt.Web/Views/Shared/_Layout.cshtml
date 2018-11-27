@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="~/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     @RenderSection("CustomCss", required: false)
-    
+
     <link rel="stylesheet" href="~/css/site.css">
 
     <title>@ViewData["Title"] - PoolIt</title>
@@ -29,26 +29,68 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/">Home</a>
                 </li>
-                
+
                 <li class="nav-item">
                     <a class="nav-link" asp-area="" asp-controller="Rides" asp-action="All">Browse</a>
                 </li>
-                
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cars</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" asp-area="" asp-controller="Cars" asp-action="Index">My cars</a>
-                        <a class="dropdown-item" asp-area="" asp-controller="Cars" asp-action="Create">Add a car</a>
-                    </div>
-                </li>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Rides" asp-action="Create">Organise ride</a>
+                    </li>
+                }
             </ul>
-            <partial name="_LoginPartial"/>
+
+            <div class="navbar-nav ml-auto">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole(GlobalConstants.AdminRoleName))
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Admin
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">Home</a>
+                            </div>
+                        </li>
+                    }
+
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="JoinRequests" asp-action="Index">
+                            <i class="fas fa-vote-yea"></i>
+                        </a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <h5 class="dropdown-header">@User.Identity.Name</h5>
+                            <a class="dropdown-item" href="#">Home</a>
+                            <div class="dropdown-divider"></div>
+                            <h6 class="dropdown-header">Cars</h6>
+                            <a class="dropdown-item" asp-area="" asp-controller="Cars" asp-action="Index">My cars</a>
+                            <a class="dropdown-item" asp-area="" asp-controller="Cars" asp-action="Create">Add a car</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger"
+                               href="javascript:document.getElementById('logoutForm').submit()">
+                                Logout
+                            </a>
+                        </div>
+                    </li>
+                }
+                <partial name="_LoginPartial"/>
+            </div>
         </div>
     </div>
 </nav>
 
-<partial name="_CookieConsentPartial" />
+<partial name="_CookieConsentPartial"/>
 
 <main>
     @RenderSection("UnderNavbar", required: false)
@@ -65,8 +107,8 @@
             <span class="d-none d-md-inline">Licensed under GPL v3.0</span>
         </span>
         <a class="float-right" href="https://github.com/martinmladenov/PoolIt">
-          <i class="fab fa-github"></i>
-          Source
+            <i class="fab fa-github"></i>
+            Source
         </a>
     </div>
 </footer>
