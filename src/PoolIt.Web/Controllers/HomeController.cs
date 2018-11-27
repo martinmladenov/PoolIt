@@ -1,14 +1,40 @@
 ﻿namespace PoolIt.Web.Controllers
 {
     using System.Diagnostics;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using AutoMapper;
     using Microsoft.AspNetCore.Mvc;
     using Models;
+    using Services;
+    using Services.Contracts;
 
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly IRidesService ridesService;
+
+        public HomeController(IRidesService ridesService)
         {
-            return this.View();
+            this.ridesService = ridesService;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            if (!this.User.Identity.IsAuthenticated)
+            {
+                return this.View();
+            }
+
+            var rides = (await this.ridesService
+                    .GetAllUpcomingForUserAsync(this.User.Identity.Name))
+                .Select(Mapper.Map<RideListingViewModel>);
+
+            var model = new HomeBindingModel
+            {
+                MyRides = rides
+            };
+
+            return this.View(model);
         }
 
         public IActionResult Privacy()
@@ -19,7 +45,7 @@
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return this.View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
+            return this.View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier});
         }
     }
 }

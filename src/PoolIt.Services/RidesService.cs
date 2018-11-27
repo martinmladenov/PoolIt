@@ -61,6 +61,25 @@ namespace PoolIt.Services
             return rides;
         }
 
+        public async Task<IEnumerable<RideServiceModel>> GetAllUpcomingForUserAsync(string userName)
+        {
+            var user = await this.context.Users.SingleOrDefaultAsync(u => u.UserName == userName);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            var userRides = await this.context.Rides
+                .Where(r => r.Date > DateTime.Now &&
+                            r.Participants.Any(p => p.UserId == user.Id))
+                .OrderBy(r => r.Date)
+                .ProjectTo<RideServiceModel>()
+                .ToArrayAsync();
+
+            return userRides;
+        }
+
         public async Task<RideServiceModel> GetAsync(string id)
         {
             if (id == null)

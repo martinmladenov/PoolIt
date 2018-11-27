@@ -9,5 +9,6 @@ namespace PoolIt.Services.Contracts
         Task<string> CreateAsync(RideServiceModel model);
         Task<IEnumerable<RideServiceModel>> GetAllUpcomingWithFreeSeatsAsync();
         Task<RideServiceModel> GetAsync(string id);
+        Task<IEnumerable<RideServiceModel>> GetAllUpcomingForUserAsync(string userName);
     }
 }
