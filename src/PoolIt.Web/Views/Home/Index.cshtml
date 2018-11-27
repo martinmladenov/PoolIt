@@ -64,9 +64,9 @@
 
     @if (!User.Identity.IsAuthenticated)
     {
-        <h1 class="mb-4">Welcome to PoolIt!</h1>
-        <a class="btn btn-primary py-3 px-5 mr-4" asp-controller="Authentication" asp-action="Register">Register</a>
-        <a class="btn btn-outline-primary py-3 px-5 ml-4" asp-controller="Authentication" asp-action="Login">Login</a>
+        <h1>Welcome to PoolIt!</h1>
+        <a class="btn btn-primary py-3 px-5 m-4" asp-controller="Authentication" asp-action="Register">Register</a>
+        <a class="btn btn-outline-primary py-3 px-5 m-4" asp-controller="Authentication" asp-action="Login">Login</a>
     }
     else if (Model.MyRides?.Any() ?? false)
     {
