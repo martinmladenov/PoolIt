@@ -1,11 +1,9 @@
 namespace PoolIt.Web.Areas.Api.Controllers
 {
     using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Services.Contracts;
 
-    [Authorize]
     public class LocationController : ApiController
     {
         private readonly ILocationService locationService;
