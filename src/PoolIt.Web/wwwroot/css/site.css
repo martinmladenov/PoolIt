@@ -31,3 +31,13 @@ body {
 
     margin: auto;
 }
+
+.btn-github {
+    background-color: #24292e;
+    color: #fff !important;
+    transition: 0.5s;
+}
+
+.btn-github:hover {
+    background-color: #070b0f;
+}

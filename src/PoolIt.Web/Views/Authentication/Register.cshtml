@@ -8,8 +8,16 @@
 
 <div class="text-center w-50 mx-auto">
     <h2>@ViewData["Title"]</h2>
+    <hr/>
+
+    <form method="post" class="form-horizontal" asp-controller="Authentication" asp-action="GitHubLogin">
+        <button type="submit" class="btn btn-dark w-100 p-3 btn-github" name="provider" value="GitHub">
+            <i class="fab fa-github"></i>
+            Login with GitHub
+        </button>
+    </form>
+
     <form method="post">
-        <h4>Create a new account.</h4>
         <hr/>
         <div asp-validation-summary="All" class="text-danger"></div>
         <div class="form-group">
@@ -39,7 +47,7 @@
             <span asp-validation-for="@Model.LastName" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary w-100 p-3">Register</button>
         </div>
         <div class="form-group">
             <p>
