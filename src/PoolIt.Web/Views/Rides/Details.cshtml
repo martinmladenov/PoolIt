@@ -4,6 +4,7 @@
     ViewData["Title"] = Model.Title;
 
     var isUserParticipant = User.Identity.IsAuthenticated && Model.Participants.Any(p => p.UserEmail == User.Identity.Name);
+    var isOrganiser = User.Identity.IsAuthenticated && Model.OrganiserEmail == User.Identity.Name;
 }
 
 <div class="my-4 pb-3">
@@ -98,6 +99,34 @@
             {
                 <div class="mb-3">
                     <partial name="_ParticipantsListPartial" model="@Model.Participants"/>
+                </div>
+            }
+
+            @if (isOrganiser)
+            {
+                <div class="mb-3">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            Invitations
+                        </div>
+                        <div class="list-group list-group-flush">
+                            @foreach (var invitation in Model.Invitations)
+                            {
+                                <a class="list-group-item list-group-item-action text-primary"
+                                   asp-controller="Invitations" asp-action="Details" asp-route-invitationKey="@invitation.Key">
+                                    <i class="fas fa-key"></i> @invitation.Key
+                                </a>
+                            }
+
+                            <form asp-controller="Invitations" asp-action="Generate" method="post" id="generateInvitationForm">
+                                <input type="hidden" name="rideId" value="@Model.Id">
+                            </form>
+                            <a class="list-group-item list-group-item-action text-primary"
+                               href="javascript:document.getElementById('generateInvitationForm').submit()">
+                                <i class="fas fa-plus"></i> Create an invitation link
+                            </a>
+                        </div>
+                    </div>
                 </div>
             }
         </div>
