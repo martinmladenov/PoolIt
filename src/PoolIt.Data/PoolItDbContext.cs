@@ -12,9 +12,9 @@
         }
 
         public DbSet<CarManufacturer> CarManufacturers { get; set; }
-        
+
         public DbSet<CarModel> CarModels { get; set; }
-        
+
         public DbSet<Car> Cars { get; set; }
 
         public DbSet<Conversation> Conversations { get; set; }
@@ -27,6 +27,8 @@
 
         public DbSet<UserRide> UserRides { get; set; }
 
+        public DbSet<Invitation> Invitations { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<UserRide>()
@@ -37,13 +39,16 @@
                 .WithMany(u => u.SentRequests)
                 .HasForeignKey(j => j.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
-            
+
             builder.Entity<UserRide>()
                 .HasOne(ur => ur.User)
                 .WithMany(u => u.UserRides)
                 .HasForeignKey(ur => ur.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
-            
+
+            builder.Entity<Invitation>()
+                .HasAlternateKey(i => i.Key);
+
             base.OnModelCreating(builder);
         }
     }

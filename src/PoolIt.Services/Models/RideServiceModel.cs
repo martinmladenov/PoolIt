@@ -47,5 +47,7 @@ namespace PoolIt.Services.Models
         public ICollection<UserRideServiceModel> Participants { get; set; }
         
         public ICollection<JoinRequestServiceModel> JoinRequests { get; set; }
+        
+        public ICollection<InvitationServiceModel> Invitations { get; set; }
     }
 }
