@@ -113,6 +113,9 @@
             services.AddTransient<ICarsService, CarsService>();
             services.AddTransient<IRidesService, RidesService>();
             services.AddTransient<IJoinRequestsService, JoinRequestsService>();
+            services.AddTransient<IInvitationsService, InvitationsService>();
+
+            services.AddScoped<IRandomStringGeneratorService, RandomStringGeneratorService>();
 
             services.AddSingleton<ILocationService, LocationService>();
         }
