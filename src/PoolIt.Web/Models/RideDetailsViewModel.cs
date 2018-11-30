@@ -36,6 +36,8 @@ namespace PoolIt.Web.Models
 
         public ICollection<JoinRequestListingViewModel> JoinRequests { get; set; }
 
+        public ICollection<InvitationViewModel> Invitations { get; set; }
+
         public void ConfigureMapping(Profile mapper)
         {
             mapper.CreateMap<RideServiceModel, RideDetailsViewModel>()
