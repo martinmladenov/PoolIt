@@ -11,7 +11,7 @@ namespace PoolIt.Models
         [Required]
         [StringLength(50, MinimumLength = 3)]
         public string Title { get; set; }
-        
+
         [Required]
         public string CarId { get; set; }
 
@@ -23,7 +23,7 @@ namespace PoolIt.Models
         [Required]
         [StringLength(100, MinimumLength = 3)]
         public string From { get; set; }
-        
+
         [Required]
         [StringLength(100, MinimumLength = 3)]
         public string To { get; set; }
@@ -34,7 +34,7 @@ namespace PoolIt.Models
 
         [RegularExpression(@"^(0|(\+\d{1,3}))\d{6,12}$")]
         public string PhoneNumber { get; set; }
-        
+
         [StringLength(300, MinimumLength = 3)]
         public string Notes { get; set; }
 
@@ -46,5 +46,7 @@ namespace PoolIt.Models
         public ICollection<UserRide> Participants { get; set; }
 
         public ICollection<JoinRequest> JoinRequests { get; set; }
+
+        public ICollection<Invitation> Invitations { get; set; }
     }
 }
