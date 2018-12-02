@@ -1,6 +1,5 @@
 namespace PoolIt.Web.Areas.Profile.Controllers
 {
-    using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -51,25 +50,6 @@ namespace PoolIt.Web.Areas.Profile.Controllers
             returnUrl = returnUrl ?? "/";
 
             return this.LocalRedirect(returnUrl);
-        }
-
-        [Authorize]
-        public async Task<IActionResult> GetByManufacturerJson(string manufacturerId)
-        {
-            if (manufacturerId == null)
-            {
-                return new JsonResult(new object());
-            }
-
-            var models = (await this.modelsService
-                    .GetAllByManufacturerAsync(manufacturerId))
-                .Select(m => new
-                {
-                    m.Id,
-                    m.Model
-                });
-            
-            return new JsonResult(models);
         }
     }
 }

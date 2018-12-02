@@ -59,7 +59,7 @@
         $('#manufacturer').change(function() {
             var manufacturerId = $(this).val();
             $.ajax({
-                url: '@Url.Action("GetByManufacturerJson", "Models")',
+                url: '@Url.Action("GetByManufacturerId", "Models", new {Area = "Api"})',
                 type: "GET",
                 data: { manufacturerId: manufacturerId },
                 success: function(result) {
