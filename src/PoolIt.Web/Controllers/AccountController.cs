@@ -135,5 +135,49 @@ namespace PoolIt.Web.Controllers
 
             return this.RedirectToAction("Index", "Home");
         }
+
+        public async Task<IActionResult> Edit()
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            if (user == null)
+            {
+                return this.NotFound();
+            }
+
+            var model = new UserEditBindingModel
+            {
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName
+            };
+
+            return this.View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(UserEditBindingModel model)
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            if (user == null)
+            {
+                return this.NotFound();
+            }
+
+            if (!this.ModelState.IsValid)
+            {
+                model.Email = user.Email;
+
+                return this.View(model);
+            }
+
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+
+            await this.userManager.UpdateAsync(user);
+
+            return this.RedirectToAction("Index", "Home");
+        }
     }
 }
