@@ -1,4 +1,4 @@
-namespace PoolIt.Web.Controllers
+namespace PoolIt.Web.Areas.Rides.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -9,10 +9,11 @@ namespace PoolIt.Web.Controllers
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
-    using Models;
+    using Models.Ride;
     using Services.Contracts;
     using Services.Models;
 
+    [Area("Rides")]
     public class RidesController : Controller
     {
         private readonly ICarsService carsService;
@@ -59,9 +60,9 @@ namespace PoolIt.Web.Controllers
 
             var serviceModel = Mapper.Map<RideServiceModel>(model);
 
-            await this.ridesService.CreateAsync(serviceModel);
+            var id = await this.ridesService.CreateAsync(serviceModel);
 
-            return this.RedirectToAction("Index", "Home");
+            return this.RedirectToAction("Details", new {id});
         }
 
         private async Task<IEnumerable<SelectListItem>> GetUserCars()

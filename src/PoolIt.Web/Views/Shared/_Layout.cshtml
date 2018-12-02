@@ -1,5 +1,4 @@
-﻿@using System.Security.Claims
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -32,13 +31,13 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" asp-area="" asp-controller="Rides" asp-action="All">Browse</a>
+                    <a class="nav-link" asp-area="Rides" asp-controller="Rides" asp-action="All">Browse</a>
                 </li>
 
                 @if (User.Identity.IsAuthenticated)
                 {
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Rides" asp-action="Create">Organise ride</a>
+                        <a class="nav-link" asp-area="Rides" asp-controller="Rides" asp-action="Create">Organise ride</a>
                     </li>
                 }
             </ul>
@@ -60,7 +59,7 @@
                     }
 
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="JoinRequests" asp-action="Index">
+                        <a class="nav-link" asp-area="Rides" asp-controller="JoinRequests" asp-action="Index">
                             <i class="fas fa-vote-yea"></i>
                         </a>
                     </li>

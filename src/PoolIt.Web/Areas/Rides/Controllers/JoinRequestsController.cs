@@ -1,4 +1,4 @@
-namespace PoolIt.Web.Controllers
+namespace PoolIt.Web.Areas.Rides.Controllers
 {
     using System;
     using System.Linq;
@@ -6,11 +6,12 @@ namespace PoolIt.Web.Controllers
     using AutoMapper;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Models;
+    using Models.JoinRequest;
     using Services.Contracts;
     using Services.Models;
 
     [Authorize]
+    [Area("Rides")]
     public class JoinRequestsController : Controller
     {
         private readonly IRidesService ridesService;

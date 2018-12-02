@@ -1,4 +1,4 @@
-namespace PoolIt.Web.Models
+namespace PoolIt.Web.Areas.Rides.Models.JoinRequest
 {
     using System.ComponentModel.DataAnnotations;
     using Infrastructure.Mapping;

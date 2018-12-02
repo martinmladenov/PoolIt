@@ -1,7 +1,7 @@
 namespace PoolIt.Web.Models
 {
-    using System;
     using System.Collections.Generic;
+    using Areas.Rides.Models.Ride;
 
     public class HomeBindingModel
     {

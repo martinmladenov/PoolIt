@@ -3,10 +3,10 @@
     using System.Diagnostics;
     using System.Linq;
     using System.Threading.Tasks;
+    using Areas.Rides.Models.Ride;
     using AutoMapper;
     using Microsoft.AspNetCore.Mvc;
     using Models;
-    using Services;
     using Services.Contracts;
 
     public class HomeController : Controller

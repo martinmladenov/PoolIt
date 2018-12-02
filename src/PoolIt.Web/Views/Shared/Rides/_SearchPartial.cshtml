@@ -1,9 +1,9 @@
-@model SearchBindingModel
+@model PoolIt.Web.Areas.Rides.Models.Ride.SearchBindingModel
 
 <div class="card card-body text-center">
     <h2 class="card-title">Find a ride</h2>
 
-    <form asp-controller="Rides" asp-action="Search" method="get">
+    <form asp-area="Rides" asp-controller="Rides" asp-action="Search" method="get">
         <div asp-validation-summary="All" class="text-danger"></div>
         <div class="form-group w-50 mx-auto">
             <label asp-for="From"></label>

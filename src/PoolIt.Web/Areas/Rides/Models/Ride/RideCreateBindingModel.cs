@@ -1,4 +1,4 @@
-namespace PoolIt.Web.Models
+namespace PoolIt.Web.Areas.Rides.Models.Ride
 {
     using System;
     using System.Collections.Generic;
