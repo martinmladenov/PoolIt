@@ -1,4 +1,5 @@
 @model UserRegisterBindingModel
+@addTagHelper PoolIt.Web.TagHelpers.ReCaptchaTagHelper, PoolIt.Web
 
 @{
     ViewData["Title"] = "Register";
@@ -45,6 +46,10 @@
             <span asp-validation-for="@Model.LastName" class="text-danger"></span>
         </div>
         <div class="form-group">
+            <recaptcha/>
+            <span asp-validation-for="@Model.ReCaptchaResponse" class="text-danger"></span>
+        </div>
+        <div class="form-group">
             <button type="submit" class="btn btn-primary w-100 p-3">Register</button>
         </div>
         <div class="form-group">
@@ -54,3 +59,8 @@
         </div>
     </form>
 </div>
+
+@section Scripts
+{
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+}
