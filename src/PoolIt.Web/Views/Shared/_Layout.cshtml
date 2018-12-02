@@ -1,5 +1,4 @@
-﻿@using System.Security.Claims
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -32,13 +31,13 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" asp-area="" asp-controller="Rides" asp-action="All">Browse</a>
+                    <a class="nav-link" asp-area="Rides" asp-controller="Rides" asp-action="All">Browse</a>
                 </li>
 
                 @if (User.Identity.IsAuthenticated)
                 {
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Rides" asp-action="Create">Organise ride</a>
+                        <a class="nav-link" asp-area="Rides" asp-controller="Rides" asp-action="Create">Organise ride</a>
                     </li>
                 }
             </ul>
@@ -60,7 +59,7 @@
                     }
 
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="JoinRequests" asp-action="Index">
+                        <a class="nav-link" asp-area="Rides" asp-controller="JoinRequests" asp-action="Index">
                             <i class="fas fa-vote-yea"></i>
                         </a>
                     </li>
@@ -82,12 +81,12 @@
                                 }
                             </h5>
                             <a class="dropdown-item" href="#">Home</a>
-                            <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Edit">Edit profile</a>
-                            <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="ChangePassword">Change password</a>
+                            <a class="dropdown-item" asp-area="Account" asp-controller="Details" asp-action="Edit">Edit profile</a>
+                            <a class="dropdown-item" asp-area="Account" asp-controller="Details" asp-action="ChangePassword">Change password</a>
                             <div class="dropdown-divider"></div>
                             <h6 class="dropdown-header">Cars</h6>
-                            <a class="dropdown-item" asp-area="" asp-controller="Cars" asp-action="Index">My cars</a>
-                            <a class="dropdown-item" asp-area="" asp-controller="Cars" asp-action="Create">Add a car</a>
+                            <a class="dropdown-item" asp-area="Profile" asp-controller="Cars" asp-action="Index">My cars</a>
+                            <a class="dropdown-item" asp-area="Profile" asp-controller="Cars" asp-action="Create">Add a car</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-danger"
                                href="javascript:document.getElementById('logoutForm').submit()">

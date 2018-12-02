@@ -1,0 +1,30 @@
+@model IEnumerable<PoolIt.Web.Areas.Rides.Models.Ride.RideListingViewModel>
+
+<div class="row">
+    @foreach (var ride in Model)
+    {
+        <div class="col-lg-4 col-md-6 col-sm-12 py-4">
+            <div class="card">
+                <div class="card-body">
+                    <a asp-area="Rides" asp-controller="Rides" asp-action="Details" asp-route-id="@ride.Id">
+                        <h4 class="card-title text-dark">@ride.Title</h4>
+                    </a>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <i class="fas fa-location-arrow"></i> @ride.From &mdash; @ride.To
+                    </li>
+                    <li class="list-group-item">
+                        <i class="fas fa-car"></i> @ride.CarModel
+                    </li>
+                    <li class="list-group-item">
+                        <i class="fas fa-calendar-alt"></i> @ride.Date.ToString(GlobalConstants.DateFormat)
+                    </li>
+                </ul>
+                <div class="card-body">
+                    <a class="btn btn-primary" asp-area="Rides" asp-controller="Rides" asp-action="Details" asp-route-id="@ride.Id">Details</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

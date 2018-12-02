@@ -65,16 +65,16 @@
     @if (!User.Identity.IsAuthenticated)
     {
         <h1>Welcome to PoolIt!</h1>
-        <a class="btn btn-primary py-3 px-5 m-4" asp-controller="Authentication" asp-action="Register">Register</a>
-        <a class="btn btn-outline-primary py-3 px-5 m-4" asp-controller="Authentication" asp-action="Login">Login</a>
+        <a class="btn btn-primary py-3 px-5 m-4" asp-area="Account" asp-controller="Authentication" asp-action="Register">Register</a>
+        <a class="btn btn-outline-primary py-3 px-5 m-4" asp-area="Account" asp-controller="Authentication" asp-action="Login">Login</a>
     }
     else if (Model.MyRides?.Any() ?? false)
     {
         <h3>My rides</h3>
-        <partial name="../Rides/_MyRidesPartial" model="@Model.MyRides"/>
+        <partial name="Rides/_MyRidesPartial" model="@Model.MyRides"/>
     }
 
-    <partial name="../Rides/_SearchPartial" model="@null"/>
+    <partial name="Rides/_SearchPartial" model="@null"/>
 </div>
 
 @section CustomCss {
