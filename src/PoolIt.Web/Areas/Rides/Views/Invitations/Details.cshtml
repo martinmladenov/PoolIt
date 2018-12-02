@@ -105,7 +105,7 @@
             {
                 <div class="card-header">Login now to join</div>
                 <div class="card-body">
-                    <a class="btn btn-primary btn-block py-3" asp-controller="Authentication" asp-action="Login"
+                    <a class="btn btn-primary btn-block py-3" asp-area="Account" asp-controller="Authentication" asp-action="Login"
                        asp-route-returnUrl="@Url.Action("Details", "Invitations", new {invitationKey = Model.Key})">
                         <i class="fas fa-hand-point-right"></i> Login now
                     </a>

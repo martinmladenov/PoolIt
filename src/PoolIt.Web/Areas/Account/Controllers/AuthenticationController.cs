@@ -1,4 +1,4 @@
-namespace PoolIt.Web.Controllers
+namespace PoolIt.Web.Areas.Account.Controllers
 {
     using System;
     using System.Security.Claims;
@@ -6,9 +6,10 @@ namespace PoolIt.Web.Controllers
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Models;
+    using Models.Authentication;
     using PoolIt.Models;
 
+    [Area("Account")]
     public class AuthenticationController : Controller
     {
         private readonly SignInManager<PoolItUser> signInManager;
@@ -111,17 +112,11 @@ namespace PoolIt.Web.Controllers
 
         [HttpPost]
         [Authorize]
-        [Route("/logout")]
-        public async Task<IActionResult> Logout(string returnUrl = null)
+        public async Task<IActionResult> Logout()
         {
             await this.signInManager.SignOutAsync();
 
-            if (returnUrl != null)
-            {
-                return this.LocalRedirect(returnUrl);
-            }
-
-            return this.RedirectToRoute("/");
+            return this.LocalRedirect("/");
         }
 
         [HttpPost]
@@ -217,7 +212,7 @@ namespace PoolIt.Web.Controllers
 
             if (this.ModelState.IsValid)
             {
-                var user = new PoolItUser()
+                var user = new PoolItUser
                 {
                     UserName = model.Email,
                     Email = model.Email,

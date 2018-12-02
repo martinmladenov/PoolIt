@@ -1,12 +1,9 @@
-namespace PoolIt.Web.Models
+namespace PoolIt.Web.Areas.Account.Models.Details
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class UserGitHubRegisterBindingModel
+    public class UserEditBindingModel
     {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
         public string Email { get; set; }
 
         [Required]

@@ -1,4 +1,4 @@
-namespace PoolIt.Web.Models
+namespace PoolIt.Web.Areas.Account.Models.Details
 {
     using System.ComponentModel.DataAnnotations;
 

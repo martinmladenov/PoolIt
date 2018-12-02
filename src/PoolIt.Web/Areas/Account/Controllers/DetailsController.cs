@@ -1,18 +1,19 @@
-namespace PoolIt.Web.Controllers
+namespace PoolIt.Web.Areas.Account.Controllers
 {
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Models;
+    using Models.Details;
     using PoolIt.Models;
 
     [Authorize]
-    public class AccountController : Controller
+    [Area("Account")]
+    public class DetailsController : Controller
     {
         private readonly UserManager<PoolItUser> userManager;
 
-        public AccountController(UserManager<PoolItUser> userManager)
+        public DetailsController(UserManager<PoolItUser> userManager)
         {
             this.userManager = userManager;
         }
@@ -31,7 +32,7 @@ namespace PoolIt.Web.Controllers
                 return this.RedirectToAction("SetPassword");
             }
 
-            var model = new UserChangePasswordBindingModel()
+            var model = new UserChangePasswordBindingModel
             {
                 Email = user.Email
             };
@@ -74,7 +75,7 @@ namespace PoolIt.Web.Controllers
                 return this.View(model);
             }
 
-            return this.RedirectToAction("Index", "Home");
+            return this.LocalRedirect("/");
         }
 
         public async Task<IActionResult> SetPassword()
@@ -133,7 +134,7 @@ namespace PoolIt.Web.Controllers
                 return this.View(model);
             }
 
-            return this.RedirectToAction("Index", "Home");
+            return this.LocalRedirect("/");
         }
 
         public async Task<IActionResult> Edit()
@@ -177,7 +178,7 @@ namespace PoolIt.Web.Controllers
 
             await this.userManager.UpdateAsync(user);
 
-            return this.RedirectToAction("Index", "Home");
+            return this.LocalRedirect("/");
         }
     }
 }
