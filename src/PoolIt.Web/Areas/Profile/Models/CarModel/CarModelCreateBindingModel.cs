@@ -1,4 +1,4 @@
-namespace PoolIt.Web.Models
+namespace PoolIt.Web.Areas.Profile.Models.CarModel
 {
     using System.ComponentModel.DataAnnotations;
 

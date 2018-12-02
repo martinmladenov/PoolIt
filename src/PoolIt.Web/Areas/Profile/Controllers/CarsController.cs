@@ -1,4 +1,4 @@
-namespace PoolIt.Web.Controllers
+namespace PoolIt.Web.Areas.Profile.Controllers
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -7,10 +7,12 @@ namespace PoolIt.Web.Controllers
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
-    using Models;
+    using Models.Car;
     using Services.Contracts;
     using Services.Models;
 
+    [Authorize]
+    [Area("Profile")]
     public class CarsController : Controller
     {
         private readonly IManufacturersService manufacturersService;
@@ -22,7 +24,6 @@ namespace PoolIt.Web.Controllers
             this.carsService = carsService;
         }
 
-        [Authorize]
         public async Task<IActionResult> Create()
         {
             var manufacturers = await this.GetAllManufacturers();
@@ -31,11 +32,10 @@ namespace PoolIt.Web.Controllers
             {
                 Manufacturers = manufacturers
             };
-            
+
             return this.View(model);
         }
 
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(CarEditBindingModel model)
         {
@@ -44,20 +44,20 @@ namespace PoolIt.Web.Controllers
                 var manufacturers = await this.GetAllManufacturers();
 
                 model.Manufacturers = manufacturers;
-            
+
                 return this.View(model);
             }
-            
+
             var serviceModel = Mapper.Map<CarServiceModel>(model);
 
             serviceModel.Owner = new PoolItUserServiceModel
             {
                 UserName = this.User.Identity.Name
             };
-            
+
             await this.carsService.CreateAsync(serviceModel);
-            
-            return this.RedirectToAction("Index", "Home");
+
+            return this.RedirectToAction("Create", "Rides", new {Area = "Rides"});
         }
 
         private async Task<IEnumerable<SelectListItem>> GetAllManufacturers()
@@ -72,14 +72,13 @@ namespace PoolIt.Web.Controllers
 
             return manufacturers;
         }
-        
-        [Authorize]
+
         public async Task<IActionResult> Index()
         {
             var models = (await this.carsService
-                .GetAllForUserAsync(this.User.Identity.Name))
+                    .GetAllForUserAsync(this.User.Identity.Name))
                 .Select(Mapper.Map<CarListingViewModel>);
-            
+
             return this.View(models);
         }
     }

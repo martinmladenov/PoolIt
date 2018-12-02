@@ -1,13 +1,15 @@
-namespace PoolIt.Web.Controllers
+namespace PoolIt.Web.Areas.Profile.Controllers
 {
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Models;
+    using Models.CarModel;
     using Services.Contracts;
     using Services.Models;
 
+    [Authorize]
+    [Area("Profile")]
     public class ModelsController : Controller
     {
         private readonly IManufacturersService manufacturersService;
@@ -19,14 +21,12 @@ namespace PoolIt.Web.Controllers
             this.modelsService = modelsService;
         }
 
-        [Authorize]
         public IActionResult Create()
         {
             return this.View();
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Create(CarModelCreateBindingModel model, string returnUrl)
         {
             if (!this.ModelState.IsValid)
@@ -34,15 +34,11 @@ namespace PoolIt.Web.Controllers
                 return this.View();
             }
 
-            var manufacturer = await this.manufacturersService.GetAsync(model.Manufacturer);
-
-            if (manufacturer == null)
-            {
-                manufacturer = new CarManufacturerServiceModel
-                {
-                    Name = model.Manufacturer
-                };
-            }
+            var manufacturer = await this.manufacturersService.GetAsync(model.Manufacturer)
+                               ?? new CarManufacturerServiceModel
+                               {
+                                   Name = model.Manufacturer
+                               };
 
             var carModel = new CarModelServiceModel
             {

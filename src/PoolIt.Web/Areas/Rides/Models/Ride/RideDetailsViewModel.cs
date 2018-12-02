@@ -6,8 +6,8 @@ namespace PoolIt.Web.Areas.Rides.Models.Ride
     using Infrastructure.Mapping;
     using Invitation;
     using JoinRequest;
+    using Profile.Models.Car;
     using Services.Models;
-    using Web.Models;
 
     public class RideDetailsViewModel : IHaveCustomMapping
     {

@@ -1,4 +1,4 @@
-namespace PoolIt.Web.Models
+namespace PoolIt.Web.Areas.Profile.Models.Car
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;

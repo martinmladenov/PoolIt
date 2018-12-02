@@ -1,5 +1,6 @@
-namespace PoolIt.Web.Models
+namespace PoolIt.Web.Areas.Profile.Models.Car
 {
+    using CarModel;
     using Infrastructure.Mapping;
     using Services.Models;
 
