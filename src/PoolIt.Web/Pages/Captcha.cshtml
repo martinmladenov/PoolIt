@@ -1,0 +1,30 @@
+@page
+@model CaptchaModel
+@addTagHelper PoolIt.Web.TagHelpers.ReCaptchaTagHelper, PoolIt.Web
+
+@{
+    ViewData["Title"] = "Captcha";
+    Layout = "_Layout";
+}
+
+<div class="text-center w-50 mx-auto my-4">
+    <h2>Confirm you're not a robot</h2>
+    <p>You have made too many requests in a short amount of time.</p>
+    <form method="post">
+        <hr/>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <div class="d-flex flex-row justify-content-center">
+                <recaptcha/>
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary w-75 p-3">Continue</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts
+{
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+}
