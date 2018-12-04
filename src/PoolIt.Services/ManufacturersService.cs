@@ -5,15 +5,18 @@ namespace PoolIt.Services
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using Contracts;
-    using Data;
+    using Data.Common;
     using Microsoft.EntityFrameworkCore;
     using Models;
     using PoolIt.Models;
 
-    public class ManufacturersService : DataService, IManufacturersService
+    public class ManufacturersService : BaseService, IManufacturersService
     {
-        public ManufacturersService(PoolItDbContext context) : base(context)
+        private readonly IRepository<CarManufacturer> carManufacturersRepository;
+
+        public ManufacturersService(IRepository<CarManufacturer> carManufacturersRepository)
         {
+            this.carManufacturersRepository = carManufacturersRepository;
         }
 
         public async Task<CarManufacturerServiceModel> GetAsync(string name)
@@ -22,8 +25,8 @@ namespace PoolIt.Services
             {
                 return null;
             }
-            
-            var manufacturer = await this.context.CarManufacturers
+
+            var manufacturer = await this.carManufacturersRepository.All()
                 .SingleOrDefaultAsync(m => m.Name == name);
 
             if (manufacturer == null)
@@ -36,7 +39,7 @@ namespace PoolIt.Services
 
         public async Task<IEnumerable<CarManufacturerServiceModel>> GetAllAsync()
         {
-            var manufacturers = await this.context.CarManufacturers
+            var manufacturers = await this.carManufacturersRepository.All()
                 .ProjectTo<CarManufacturerServiceModel>()
                 .ToArrayAsync();
 

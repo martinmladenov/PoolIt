@@ -6,15 +6,25 @@ namespace PoolIt.Services
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using Contracts;
-    using Data;
+    using Data.Common;
     using Microsoft.EntityFrameworkCore;
     using Models;
     using PoolIt.Models;
 
-    public class JoinRequestsService : DataService, IJoinRequestsService
+    public class JoinRequestsService : BaseService, IJoinRequestsService
     {
-        public JoinRequestsService(PoolItDbContext context) : base(context)
+        private readonly IRepository<JoinRequest> joinRequestsRepository;
+        private readonly IRepository<Ride> ridesRepository;
+        private readonly IRepository<PoolItUser> usersRepository;
+        private readonly IRepository<UserRide> userRidesRepository;
+
+        public JoinRequestsService(IRepository<JoinRequest> joinRequestsRepository, IRepository<Ride> ridesRepository,
+            IRepository<PoolItUser> usersRepository, IRepository<UserRide> userRidesRepository)
         {
+            this.joinRequestsRepository = joinRequestsRepository;
+            this.ridesRepository = ridesRepository;
+            this.usersRepository = usersRepository;
+            this.userRidesRepository = userRidesRepository;
         }
 
         public async Task<bool> CreateAsync(JoinRequestServiceModel model)
@@ -24,13 +34,13 @@ namespace PoolIt.Services
                 return false;
             }
 
-            if (!await this.context.Rides
+            if (!await this.ridesRepository.All()
                 .AnyAsync(r => r.Id == model.RideId))
             {
                 return false;
             }
 
-            var user = await this.context.Users
+            var user = await this.usersRepository.All()
                 .SingleOrDefaultAsync(u => u.UserName == model.User.UserName);
 
             if (user == null)
@@ -42,9 +52,9 @@ namespace PoolIt.Services
 
             joinRequest.User = user;
 
-            await this.context.JoinRequests.AddAsync(joinRequest);
+            await this.joinRequestsRepository.AddAsync(joinRequest);
 
-            await this.context.SaveChangesAsync();
+            await this.joinRequestsRepository.SaveChangesAsync();
 
             return true;
         }
@@ -56,7 +66,7 @@ namespace PoolIt.Services
                 return null;
             }
 
-            var requests = await this.context.JoinRequests
+            var requests = await this.joinRequestsRepository.All()
                 .Where(r => r.Ride.Car.Owner.UserName == userName)
                 .ProjectTo<JoinRequestServiceModel>()
                 .ToArrayAsync();
@@ -71,7 +81,7 @@ namespace PoolIt.Services
                 return null;
             }
 
-            var request = await this.context.JoinRequests
+            var request = await this.joinRequestsRepository.All()
                 .ProjectTo<JoinRequestServiceModel>()
                 .SingleOrDefaultAsync(r => r.Id == id);
 
@@ -85,7 +95,7 @@ namespace PoolIt.Services
                 return false;
             }
 
-            var request = await this.context.JoinRequests
+            var request = await this.joinRequestsRepository.All()
                 .SingleOrDefaultAsync(r => r.Id == id);
 
             var userRide = new UserRide
@@ -94,11 +104,11 @@ namespace PoolIt.Services
                 RideId = request.RideId,
             };
 
-            await this.context.UserRides.AddAsync(userRide);
+            await this.userRidesRepository.AddAsync(userRide);
 
-            this.context.JoinRequests.Remove(request);
+            this.joinRequestsRepository.Remove(request);
 
-            await this.context.SaveChangesAsync();
+            await this.joinRequestsRepository.SaveChangesAsync();
 
             return true;
         }
@@ -110,12 +120,12 @@ namespace PoolIt.Services
                 return false;
             }
 
-            var request = await this.context.JoinRequests
+            var request = await this.joinRequestsRepository.All()
                 .SingleOrDefaultAsync(r => r.Id == id);
 
-            this.context.JoinRequests.Remove(request);
+            this.joinRequestsRepository.Remove(request);
 
-            await this.context.SaveChangesAsync();
+            await this.joinRequestsRepository.SaveChangesAsync();
 
             return true;
         }
