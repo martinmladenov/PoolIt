@@ -1,8 +1,9 @@
 namespace PoolIt.Web.Areas.Account.Models.Authentication
 {
     using System.ComponentModel.DataAnnotations;
+    using Web.Models;
 
-    public class UserRegisterBindingModel
+    public class UserRegisterBindingModel : BaseReCaptchaModel
     {
         [Required]
         [EmailAddress]

@@ -18,6 +18,8 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Middlewares.MiddlewareServices;
+    using Middlewares.MiddlewareServices.Contracts;
     using Newtonsoft.Json.Linq;
     using PoolIt.Models;
     using Services;
@@ -118,6 +120,7 @@
             services.AddScoped<IRandomStringGeneratorService, RandomStringGeneratorService>();
 
             services.AddSingleton<ILocationService, LocationService>();
+            services.AddSingleton<IRateLimitingService, RateLimitingService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -147,6 +150,8 @@
             app.UseCookiePolicy();
 
             app.UseAuthentication();
+
+            app.UseRateLimiting();
 
             app.UseMvc(routes =>
             {
