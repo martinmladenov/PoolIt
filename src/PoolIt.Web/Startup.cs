@@ -5,6 +5,8 @@
     using System.Security.Claims;
     using AutoMapper;
     using Data;
+    using Data.Common;
+    using Data.Repository;
     using Extensions;
     using Infrastructure.Mapping;
     using Microsoft.AspNetCore.Authentication;
@@ -110,12 +112,15 @@
 
             services.AddResponseCompression(opt => opt.EnableForHttps = true);
 
-            services.AddTransient<IManufacturersService, ManufacturersService>();
-            services.AddTransient<IModelsService, ModelsService>();
-            services.AddTransient<ICarsService, CarsService>();
-            services.AddTransient<IRidesService, RidesService>();
-            services.AddTransient<IJoinRequestsService, JoinRequestsService>();
-            services.AddTransient<IInvitationsService, InvitationsService>();
+
+            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+
+            services.AddScoped<IManufacturersService, ManufacturersService>();
+            services.AddScoped<IModelsService, ModelsService>();
+            services.AddScoped<ICarsService, CarsService>();
+            services.AddScoped<IRidesService, RidesService>();
+            services.AddScoped<IJoinRequestsService, JoinRequestsService>();
+            services.AddScoped<IInvitationsService, InvitationsService>();
 
             services.AddScoped<IRandomStringGeneratorService, RandomStringGeneratorService>();
 
