@@ -7,18 +7,23 @@ namespace PoolIt.Services
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using Contracts;
-    using Data;
+    using Data.Common;
     using Microsoft.EntityFrameworkCore;
     using Models;
     using PoolIt.Models;
 
-    public class RidesService : DataService, IRidesService
+    public class RidesService : BaseService, IRidesService
     {
-        private readonly ICarsService carsService;
+        private readonly IRepository<Ride> ridesRepository;
+        private readonly IRepository<PoolItUser> usersRepository;
+        private readonly IRepository<Car> carsRepository;
 
-        public RidesService(PoolItDbContext context, ICarsService carsService) : base(context)
+        public RidesService(IRepository<Ride> ridesRepository, IRepository<PoolItUser> usersRepository,
+            IRepository<Car> carsRepository)
         {
-            this.carsService = carsService;
+            this.ridesRepository = ridesRepository;
+            this.usersRepository = usersRepository;
+            this.carsRepository = carsRepository;
         }
 
         public async Task<string> CreateAsync(RideServiceModel model)
@@ -32,26 +37,27 @@ namespace PoolIt.Services
 
             ride.Conversation = new Conversation();
 
-            var organiser = await this.carsService.GetAsync(ride.CarId);
+            var car = await this.carsRepository.All()
+                .SingleOrDefaultAsync(c => c.Id == ride.CarId);
 
             ride.Participants = new List<UserRide>
             {
                 new UserRide
                 {
-                    UserId = organiser.OwnerId
+                    UserId = car.OwnerId
                 }
             };
 
-            await this.context.Rides.AddAsync(ride);
+            await this.ridesRepository.AddAsync(ride);
 
-            await this.context.SaveChangesAsync();
+            await this.ridesRepository.SaveChangesAsync();
 
             return ride.Id;
         }
 
         public async Task<IEnumerable<RideServiceModel>> GetAllUpcomingWithFreeSeatsAsync()
         {
-            var rides = await this.context.Rides
+            var rides = await this.ridesRepository.All()
                 .Where(r => r.Date > DateTime.Now &&
                             r.AvailableSeats > r.Participants.Count - 1)
                 .OrderBy(r => r.Date)
@@ -63,14 +69,14 @@ namespace PoolIt.Services
 
         public async Task<IEnumerable<RideServiceModel>> GetAllUpcomingForUserAsync(string userName)
         {
-            var user = await this.context.Users.SingleOrDefaultAsync(u => u.UserName == userName);
+            var user = await this.usersRepository.All().SingleOrDefaultAsync(u => u.UserName == userName);
 
             if (user == null)
             {
                 return null;
             }
 
-            var userRides = await this.context.Rides
+            var userRides = await this.ridesRepository.All()
                 .Where(r => r.Date > DateTime.Now &&
                             r.Participants.Any(p => p.UserId == user.Id))
                 .OrderBy(r => r.Date)
@@ -87,7 +93,7 @@ namespace PoolIt.Services
                 return null;
             }
 
-            var ride = await this.context.Rides
+            var ride = await this.ridesRepository.All()
                 .ProjectTo<RideServiceModel>()
                 .SingleOrDefaultAsync(r => r.Id == id);
 

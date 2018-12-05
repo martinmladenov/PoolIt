@@ -6,15 +6,23 @@ namespace PoolIt.Services
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using Contracts;
-    using Data;
+    using Data.Common;
     using Microsoft.EntityFrameworkCore;
     using Models;
     using PoolIt.Models;
 
-    public class CarsService : DataService, ICarsService
+    public class CarsService : BaseService, ICarsService
     {
-        public CarsService(PoolItDbContext context) : base(context)
+        private readonly IRepository<Car> carsRepository;
+        private readonly IRepository<CarModel> carModelsRepository;
+        private readonly IRepository<PoolItUser> usersRepository;
+
+        public CarsService(IRepository<Car> carsRepository, IRepository<CarModel> carModelsRepository,
+            IRepository<PoolItUser> usersRepository)
         {
+            this.carsRepository = carsRepository;
+            this.carModelsRepository = carModelsRepository;
+            this.usersRepository = usersRepository;
         }
 
         public async Task<bool> CreateAsync(CarServiceModel model)
@@ -24,13 +32,13 @@ namespace PoolIt.Services
                 return false;
             }
 
-            if (!await this.context.CarModels
+            if (!await this.carModelsRepository.All()
                 .AnyAsync(m => m.Id == model.ModelId))
             {
                 return false;
             }
 
-            var owner = await this.context.Users.SingleOrDefaultAsync(u => u.UserName == model.Owner.UserName);
+            var owner = await this.usersRepository.All().SingleOrDefaultAsync(u => u.UserName == model.Owner.UserName);
 
             if (owner == null)
             {
@@ -41,9 +49,9 @@ namespace PoolIt.Services
 
             car.Owner = owner;
 
-            await this.context.Cars.AddAsync(car);
+            await this.carsRepository.AddAsync(car);
 
-            await this.context.SaveChangesAsync();
+            await this.carsRepository.SaveChangesAsync();
 
             return true;
         }
@@ -55,14 +63,14 @@ namespace PoolIt.Services
                 return null;
             }
 
-            var user = await this.context.Users.SingleOrDefaultAsync(u => u.UserName == userName);
+            var user = await this.usersRepository.All().SingleOrDefaultAsync(u => u.UserName == userName);
 
             if (user == null)
             {
                 return null;
             }
 
-            var cars = await this.context.Cars
+            var cars = await this.carsRepository.All()
                 .Where(c => c.OwnerId == user.Id)
                 .ProjectTo<CarServiceModel>()
                 .ToArrayAsync();
@@ -77,7 +85,7 @@ namespace PoolIt.Services
                 return null;
             }
 
-            var car = await this.context.Cars
+            var car = await this.carsRepository.All()
                 .ProjectTo<CarServiceModel>()
                 .SingleOrDefaultAsync(u => u.Id == id);
 

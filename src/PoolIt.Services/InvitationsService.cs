@@ -4,34 +4,52 @@ namespace PoolIt.Services
     using System.Threading.Tasks;
     using AutoMapper.QueryableExtensions;
     using Contracts;
-    using Data;
+    using Data.Common;
     using Microsoft.EntityFrameworkCore;
     using Models;
     using PoolIt.Models;
 
-    public class InvitationsService : DataService, IInvitationsService
+    public class InvitationsService : BaseService, IInvitationsService
     {
+        private readonly IRepository<Invitation> invitationsRepository;
+        private readonly IRepository<Ride> ridesRepository;
+        private readonly IRepository<JoinRequest> joinRequestsRepository;
+        private readonly IRepository<PoolItUser> usersRepository;
+        private readonly IRepository<UserRide> userRidesRepository;
+
         private readonly IRandomStringGeneratorService generatorService;
 
-        public InvitationsService(PoolItDbContext context, IRandomStringGeneratorService generatorService) :
-            base(context)
+        public InvitationsService(IRepository<Invitation> invitationsRepository,
+            IRepository<Ride> ridesRepository, IRepository<JoinRequest> joinRequestsRepository,
+            IRepository<PoolItUser> usersRepository, IRepository<UserRide> userRidesRepository,
+            IRandomStringGeneratorService generatorService)
         {
+            this.invitationsRepository = invitationsRepository;
+            this.ridesRepository = ridesRepository;
+            this.joinRequestsRepository = joinRequestsRepository;
+            this.usersRepository = usersRepository;
+            this.userRidesRepository = userRidesRepository;
             this.generatorService = generatorService;
         }
 
         public async Task<string> GenerateAsync(string rideId)
         {
-            if (rideId == null || !await this.context.Rides.AnyAsync(r => r.Id == rideId))
+            if (rideId == null || !await this.ridesRepository.All().AnyAsync(r => r.Id == rideId))
             {
                 return null;
             }
 
             string generatedKey;
 
-            do
+            while (true)
             {
-                generatedKey = this.generatorService.GenerateRandomString(6);
-            } while (await this.context.Invitations.AnyAsync(r => r.Key == generatedKey));
+                generatedKey = this.generatorService.GenerateRandomString(length: 6);
+                var key = generatedKey;
+                if (!await this.invitationsRepository.All().AnyAsync(r => r.Key == key))
+                {
+                    break;
+                }
+            }
 
             var invitation = new Invitation
             {
@@ -39,9 +57,9 @@ namespace PoolIt.Services
                 Key = generatedKey
             };
 
-            await this.context.Invitations.AddAsync(invitation);
+            await this.invitationsRepository.AddAsync(invitation);
 
-            await this.context.SaveChangesAsync();
+            await this.invitationsRepository.SaveChangesAsync();
 
             return generatedKey;
         }
@@ -53,7 +71,7 @@ namespace PoolIt.Services
                 return null;
             }
 
-            var invitation = await this.context.Invitations
+            var invitation = await this.invitationsRepository.All()
                 .ProjectTo<InvitationServiceModel>()
                 .SingleOrDefaultAsync(r => r.Key == key);
 
@@ -67,11 +85,11 @@ namespace PoolIt.Services
                 return false;
             }
 
-            var invitation = await this.context.Invitations
+            var invitation = await this.invitationsRepository.All()
                 .Include(i => i.Ride.JoinRequests)
                 .SingleOrDefaultAsync(i => i.Key == invitationKey);
 
-            var user = await this.context.Users.SingleOrDefaultAsync(u => u.UserName == userName);
+            var user = await this.usersRepository.All().SingleOrDefaultAsync(u => u.UserName == userName);
 
             if (invitation == null || user == null)
             {
@@ -82,9 +100,10 @@ namespace PoolIt.Services
                 .Where(r => r.UserId == user.Id)
                 .ToArray();
 
-            if (requests.Any())
+            //Remove user's join requests for this ride
+            foreach (var joinRequest in requests)
             {
-                this.context.JoinRequests.RemoveRange(requests);
+                this.joinRequestsRepository.Remove(joinRequest);
             }
 
             var userRide = new UserRide
@@ -93,11 +112,12 @@ namespace PoolIt.Services
                 RideId = invitation.RideId,
             };
 
-            await this.context.UserRides.AddAsync(userRide);
+            await this.userRidesRepository.AddAsync(userRide);
 
-            this.context.Invitations.Remove(invitation);
+            //Delete invitation
+            this.invitationsRepository.Remove(invitation);
 
-            await this.context.SaveChangesAsync();
+            await this.invitationsRepository.SaveChangesAsync();
 
             return true;
         }
@@ -109,16 +129,16 @@ namespace PoolIt.Services
                 return false;
             }
 
-            var invitation = await this.context.Invitations.SingleOrDefaultAsync(r => r.Key == key);
+            var invitation = await this.invitationsRepository.All().SingleOrDefaultAsync(r => r.Key == key);
 
             if (invitation == null)
             {
                 return false;
             }
 
-            this.context.Invitations.Remove(invitation);
+            this.invitationsRepository.Remove(invitation);
 
-            await this.context.SaveChangesAsync();
+            await this.invitationsRepository.SaveChangesAsync();
 
             return true;
         }
