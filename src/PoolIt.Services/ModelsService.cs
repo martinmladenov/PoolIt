@@ -1,5 +1,6 @@
 namespace PoolIt.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -22,7 +23,10 @@ namespace PoolIt.Services
 
         public async Task<bool> CreateAsync(CarModelServiceModel serviceModel)
         {
-            if (!this.IsEntityStateValid(serviceModel))
+            if (!this.IsEntityStateValid(serviceModel)
+                || await this.carModelsRepository.All().AnyAsync(m =>
+                    m.Manufacturer.Name == serviceModel.Manufacturer.Name &&
+                    string.Equals(m.Model, serviceModel.Model, StringComparison.InvariantCultureIgnoreCase)))
             {
                 return false;
             }
