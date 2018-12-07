@@ -104,5 +104,10 @@ namespace PoolIt.Services
             => rideServiceModel.Date > DateTime.Now
                || userName != null
                && rideServiceModel.Participants.Any(p => p.User.UserName == userName);
+
+        public bool IsUserOrganiser(RideServiceModel rideServiceModel, string userName)
+        {
+            return userName != null && rideServiceModel.Car.Owner.UserName == userName;
+        }
     }
 }

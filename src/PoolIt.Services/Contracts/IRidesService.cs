@@ -11,5 +11,6 @@ namespace PoolIt.Services.Contracts
         Task<RideServiceModel> GetAsync(string id);
         Task<IEnumerable<RideServiceModel>> GetAllUpcomingForUserAsync(string userName);
         bool CanUserAccessRide(RideServiceModel rideServiceModel, string userName);
+        bool IsUserOrganiser(RideServiceModel rideServiceModel, string userName);
     }
 }
