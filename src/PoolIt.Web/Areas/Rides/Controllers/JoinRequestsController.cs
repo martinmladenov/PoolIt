@@ -109,7 +109,7 @@ namespace PoolIt.Web.Areas.Rides.Controllers
         [HttpPost]
         public async Task<IActionResult> Accept(string id)
         {
-            if (await this.CanUserAccessRequest(id))
+            if (await this.joinRequestsService.CanUserAccessRequestAsync(id, this.User?.Identity?.Name))
             {
                 await this.joinRequestsService.AcceptAsync(id);
             }
@@ -120,19 +120,12 @@ namespace PoolIt.Web.Areas.Rides.Controllers
         [HttpPost]
         public async Task<IActionResult> Refuse(string id)
         {
-            if (await this.CanUserAccessRequest(id))
+            if (await this.joinRequestsService.CanUserAccessRequestAsync(id, this.User?.Identity?.Name))
             {
                 await this.joinRequestsService.DeleteAsync(id);
             }
 
             return this.RedirectToAction("Index");
-        }
-
-        private async Task<bool> CanUserAccessRequest(string id)
-        {
-            var request = await this.joinRequestsService.GetAsync(id);
-
-            return request != null && request.Ride.Car.Owner.UserName == this.User.Identity.Name;
         }
     }
 }

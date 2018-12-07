@@ -137,5 +137,17 @@ namespace PoolIt.Services
                && rideServiceModel.Participants.All(p => p.User.UserName != userName)
                && rideServiceModel.JoinRequests.All(r => r.User.UserName != userName)
                && rideServiceModel.Participants.Count <= rideServiceModel.AvailableSeats + 1;
+
+        public async Task<bool> CanUserAccessRequestAsync(string id, string userName)
+        {
+            if (id == null || userName == null)
+            {
+                return false;
+            }
+
+            var request = await this.GetAsync(id);
+
+            return request != null && request.Ride.Car.Owner.UserName == userName;
+        }
     }
 }

@@ -12,5 +12,6 @@ namespace PoolIt.Services.Contracts
         Task<bool> AcceptAsync(string id);
         Task<bool> DeleteAsync(string id);
         bool CanUserSendJoinRequest(RideServiceModel rideServiceModel, string userName);
+        Task<bool> CanUserAccessRequestAsync(string id, string userName);
     }
 }
