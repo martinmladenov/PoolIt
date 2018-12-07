@@ -1,5 +1,6 @@
 namespace PoolIt.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -129,5 +130,12 @@ namespace PoolIt.Services
 
             return true;
         }
+
+        public bool CanUserSendJoinRequest(RideServiceModel rideServiceModel, string userName)
+            => userName != null
+               && rideServiceModel.Date >= DateTime.Now
+               && rideServiceModel.Participants.All(p => p.User.UserName != userName)
+               && rideServiceModel.JoinRequests.All(r => r.User.UserName != userName)
+               && rideServiceModel.Participants.Count <= rideServiceModel.AvailableSeats + 1;
     }
 }

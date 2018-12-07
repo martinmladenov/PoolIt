@@ -27,9 +27,15 @@ namespace PoolIt.Web.Areas.Rides.Controllers
         [Route("/ride/{id}/join")]
         public async Task<IActionResult> Create(string id)
         {
-            var rideServiceModel = await this.GetRide(id);
+            var rideServiceModel = await this.ridesService.GetAsync(id);
 
-            if (rideServiceModel == null)
+            if (rideServiceModel == null
+                || !this.ridesService.CanUserAccessRide(rideServiceModel, this.User?.Identity?.Name))
+            {
+                return this.NotFound();
+            }
+
+            if (!this.joinRequestsService.CanUserSendJoinRequest(rideServiceModel, this.User?.Identity?.Name))
             {
                 return this.RedirectToAction("Details", "Rides", new {id});
             }
@@ -47,15 +53,26 @@ namespace PoolIt.Web.Areas.Rides.Controllers
         [Route("/ride/{id}/join")]
         public async Task<IActionResult> Create(string id, JoinRequestCreateBindingModel model)
         {
+            if (id == null)
+            {
+                return this.NotFound();
+            }
+
+            var rideServiceModel = await this.ridesService.GetAsync(id);
+
+            if (rideServiceModel == null
+                || !this.ridesService.CanUserAccessRide(rideServiceModel, this.User?.Identity?.Name))
+            {
+                return this.NotFound();
+            }
+
+            if (!this.joinRequestsService.CanUserSendJoinRequest(rideServiceModel, this.User?.Identity?.Name))
+            {
+                return this.RedirectToAction("Details", "Rides", new {id});
+            }
+
             if (!this.ModelState.IsValid)
             {
-                var rideServiceModel = await this.GetRide(id);
-
-                if (rideServiceModel == null)
-                {
-                    return this.RedirectToAction("Details", "Rides", new {id});
-                }
-
                 model.RideId = rideServiceModel.Id;
                 model.RideTitle = rideServiceModel.Title;
 
@@ -75,22 +92,6 @@ namespace PoolIt.Web.Areas.Rides.Controllers
             await this.joinRequestsService.CreateAsync(serviceModel);
 
             return this.RedirectToAction("Details", "Rides", new {id});
-        }
-
-        private async Task<RideServiceModel> GetRide(string id)
-        {
-            var rideServiceModel = await this.ridesService.GetAsync(id);
-
-            if (rideServiceModel == null
-                || rideServiceModel.Date < DateTime.Now
-                || rideServiceModel.Participants.Any(r => r.User.Email == this.User.Identity.Name)
-                || rideServiceModel.JoinRequests.Any(r => r.User.Email == this.User.Identity.Name)
-                || rideServiceModel.Participants.Count >= rideServiceModel.AvailableSeats + 1)
-            {
-                return null;
-            }
-
-            return rideServiceModel;
         }
 
         [Route("/requests")]
