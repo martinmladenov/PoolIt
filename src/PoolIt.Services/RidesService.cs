@@ -99,5 +99,10 @@ namespace PoolIt.Services
 
             return ride;
         }
+
+        public bool CanUserAccessRide(RideServiceModel rideServiceModel, string userName)
+            => rideServiceModel.Date > DateTime.Now
+               || userName != null
+               && rideServiceModel.Participants.Any(p => p.User.UserName == userName);
     }
 }
