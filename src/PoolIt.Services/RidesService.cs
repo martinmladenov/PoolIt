@@ -109,5 +109,9 @@ namespace PoolIt.Services
         {
             return userName != null && rideServiceModel.Car.Owner.UserName == userName;
         }
+
+        public bool IsUserParticipant(RideServiceModel rideServiceModel, string userName)
+            => userName != null
+               && rideServiceModel.Participants.Any(p => p.User.UserName == userName);
     }
 }

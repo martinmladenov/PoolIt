@@ -77,7 +77,7 @@ namespace PoolIt.Web.Areas.Rides.Controllers
                 return this.NotFound();
             }
 
-            if (serviceModel.Ride.Participants.All(p => p.User.UserName != this.User.Identity.Name))
+            if (!this.ridesService.IsUserParticipant(serviceModel.Ride, this.User?.Identity?.Name))
             {
                 await this.invitationsService.AcceptAsync(this.User.Identity.Name, invitationKey);
             }
