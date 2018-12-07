@@ -53,7 +53,7 @@ namespace PoolIt.Web.Areas.Rides.Controllers
 
             var car = await this.carsService.GetAsync(model.CarId);
 
-            if (car == null || car.Owner.Email != this.User.Identity.Name)
+            if (car == null || !this.carsService.IsUserOwner(car, this.User?.Identity?.Name))
             {
                 return this.Forbid();
             }

@@ -9,5 +9,6 @@ namespace PoolIt.Services.Contracts
         Task<bool> CreateAsync(CarServiceModel model);
         Task<IEnumerable<CarServiceModel>> GetAllForUserAsync(string userName);
         Task<CarServiceModel> GetAsync(string id);
+        bool IsUserOwner(CarServiceModel carServiceModel, string userName);
     }
 }
