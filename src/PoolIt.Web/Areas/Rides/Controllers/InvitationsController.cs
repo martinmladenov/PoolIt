@@ -2,6 +2,7 @@ namespace PoolIt.Web.Areas.Rides.Controllers
 {
     using System.Threading.Tasks;
     using AutoMapper;
+    using Infrastructure;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Invitation;
@@ -37,6 +38,8 @@ namespace PoolIt.Web.Areas.Rides.Controllers
             }
 
             var invitationKey = await this.invitationsService.GenerateAsync(rideId);
+
+            this.Success(NotificationMessages.InvitationGenerated);
 
             return this.RedirectToAction("Details", new {invitationKey});
         }
@@ -79,7 +82,16 @@ namespace PoolIt.Web.Areas.Rides.Controllers
 
             if (!this.ridesService.IsUserParticipant(serviceModel.Ride, this.User?.Identity?.Name))
             {
-                await this.invitationsService.AcceptAsync(this.User.Identity.Name, invitationKey);
+                var result = await this.invitationsService.AcceptAsync(this.User.Identity.Name, invitationKey);
+
+                if (result)
+                {
+                    this.Success(NotificationMessages.InvitationAccepted);
+                }
+                else
+                {
+                    this.Error(NotificationMessages.InvitationAcceptNoPermission);
+                }
             }
 
             return this.RedirectToAction("Details", "Rides", new {id = serviceModel.Ride.Id});
@@ -102,7 +114,16 @@ namespace PoolIt.Web.Areas.Rides.Controllers
                 return this.NotFound();
             }
 
-            await this.invitationsService.DeleteAsync(invitationKey);
+            var result = await this.invitationsService.DeleteAsync(invitationKey);
+
+            if (result)
+            {
+                this.Success(NotificationMessages.InvitationDeleted);
+            }
+            else
+            {
+                this.Error(NotificationMessages.InvitationDeleteError);
+            }
 
             return this.RedirectToAction("Details", "Rides", new {id = serviceModel.Ride.Id});
         }

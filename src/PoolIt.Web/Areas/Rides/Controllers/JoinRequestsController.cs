@@ -4,6 +4,7 @@ namespace PoolIt.Web.Areas.Rides.Controllers
     using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
+    using Infrastructure;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.JoinRequest;
@@ -90,7 +91,16 @@ namespace PoolIt.Web.Areas.Rides.Controllers
             serviceModel.RideId = id;
             serviceModel.SentOn = DateTime.Now;
 
-            await this.joinRequestsService.CreateAsync(serviceModel);
+            var result = await this.joinRequestsService.CreateAsync(serviceModel);
+
+            if (result)
+            {
+                this.Success(NotificationMessages.JoinRequestCreated);
+            }
+            else
+            {
+                this.Error(NotificationMessages.JoinRequestCreateError);
+            }
 
             return this.RedirectToAction("Details", "Rides", new {id});
         }
@@ -112,7 +122,15 @@ namespace PoolIt.Web.Areas.Rides.Controllers
         {
             if (await this.joinRequestsService.CanUserAccessRequestAsync(id, this.User?.Identity?.Name))
             {
-                await this.joinRequestsService.AcceptAsync(id);
+                var result = await this.joinRequestsService.AcceptAsync(id);
+                if (result)
+                {
+                    this.Success(NotificationMessages.JoinRequestAccepted);
+                }
+                else
+                {
+                    this.Error(NotificationMessages.JoinRequestAcceptError);
+                }
             }
 
             return this.RedirectToAction("Index");
@@ -123,7 +141,15 @@ namespace PoolIt.Web.Areas.Rides.Controllers
         {
             if (await this.joinRequestsService.CanUserAccessRequestAsync(id, this.User?.Identity?.Name))
             {
-                await this.joinRequestsService.DeleteAsync(id);
+                var result = await this.joinRequestsService.DeleteAsync(id);
+                if (result)
+                {
+                    this.Success(NotificationMessages.JoinRequestRefused);
+                }
+                else
+                {
+                    this.Error(NotificationMessages.JoinRequestRefuseError);
+                }
             }
 
             return this.RedirectToAction("Index");

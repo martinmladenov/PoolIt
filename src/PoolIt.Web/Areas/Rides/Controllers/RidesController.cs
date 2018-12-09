@@ -56,12 +56,26 @@ namespace PoolIt.Web.Areas.Rides.Controllers
 
             if (car == null || !this.carsService.IsUserOwner(car, this.User?.Identity?.Name))
             {
-                return this.Forbid();
+                this.Error(NotificationMessages.RideCreateError);
+                return this.View();
             }
 
             var serviceModel = Mapper.Map<RideServiceModel>(model);
 
             var id = await this.ridesService.CreateAsync(serviceModel);
+
+            if (id == null)
+            {
+                this.Error(NotificationMessages.RideCreateError);
+
+                var userCars = await this.GetUserCars();
+
+                model.OwnedCars = userCars;
+
+                return this.View(model);
+            }
+
+            this.Success(NotificationMessages.RideCreated);
 
             return this.RedirectToAction("Details", new {id});
         }

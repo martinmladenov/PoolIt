@@ -1,6 +1,7 @@
 namespace PoolIt.Web.Areas.Account.Controllers
 {
     using System.Threading.Tasks;
+    using Infrastructure;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -76,6 +77,8 @@ namespace PoolIt.Web.Areas.Account.Controllers
                 return this.View(model);
             }
 
+            this.Success(NotificationMessages.PasswordChanged);
+
             return this.LocalRedirect("/");
         }
 
@@ -135,6 +138,8 @@ namespace PoolIt.Web.Areas.Account.Controllers
                 return this.View(model);
             }
 
+            this.Success(NotificationMessages.PasswordSet);
+
             return this.LocalRedirect("/");
         }
 
@@ -178,6 +183,8 @@ namespace PoolIt.Web.Areas.Account.Controllers
             user.LastName = model.LastName;
 
             await this.userManager.UpdateAsync(user);
+
+            this.Success(NotificationMessages.ProfileDetailsUpdated);
 
             return this.LocalRedirect("/");
         }

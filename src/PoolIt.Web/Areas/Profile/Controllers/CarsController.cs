@@ -4,6 +4,7 @@ namespace PoolIt.Web.Areas.Profile.Controllers
     using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
+    using Infrastructure;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
@@ -56,7 +57,14 @@ namespace PoolIt.Web.Areas.Profile.Controllers
                 UserName = this.User.Identity.Name
             };
 
-            await this.carsService.CreateAsync(serviceModel);
+            var result = await this.carsService.CreateAsync(serviceModel);
+
+            if (!result)
+            {
+                this.Error(NotificationMessages.CarCreateError);
+            }
+
+            this.Success(NotificationMessages.CarCreated);
 
             return this.RedirectToAction("Create", "Rides", new {Area = "Rides"});
         }
