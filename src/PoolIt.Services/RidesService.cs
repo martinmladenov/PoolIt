@@ -99,5 +99,19 @@ namespace PoolIt.Services
 
             return ride;
         }
+
+        public bool CanUserAccessRide(RideServiceModel rideServiceModel, string userName)
+            => rideServiceModel.Date > DateTime.Now
+               || userName != null
+               && rideServiceModel.Participants.Any(p => p.User.UserName == userName);
+
+        public bool IsUserOrganiser(RideServiceModel rideServiceModel, string userName)
+        {
+            return userName != null && rideServiceModel.Car.Owner.UserName == userName;
+        }
+
+        public bool IsUserParticipant(RideServiceModel rideServiceModel, string userName)
+            => userName != null
+               && rideServiceModel.Participants.Any(p => p.User.UserName == userName);
     }
 }

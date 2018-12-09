@@ -91,5 +91,9 @@ namespace PoolIt.Services
 
             return car;
         }
+
+        public bool IsUserOwner(CarServiceModel carServiceModel, string userName)
+            => userName != null &&
+               carServiceModel.Owner.UserName == userName;
     }
 }

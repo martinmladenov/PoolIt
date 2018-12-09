@@ -91,7 +91,8 @@ namespace PoolIt.Services
 
             var user = await this.usersRepository.All().SingleOrDefaultAsync(u => u.UserName == userName);
 
-            if (invitation == null || user == null)
+            if (invitation == null || user == null ||
+                invitation.Ride.Participants.Any(p => p.User.UserName == userName))
             {
                 return false;
             }

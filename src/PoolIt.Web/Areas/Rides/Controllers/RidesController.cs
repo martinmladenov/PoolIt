@@ -53,7 +53,7 @@ namespace PoolIt.Web.Areas.Rides.Controllers
 
             var car = await this.carsService.GetAsync(model.CarId);
 
-            if (car == null || car.Owner.Email != this.User.Identity.Name)
+            if (car == null || !this.carsService.IsUserOwner(car, this.User?.Identity?.Name))
             {
                 return this.Forbid();
             }
@@ -91,10 +91,9 @@ namespace PoolIt.Web.Areas.Rides.Controllers
         {
             var rideServiceModel = await this.ridesService.GetAsync(id);
 
-            if (rideServiceModel == null ||
-                !this.User.IsInRole(GlobalConstants.AdminRoleName)
-                && rideServiceModel.Date < DateTime.Now
-                && rideServiceModel.Car.Owner.Email != this.User.Identity.Name)
+            if (rideServiceModel == null
+                || !this.ridesService.CanUserAccessRide(rideServiceModel, this.User?.Identity?.Name)
+                && !this.User.IsInRole(GlobalConstants.AdminRoleName))
             {
                 return this.NotFound();
             }

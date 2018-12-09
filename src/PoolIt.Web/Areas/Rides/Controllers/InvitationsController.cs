@@ -31,7 +31,7 @@ namespace PoolIt.Web.Areas.Rides.Controllers
 
             var ride = await this.ridesService.GetAsync(rideId);
 
-            if (ride == null || ride.Car.Owner.UserName != this.User.Identity.Name)
+            if (ride == null || !this.ridesService.IsUserOrganiser(ride, this.User?.Identity?.Name))
             {
                 return this.NotFound();
             }
@@ -77,7 +77,7 @@ namespace PoolIt.Web.Areas.Rides.Controllers
                 return this.NotFound();
             }
 
-            if (serviceModel.Ride.Participants.All(p => p.User.UserName != this.User.Identity.Name))
+            if (!this.ridesService.IsUserParticipant(serviceModel.Ride, this.User?.Identity?.Name))
             {
                 await this.invitationsService.AcceptAsync(this.User.Identity.Name, invitationKey);
             }
@@ -96,7 +96,8 @@ namespace PoolIt.Web.Areas.Rides.Controllers
 
             var serviceModel = await this.invitationsService.GetAsync(invitationKey);
 
-            if (serviceModel == null || serviceModel.Ride.Car.Owner.UserName != this.User.Identity.Name)
+            if (serviceModel == null ||
+                !this.ridesService.IsUserOrganiser(serviceModel.Ride, this.User?.Identity?.Name))
             {
                 return this.NotFound();
             }
