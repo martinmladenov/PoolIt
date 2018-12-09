@@ -10,6 +10,8 @@ namespace PoolIt.Infrastructure
 
         public const string CarCreateError = "An error occured while adding your car, try again later";
         public const string CarCreated = "Your car was added, you can now organise a ride";
+        public const string CarEdited = "Car information updated";
+        public const string CarEditError = "An error occured while updating car information";
 
         public const string ModelCreated = "Model added";
 

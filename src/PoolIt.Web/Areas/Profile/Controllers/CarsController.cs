@@ -90,5 +90,68 @@ namespace PoolIt.Web.Areas.Profile.Controllers
 
             return this.View(models);
         }
+
+        public async Task<IActionResult> Edit(string id)
+        {
+            if (id == null)
+            {
+                return this.NotFound();
+            }
+
+            var serviceModel = await this.carsService.GetAsync(id);
+
+            if (serviceModel == null ||
+                !this.carsService.IsUserOwner(serviceModel, this.User?.Identity?.Name) &&
+                !this.User.IsInRole(GlobalConstants.AdminRoleName))
+            {
+                return this.NotFound();
+            }
+
+            var bindingModel = Mapper.Map<CarEditBindingModel>(serviceModel);
+
+            return this.View(bindingModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(string id, CarEditBindingModel bindingModel)
+        {
+            if (id == null)
+            {
+                return this.NotFound();
+            }
+
+            var serviceModel = await this.carsService.GetAsync(id);
+
+            if (serviceModel == null ||
+                !this.carsService.IsUserOwner(serviceModel, this.User?.Identity?.Name) &&
+                !this.User.IsInRole(GlobalConstants.AdminRoleName))
+            {
+                return this.NotFound();
+            }
+
+            if (!this.ModelState.IsValid)
+            {
+                bindingModel.ModelName = serviceModel.Model.Model;
+                bindingModel.Manufacturer = serviceModel.Model.Manufacturer.Name;
+
+                return this.View(bindingModel);
+            }
+
+            serviceModel.Id = id;
+            serviceModel.Colour = bindingModel.Colour;
+            serviceModel.Details = bindingModel.Details;
+
+            var result = await this.carsService.UpdateAsync(serviceModel);
+            if (result)
+            {
+                this.Success(NotificationMessages.CarEdited);
+            }
+            else
+            {
+                this.Error(NotificationMessages.CarEditError);
+            }
+
+            return this.RedirectToAction("Index");
+        }
     }
 }
