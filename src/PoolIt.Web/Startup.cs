@@ -44,6 +44,8 @@
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.Configure<CookieTempDataProviderOptions>(options => { options.Cookie.IsEssential = true; });
+
             services.AddDbContext<PoolItDbContext>(options =>
                 options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
 

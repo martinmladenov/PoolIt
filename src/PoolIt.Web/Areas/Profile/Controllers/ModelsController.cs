@@ -1,15 +1,17 @@
 namespace PoolIt.Web.Areas.Profile.Controllers
 {
     using System.Threading.Tasks;
+    using Infrastructure;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.CarModel;
     using Services.Contracts;
     using Services.Models;
+    using Web.Controllers;
 
     [Authorize]
     [Area("Profile")]
-    public class ModelsController : Controller
+    public class ModelsController : BaseController
     {
         private readonly IManufacturersService manufacturersService;
         private readonly IModelsService modelsService;
@@ -48,6 +50,8 @@ namespace PoolIt.Web.Areas.Profile.Controllers
             await this.modelsService.CreateAsync(carModel);
 
             returnUrl = returnUrl ?? "/";
+
+            this.Success(NotificationMessages.ModelCreated);
 
             return this.LocalRedirect(returnUrl);
         }

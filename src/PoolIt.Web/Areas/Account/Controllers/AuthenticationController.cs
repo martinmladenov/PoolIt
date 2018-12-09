@@ -3,14 +3,16 @@ namespace PoolIt.Web.Areas.Account.Controllers
     using System;
     using System.Security.Claims;
     using System.Threading.Tasks;
+    using Infrastructure;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Models.Authentication;
     using PoolIt.Models;
+    using Web.Controllers;
 
     [Area("Account")]
-    public class AuthenticationController : Controller
+    public class AuthenticationController : BaseController
     {
         private readonly SignInManager<PoolItUser> signInManager;
 
@@ -98,6 +100,8 @@ namespace PoolIt.Web.Areas.Account.Controllers
             var result = await this.signInManager.UserManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
+                this.Success(string.Format(NotificationMessages.RegistrationWelcome, model.FirstName));
+
                 await this.signInManager.SignInAsync(user, isPersistent: false);
                 return this.LocalRedirect(returnUrl);
             }
@@ -115,6 +119,8 @@ namespace PoolIt.Web.Areas.Account.Controllers
         public async Task<IActionResult> Logout()
         {
             await this.signInManager.SignOutAsync();
+
+            this.Success(NotificationMessages.LoggedOut);
 
             return this.LocalRedirect("/");
         }
@@ -226,6 +232,8 @@ namespace PoolIt.Web.Areas.Account.Controllers
                     result = await this.signInManager.UserManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
+                        this.Success(string.Format(NotificationMessages.RegistrationWelcome, model.FirstName));
+                        
                         await this.signInManager.SignInAsync(user, isPersistent: true);
                         return this.LocalRedirect(returnUrl);
                     }
