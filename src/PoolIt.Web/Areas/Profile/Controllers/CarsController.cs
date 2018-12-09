@@ -30,7 +30,7 @@ namespace PoolIt.Web.Areas.Profile.Controllers
         {
             var manufacturers = await this.GetAllManufacturers();
 
-            var model = new CarEditBindingModel
+            var model = new CarCreateBindingModel
             {
                 Manufacturers = manufacturers
             };
@@ -39,7 +39,7 @@ namespace PoolIt.Web.Areas.Profile.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CarEditBindingModel model)
+        public async Task<IActionResult> Create(CarCreateBindingModel model)
         {
             if (!this.ModelState.IsValid)
             {

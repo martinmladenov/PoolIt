@@ -6,10 +6,10 @@ namespace PoolIt.Web.Areas.Profile.Models.Car
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Services.Models;
 
-    public class CarEditBindingModel : IMapWith<CarServiceModel>
+    public class CarCreateBindingModel : IMapWith<CarServiceModel>
     {
         public IEnumerable<SelectListItem> Manufacturers { get; set; }
-        
+
         [Required]
         [Display(Name = "Model")]
         public string ModelId { get; set; }
@@ -20,7 +20,5 @@ namespace PoolIt.Web.Areas.Profile.Models.Car
 
         [StringLength(300, MinimumLength = 3)]
         public string Details { get; set; }
-        
-        
     }
 }
