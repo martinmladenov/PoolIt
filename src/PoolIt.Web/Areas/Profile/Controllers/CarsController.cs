@@ -10,10 +10,11 @@ namespace PoolIt.Web.Areas.Profile.Controllers
     using Models.Car;
     using Services.Contracts;
     using Services.Models;
+    using Web.Controllers;
 
     [Authorize]
     [Area("Profile")]
-    public class CarsController : Controller
+    public class CarsController : BaseController
     {
         private readonly IManufacturersService manufacturersService;
         private readonly ICarsService carsService;

@@ -9,10 +9,11 @@ namespace PoolIt.Web.Areas.Rides.Controllers
     using Models.JoinRequest;
     using Services.Contracts;
     using Services.Models;
+    using Web.Controllers;
 
     [Authorize]
     [Area("Rides")]
-    public class JoinRequestsController : Controller
+    public class JoinRequestsController : BaseController
     {
         private readonly IRidesService ridesService;
 

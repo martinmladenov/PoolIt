@@ -6,10 +6,11 @@ namespace PoolIt.Web.Areas.Account.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Models.Details;
     using PoolIt.Models;
+    using Web.Controllers;
 
     [Authorize]
     [Area("Account")]
-    public class DetailsController : Controller
+    public class DetailsController : BaseController
     {
         private readonly UserManager<PoolItUser> userManager;
 

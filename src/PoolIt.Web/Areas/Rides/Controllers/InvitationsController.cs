@@ -1,15 +1,15 @@
 namespace PoolIt.Web.Areas.Rides.Controllers
 {
-    using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Invitation;
     using Services.Contracts;
+    using Web.Controllers;
 
     [Area("Rides")]
-    public class InvitationsController : Controller
+    public class InvitationsController : BaseController
     {
         private readonly IInvitationsService invitationsService;
         private readonly IRidesService ridesService;

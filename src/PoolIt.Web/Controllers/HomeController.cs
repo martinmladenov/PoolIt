@@ -9,7 +9,7 @@
     using Models;
     using Services.Contracts;
 
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly IRidesService ridesService;
 

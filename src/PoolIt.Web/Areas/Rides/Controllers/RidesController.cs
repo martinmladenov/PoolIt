@@ -12,9 +12,10 @@ namespace PoolIt.Web.Areas.Rides.Controllers
     using Models.Ride;
     using Services.Contracts;
     using Services.Models;
+    using Web.Controllers;
 
     [Area("Rides")]
-    public class RidesController : Controller
+    public class RidesController : BaseController
     {
         private readonly ICarsService carsService;
         private readonly IRidesService ridesService;

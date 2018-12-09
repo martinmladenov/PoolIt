@@ -8,9 +8,10 @@ namespace PoolIt.Web.Areas.Account.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Models.Authentication;
     using PoolIt.Models;
+    using Web.Controllers;
 
     [Area("Account")]
-    public class AuthenticationController : Controller
+    public class AuthenticationController : BaseController
     {
         private readonly SignInManager<PoolItUser> signInManager;
 
