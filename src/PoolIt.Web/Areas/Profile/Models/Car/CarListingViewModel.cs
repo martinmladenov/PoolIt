@@ -6,6 +6,8 @@ namespace PoolIt.Web.Areas.Profile.Models.Car
 
     public class CarListingViewModel : IMapWith<CarServiceModel>
     {
+        public string Id { get; set; }
+
         public CarModelListingViewModel Model { get; set; }
 
         public string Colour { get; set; }
