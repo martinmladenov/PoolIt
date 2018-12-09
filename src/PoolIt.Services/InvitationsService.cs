@@ -87,6 +87,8 @@ namespace PoolIt.Services
 
             var invitation = await this.invitationsRepository.All()
                 .Include(i => i.Ride.JoinRequests)
+                .Include(i => i.Ride.Participants)
+                .ThenInclude(p => p.User)
                 .SingleOrDefaultAsync(i => i.Key == invitationKey);
 
             var user = await this.usersRepository.All().SingleOrDefaultAsync(u => u.UserName == userName);
