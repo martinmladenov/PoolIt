@@ -28,6 +28,9 @@ namespace PoolIt.Data.Repository
         public void Remove(TEntity entity)
             => this.set.Remove(entity);
 
+        public void Update(TEntity entity)
+            => this.set.Update(entity);
+
         public Task<int> SaveChangesAsync()
             => this.context.SaveChangesAsync();
 
