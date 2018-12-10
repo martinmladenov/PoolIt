@@ -134,5 +134,69 @@ namespace PoolIt.Web.Areas.Rides.Controllers
 
             return this.View(model);
         }
+
+        [Authorize]
+        public async Task<IActionResult> Edit(string id)
+        {
+            if (id == null)
+            {
+                return this.NotFound();
+            }
+
+            var serviceModel = await this.ridesService.GetAsync(id);
+
+            if (serviceModel == null ||
+                !this.ridesService.IsUserOrganiser(serviceModel, this.User?.Identity?.Name) &&
+                !this.User.IsInRole(GlobalConstants.AdminRoleName))
+            {
+                return this.NotFound();
+            }
+
+            var bindingModel = Mapper.Map<RideEditBindingModel>(serviceModel);
+
+            return this.View(bindingModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(string id, RideEditBindingModel model)
+        {
+            if (id == null)
+            {
+                return this.NotFound();
+            }
+
+            var serviceModel = await this.ridesService.GetAsync(id);
+
+            if (serviceModel == null ||
+                !this.ridesService.IsUserOrganiser(serviceModel, this.User?.Identity?.Name) &&
+                !this.User.IsInRole(GlobalConstants.AdminRoleName))
+            {
+                return this.NotFound();
+            }
+
+            serviceModel.Id = id;
+            serviceModel.Title = model.Title;
+            serviceModel.PhoneNumber = model.PhoneNumber;
+            serviceModel.Notes = model.Notes;
+
+            if (!this.ModelState.IsValid)
+            {
+                var bindingModel = Mapper.Map<RideEditBindingModel>(serviceModel);
+
+                return this.View(bindingModel);
+            }
+
+            var result = await this.ridesService.UpdateAsync(serviceModel);
+            if (result)
+            {
+                this.Success(NotificationMessages.RideEdited);
+            }
+            else
+            {
+                this.Error(NotificationMessages.RideEditError);
+            }
+
+            return this.RedirectToAction("Details", new {id});
+        }
     }
 }

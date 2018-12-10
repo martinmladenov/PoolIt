@@ -30,5 +30,7 @@ namespace PoolIt.Infrastructure
 
         public const string RideCreated = "Ride created";
         public const string RideCreateError = "An error occured while creating ride";
+        public const string RideEdited = "Ride information updated";
+        public const string RideEditError = "An error occured while updating ride information";
     }
 }

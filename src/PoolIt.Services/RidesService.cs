@@ -113,5 +113,29 @@ namespace PoolIt.Services
         public bool IsUserParticipant(RideServiceModel rideServiceModel, string userName)
             => userName != null
                && rideServiceModel.Participants.Any(p => p.User.UserName == userName);
+
+        public async Task<bool> UpdateAsync(RideServiceModel model)
+        {
+            if (!this.IsEntityStateValid(model) || model.Id == null)
+            {
+                return false;
+            }
+
+            var ride = await this.ridesRepository.All().SingleOrDefaultAsync(c => c.Id == model.Id);
+
+            if (ride == null)
+            {
+                return false;
+            }
+
+            ride.Title = model.Title;
+            ride.PhoneNumber = model.PhoneNumber;
+            ride.Notes = model.Notes;
+
+            this.ridesRepository.Update(ride);
+            await this.ridesRepository.SaveChangesAsync();
+
+            return true;
+        }
     }
 }
