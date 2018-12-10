@@ -29,7 +29,7 @@
                     .GetAllUpcomingForUserAsync(this.User.Identity.Name))
                 .Select(Mapper.Map<RideListingViewModel>);
 
-            var model = new HomeBindingModel
+            var model = new HomeViewModel
             {
                 MyRides = rides
             };
