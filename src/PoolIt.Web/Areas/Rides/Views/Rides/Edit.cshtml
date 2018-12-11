@@ -1,0 +1,54 @@
+@model RideEditBindingModel
+
+@{
+    ViewData["Title"] = "Edit Ride";
+}
+
+<div class="text-center w-50 mx-auto my-4">
+    <h2>@ViewData["Title"]</h2>
+    <form method="post">
+        <hr/>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Title"></label>
+            <input class="form-control" asp-for="Title"/>
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label>Car</label>
+            <select class="form-control selectpicker" disabled="disabled">
+                <option selected="selected">@Model.Car</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Date and time</label>
+            <input class="form-control" disabled="disabled"
+                   value="@Model.Date.ToString(GlobalConstants.DateFormat)"/>
+        </div>
+        <div class="form-group">
+            <label>From</label>
+            <input class="form-control" disabled="disabled" value="@Model.From"/>
+        </div>
+        <div class="form-group">
+            <label>To</label>
+            <input class="form-control" disabled="disabled" value="@Model.To"/>
+        </div>
+        <div class="form-group">
+            <label>Available seats</label>
+            <input class="form-control" type="number" disabled="disabled" value="@Model.AvailableSeats"/>
+        </div>
+        <div class="form-group">
+            <label asp-for="PhoneNumber"></label>
+            <input class="form-control" asp-for="PhoneNumber" placeholder="(optional)"/>
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Notes"></label>
+            <textarea class="form-control" asp-for="Notes" placeholder="(optional)"></textarea>
+            <span asp-validation-for="Notes" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Edit</button>
+        </div>
+    </form>
+</div>

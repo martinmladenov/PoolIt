@@ -1,18 +1,15 @@
 namespace PoolIt.Web.Areas.Profile.Models.Car
 {
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using AutoMapper;
     using Infrastructure.Mapping;
-    using Microsoft.AspNetCore.Mvc.Rendering;
     using Services.Models;
 
-    public class CarEditBindingModel : IMapWith<CarServiceModel>
+    public class CarEditBindingModel : IHaveCustomMapping
     {
-        public IEnumerable<SelectListItem> Manufacturers { get; set; }
-        
-        [Required]
-        [Display(Name = "Model")]
-        public string ModelId { get; set; }
+        public string Manufacturer { get; set; }
+
+        public string ModelName { get; set; }
 
         [Required]
         [StringLength(20, MinimumLength = 2)]
@@ -20,7 +17,14 @@ namespace PoolIt.Web.Areas.Profile.Models.Car
 
         [StringLength(300, MinimumLength = 3)]
         public string Details { get; set; }
-        
-        
+
+        public void ConfigureMapping(Profile mapper)
+        {
+            mapper.CreateMap<CarServiceModel, CarEditBindingModel>()
+                .ForMember(dest => dest.Manufacturer, opt =>
+                    opt.MapFrom(src => src.Model.Manufacturer.Name))
+                .ForMember(dest => dest.ModelName, opt =>
+                    opt.MapFrom(src => src.Model.Model));
+        }
     }
 }

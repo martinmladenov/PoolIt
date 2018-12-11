@@ -13,5 +13,6 @@ namespace PoolIt.Services.Contracts
         bool CanUserAccessRide(RideServiceModel rideServiceModel, string userName);
         bool IsUserOrganiser(RideServiceModel rideServiceModel, string userName);
         bool IsUserParticipant(RideServiceModel rideServiceModel, string userName);
+        Task<bool> UpdateAsync(RideServiceModel model);
     }
 }

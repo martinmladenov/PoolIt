@@ -9,6 +9,7 @@ namespace PoolIt.Data.Common
         IQueryable<TEntity> All();
         Task AddAsync(TEntity entity);
         void Remove(TEntity entity);
+        void Update(TEntity entity);
         Task<int> SaveChangesAsync();
     }
 }

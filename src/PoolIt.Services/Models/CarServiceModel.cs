@@ -14,7 +14,6 @@ namespace PoolIt.Services.Models
 
         public string OwnerId { get; set; }
 
-        [Required]
         public PoolItUserServiceModel Owner { get; set; }
 
         [Required]

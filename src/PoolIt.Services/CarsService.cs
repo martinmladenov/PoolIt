@@ -95,5 +95,28 @@ namespace PoolIt.Services
         public bool IsUserOwner(CarServiceModel carServiceModel, string userName)
             => userName != null &&
                carServiceModel.Owner.UserName == userName;
+
+        public async Task<bool> UpdateAsync(CarServiceModel model)
+        {
+            if (!this.IsEntityStateValid(model) || model.Id == null)
+            {
+                return false;
+            }
+
+            var car = await this.carsRepository.All().SingleOrDefaultAsync(c => c.Id == model.Id);
+
+            if (car == null)
+            {
+                return false;
+            }
+
+            car.Colour = model.Colour;
+            car.Details = model.Details;
+
+            this.carsRepository.Update(car);
+            await this.carsRepository.SaveChangesAsync();
+
+            return true;
+        }
     }
 }
