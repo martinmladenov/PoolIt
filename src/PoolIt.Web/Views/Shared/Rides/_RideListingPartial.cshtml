@@ -1,24 +1,25 @@
 @model IEnumerable<PoolIt.Web.Areas.Rides.Models.Ride.RideListingViewModel>
 
-<div class="row text-center">
+<div class="row justify-content-center">
     @foreach (var ride in Model)
     {
-        <div class="col-lg-4 col-md-6 col-sm-12 py-4">
+        <div class="col-lg-4 col-md-6 col-sm-12 pb-4">
             <a class="a-card" draggable="false"
-               asp-area="Rides" asp-controller="Rides" asp-action="Details" asp-route-id="@ride.Id">
+               asp-controller="Rides" asp-action="Details" asp-route-id="@ride.Id">
                 <div class="card floating-card shadow">
                     <div class="card-body">
                         <h4 class="card-title">@ride.Title</h4>
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
-                            <i class="fas fa-location-arrow"></i> @ride.From &mdash; @ride.To
-                        </li>
+                            <i class="fas fa-location-arrow"></i> @ride.From &mdash; @ride.To</li>
                         <li class="list-group-item">
-                            <i class="fas fa-car"></i> @ride.CarModel
-                        </li>
+                            <i class="fas fa-car"></i> @ride.CarModel</li>
                         <li class="list-group-item">
-                            <i class="fas fa-calendar-alt"></i> @ride.Date.ToString(GlobalConstants.DateFormat)
+                            <i class="fas fa-calendar-alt"></i> @ride.Date.ToString(GlobalConstants.DateFormat)</li>
+                        <li class="list-group-item">
+                            <i class="fas fa-user-friends"></i> @ride.RemainingSeats remaining free
+                            @(ride.RemainingSeats > 1 ? "seats" : "seat")
                         </li>
                     </ul>
                     <div class="card-body">

@@ -7,6 +7,10 @@ body {
     margin-bottom: 60px;
 }
 
+a {
+    outline: none;
+}
+
 .sticky-footer {
     position: absolute;
     bottom: 0;
@@ -40,4 +44,26 @@ body {
 
 .btn-github:hover {
     background-color: #070b0f;
+}
+
+.floating-card {
+    transition-duration: 300ms;
+}
+
+.floating-card:hover {
+    -webkit-box-shadow: -1px 9px 40px -12px rgba(0, 0, 0, 0.75) !important;
+    -moz-box-shadow: -1px 9px 40px -12px rgba(0, 0, 0, 0.75) !important;
+    box-shadow: -1px 9px 40px -12px rgba(0, 0, 0, 0.75) !important;
+
+    -moz-transform: translate(0px, -5px);
+    -ms-transform: translate(0px, -5px);
+    -o-transform: translate(0px, -5px);
+    -webkit-transform: translate(0px, -5px);
+    transform: translate(0px, -5px);
+}
+
+.a-card,
+.a-card:hover {
+    color: inherit;
+    text-decoration: none;
 }
