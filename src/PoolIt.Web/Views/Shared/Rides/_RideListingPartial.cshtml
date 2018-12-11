@@ -4,28 +4,29 @@
     @foreach (var ride in Model)
     {
         <div class="col-lg-4 col-md-6 col-sm-12 pb-4">
-            <div class="card shadow">
-                <div class="card-body">
-                    <a asp-controller="Rides" asp-action="Details" asp-route-id="@ride.Id">
-                        <h4 class="card-title text-dark">@ride.Title</h4>
-                    </a>
+            <a class="a-card" draggable="false"
+               asp-controller="Rides" asp-action="Details" asp-route-id="@ride.Id">
+                <div class="card floating-card shadow">
+                    <div class="card-body">
+                        <h4 class="card-title">@ride.Title</h4>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <i class="fas fa-location-arrow"></i> @ride.From &mdash; @ride.To</li>
+                        <li class="list-group-item">
+                            <i class="fas fa-car"></i> @ride.CarModel</li>
+                        <li class="list-group-item">
+                            <i class="fas fa-calendar-alt"></i> @ride.Date.ToString(GlobalConstants.DateFormat)</li>
+                        <li class="list-group-item">
+                            <i class="fas fa-user-friends"></i> @ride.RemainingSeats remaining free
+                            @(ride.RemainingSeats > 1 ? "seats" : "seat")
+                        </li>
+                    </ul>
+                    <div class="card-body">
+                        <div class="btn btn-primary">Details</div>
+                    </div>
                 </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        <i class="fas fa-location-arrow"></i> @ride.From &mdash; @ride.To</li>
-                    <li class="list-group-item">
-                        <i class="fas fa-car"></i> @ride.CarModel</li>
-                    <li class="list-group-item">
-                        <i class="fas fa-calendar-alt"></i> @ride.Date.ToString(GlobalConstants.DateFormat)</li>
-                    <li class="list-group-item">
-                        <i class="fas fa-user-friends"></i> @ride.RemainingSeats remaining free
-                        @(ride.RemainingSeats > 1 ? "seats" : "seat")
-                    </li>
-                </ul>
-                <div class="card-body">
-                    <a class="btn btn-primary" asp-controller="Rides" asp-action="Details" asp-route-id="@ride.Id">Details</a>
-                </div>
-            </div>
+            </a>
         </div>
     }
 </div>
