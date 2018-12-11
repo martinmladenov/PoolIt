@@ -1,0 +1,38 @@
+@model ProfileViewModel
+
+@{
+    ViewData["Title"] = "My profile";
+}
+
+<div class="mx-auto my-4 text-center pb-3">
+    <h2>@ViewData["Title"]</h2>
+    <div class="card card-body pt-4 pb-5 mt-4 mb-5 w-75 mx-auto shadow">
+        <i class="fas fa-user fa-3x mb-4 text-primary"></i>
+        <h1>@Model.FullName</h1>
+        <h4 class="text-muted">@Model.Email</h4>
+        <div class="mt-4">
+            <a class="btn btn-outline-primary"
+               asp-area="Account" asp-controller="Details" asp-action="Edit">
+                Edit profile
+            </a>
+        </div>
+    </div>
+    <h3>Upcoming rides</h3>
+    <hr class="w-50">
+    @if (Model.UpcomingRides.Any())
+    {
+        <partial name="Rides/_MyRidesPartial" model="@Model.UpcomingRides"/>
+    }
+    else
+    {
+        <p class="text-muted">You have no upcoming rides.</p>
+        <a class="btn btn-primary mb-4" asp-controller="Rides" asp-action="Create">Find a ride</a>
+    }
+
+    @if (Model.PastRides.Any())
+    {
+        <h3 class="mt-3">Past rides</h3>
+        <hr class="w-50">
+        <partial name="Rides/_MyRidesPartial" model="@Model.PastRides"/>
+    }
+</div>
