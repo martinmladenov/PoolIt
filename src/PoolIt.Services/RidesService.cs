@@ -86,6 +86,25 @@ namespace PoolIt.Services
             return userRides;
         }
 
+        public async Task<IEnumerable<RideServiceModel>> GetAllPastForUserAsync(string userName)
+        {
+            var user = await this.usersRepository.All().SingleOrDefaultAsync(u => u.UserName == userName);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            var userRides = await this.ridesRepository.All()
+                .Where(r => r.Date <= DateTime.Now &&
+                            r.Participants.Any(p => p.UserId == user.Id))
+                .OrderByDescending(r => r.Date)
+                .ProjectTo<RideServiceModel>()
+                .ToArrayAsync();
+
+            return userRides;
+        }
+
         public async Task<RideServiceModel> GetAsync(string id)
         {
             if (id == null)
