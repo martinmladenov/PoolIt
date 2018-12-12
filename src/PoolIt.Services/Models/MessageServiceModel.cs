@@ -21,5 +21,9 @@ namespace PoolIt.Services.Models
 
         [Required]
         public DateTime SentOn { get; set; }
+
+        [Required]
+        [StringLength(300, MinimumLength = 1)]
+        public string Content { get; set; }
     }
 }
