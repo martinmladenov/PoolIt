@@ -31,7 +31,8 @@
                         }
 
                         <div class="col-md-6 col-sm-12">
-                            <a class="btn btn-info p-3" href="#">
+                            <a class="btn btn-info p-3" asp-area="Conversations" asp-controller="Conversations"
+                               asp-action="Details" asp-route-id="@Model.ConversationId">
                                 <i class="fas fa-comments"></i>
                                 Go to conversation
                             </a>
