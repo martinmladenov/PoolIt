@@ -29,6 +29,11 @@ namespace PoolIt.Web.Extensions
                 {
                     await roleManager.CreateAsync(new IdentityRole(GlobalConstants.SeniorAdminRoleName));
                 }
+
+                if (!await roleManager.RoleExistsAsync(GlobalConstants.UserRoleName))
+                {
+                    await roleManager.CreateAsync(new IdentityRole(GlobalConstants.UserRoleName));
+                }
             }
         }
     }

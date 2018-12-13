@@ -102,6 +102,8 @@ namespace PoolIt.Web.Areas.Account.Controllers
             {
                 this.Success(string.Format(NotificationMessages.RegistrationWelcome, model.FirstName));
 
+                await this.signInManager.UserManager.AddToRoleAsync(user, GlobalConstants.UserRoleName);
+
                 await this.signInManager.SignInAsync(user, isPersistent: false);
                 return this.LocalRedirect(returnUrl);
             }
@@ -233,7 +235,9 @@ namespace PoolIt.Web.Areas.Account.Controllers
                     if (result.Succeeded)
                     {
                         this.Success(string.Format(NotificationMessages.RegistrationWelcome, model.FirstName));
-                        
+
+                        await this.signInManager.UserManager.AddToRoleAsync(user, GlobalConstants.UserRoleName);
+
                         await this.signInManager.SignInAsync(user, isPersistent: true);
                         return this.LocalRedirect(returnUrl);
                     }
