@@ -8,7 +8,7 @@ namespace PoolIt.Web.Areas.Rides.Models.Ride
     public class RideListingViewModel : IHaveCustomMapping
     {
         public string Id { get; set; }
-        
+
         public string Title { get; set; }
 
         public string CarModel { get; set; }
@@ -16,15 +16,17 @@ namespace PoolIt.Web.Areas.Rides.Models.Ride
         public DateTime Date { get; set; }
 
         public string From { get; set; }
-        
+
         public string To { get; set; }
 
         public int RemainingSeats { get; set; }
-        
+
+        public string ConversationId { get; set; }
+
         public void ConfigureMapping(Profile mapper)
         {
             mapper.CreateMap<RideServiceModel, RideListingViewModel>()
-                .ForMember(dest => dest.CarModel, opt => 
+                .ForMember(dest => dest.CarModel, opt =>
                     opt.MapFrom(src => $"{src.Car.Model.Manufacturer.Name} {src.Car.Model.Model}"))
                 .ForMember(dest => dest.RemainingSeats, opt =>
                     opt.MapFrom(src => src.AvailableSeats - src.Participants.Count + 1));
