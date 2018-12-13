@@ -1,4 +1,4 @@
-namespace PoolIt.Web
+﻿namespace PoolIt.Web
 {
     using System.Net.Http;
     using System.Net.Http.Headers;
@@ -26,6 +26,7 @@ namespace PoolIt.Web
     using PoolIt.Models;
     using Services;
     using Services.Contracts;
+    using SignalRHubs;
 
     public class Startup
     {
@@ -112,6 +113,8 @@ namespace PoolIt.Web
 
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
+            services.AddSignalR();
+
             services.AddResponseCompression(opt => opt.EnableForHttps = true);
 
 
@@ -158,6 +161,8 @@ namespace PoolIt.Web
             app.UseCookiePolicy();
 
             app.UseAuthentication();
+
+            app.UseSignalR(routes => routes.MapHub<ConversationsHub>("/conversationsHub"));
 
             app.UseRateLimiting();
 

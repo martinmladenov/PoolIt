@@ -1,0 +1,55 @@
+@model ConversationViewModel
+
+@{
+    ViewData["Title"] = Model.Ride.Title;
+    ViewData["RideTitle"] = Model.Ride.Title;
+    ViewData["RideId"] = Model.Ride.Id;
+}
+
+<div class="container">
+    <ul class="chat-holder" id="messages">
+        @{
+            string lastUser = null;
+            DateTime? lastTime = null;
+        }
+
+        @foreach (var message in Model.Messages.OrderBy(m => m.SentOn))
+        {
+            <li class="chat-@(message.AuthorId == Model.CurrentUserId ? "user" : "other")">
+                @if (message.AuthorId != lastUser || !lastTime.HasValue || lastTime.Value.AddMinutes(1) < message.SentOn)
+                {
+                    lastUser = message.AuthorId;
+                    <small class="text-muted px-2">@message.AuthorName, @message.SentOn.ToString(GlobalConstants.DateFormat)</small>
+                }
+                @{
+                    lastTime = message.SentOn;
+                }
+                <div>@message.Content</div>
+            </li>
+        }
+    </ul>
+</div>
+<div class="chat-field-holder bg-translucent">
+    <div class="container">
+        <div class="form-group mx-auto my-1">
+            <div class="input-group">
+                <input id="messageInput" class="form-control p-4 bg-transparent chat-input"
+                       placeholder="Type a message..." autocomplete="off" autofocus>
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-outline-primary px-4" id="sendButton" onclick="sendMessage()">
+                        <i id="fromImage" class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="currentUserId" value="@Model.CurrentUserId"/>
+<input type="hidden" id="conversationId" value="@Model.Id"/>
+
+@section Scripts
+{
+    <script src="~/js/signalr.min.js"></script>
+    <script src="~/js/chat.js"></script>
+}
