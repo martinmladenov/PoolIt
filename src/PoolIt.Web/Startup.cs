@@ -26,6 +26,7 @@
     using PoolIt.Models;
     using Services;
     using Services.Contracts;
+    using SignalRHubs;
 
     public class Startup
     {
@@ -112,6 +113,8 @@
 
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
+            services.AddSignalR();
+
             services.AddResponseCompression(opt => opt.EnableForHttps = true);
 
 
@@ -123,6 +126,7 @@
             services.AddScoped<IRidesService, RidesService>();
             services.AddScoped<IJoinRequestsService, JoinRequestsService>();
             services.AddScoped<IInvitationsService, InvitationsService>();
+            services.AddScoped<IConversationsService, ConversationsService>();
 
             services.AddScoped<IRandomStringGeneratorService, RandomStringGeneratorService>();
 
@@ -157,6 +161,8 @@
             app.UseCookiePolicy();
 
             app.UseAuthentication();
+
+            app.UseSignalR(routes => routes.MapHub<ConversationsHub>("/conversationsHub"));
 
             app.UseRateLimiting();
 

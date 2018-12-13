@@ -23,6 +23,12 @@
                     </ul>
                     <div class="card-body">
                         <div class="btn btn-primary">Details</div>
+                        <form class="d-inline" method="get" asp-area="Conversations" asp-controller="Conversations"
+                              asp-action="Details" asp-route-id="@ride.ConversationId">
+                            <button class="btn btn-outline-primary px-3" type="submit">
+                                <i class="fas fa-comments"></i>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </a>

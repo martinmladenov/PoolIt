@@ -9,9 +9,9 @@ namespace PoolIt.Services.Models
     {
         public string Id { get; set; }
 
+        [Required]
         public string ConversationId { get; set; }
 
-        [Required]
         public ConversationServiceModel Conversation { get; set; }
 
         public string AuthorId { get; set; }
@@ -21,5 +21,9 @@ namespace PoolIt.Services.Models
 
         [Required]
         public DateTime SentOn { get; set; }
+
+        [Required]
+        [StringLength(300, MinimumLength = 1)]
+        public string Content { get; set; }
     }
 }

@@ -1,21 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
-    <UserSecretsId>aspnet-PoolIt.Web-8F7FE722-F0F1-4171-84D6-DF72E58ABF1E</UserSecretsId>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.2</TargetFramework>
+        <UserSecretsId>aspnet-PoolIt.Web-8F7FE722-F0F1-4171-84D6-DF72E58ABF1E</UserSecretsId>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="8.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All"/>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" PrivateAssets="All"/>
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="8.0.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.App"/>
+        <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All"/>
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" PrivateAssets="All"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\PoolIt.Data\PoolIt.Data.csproj" />
-    <ProjectReference Include="..\PoolIt.Infrastructure\PoolIt.Infrastructure.csproj" />
-    <ProjectReference Include="..\PoolIt.Services\PoolIt.Services.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\PoolIt.Data\PoolIt.Data.csproj"/>
+        <ProjectReference Include="..\PoolIt.Infrastructure\PoolIt.Infrastructure.csproj"/>
+        <ProjectReference Include="..\PoolIt.Services\PoolIt.Services.csproj"/>
+    </ItemGroup>
 
 </Project>

@@ -5,15 +5,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="AutoMapper" Version="8.0.0" />
+        <PackageReference Include="AutoMapper" Version="8.0.0"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.0"/>
         <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="2.2.0"/>
         <PackageReference Include="Newtonsoft.Json" Version="12.0.1"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\PoolIt.Data\PoolIt.Data.csproj" />
-      <ProjectReference Include="..\PoolIt.Infrastructure\PoolIt.Infrastructure.csproj" />
+        <ProjectReference Include="..\PoolIt.Data\PoolIt.Data.csproj"/>
+        <ProjectReference Include="..\PoolIt.Infrastructure\PoolIt.Infrastructure.csproj"/>
     </ItemGroup>
 
 </Project>
