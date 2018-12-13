@@ -1,4 +1,4 @@
-﻿namespace PoolIt.Web
+namespace PoolIt.Web
 {
     using System.Net.Http;
     using System.Net.Http.Headers;
@@ -123,6 +123,7 @@
             services.AddScoped<IRidesService, RidesService>();
             services.AddScoped<IJoinRequestsService, JoinRequestsService>();
             services.AddScoped<IInvitationsService, InvitationsService>();
+            services.AddScoped<IConversationsService, ConversationsService>();
 
             services.AddScoped<IRandomStringGeneratorService, RandomStringGeneratorService>();
 
