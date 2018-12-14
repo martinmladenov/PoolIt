@@ -52,6 +52,8 @@ namespace PoolIt.Web.Areas.Rides.Controllers
                 return this.View(model);
             }
 
+            model.Date = model.Date.ToUniversalTime();
+
             var car = await this.carsService.GetAsync(model.CarId);
 
             if (car == null || !this.carsService.IsUserOwner(car, this.User?.Identity?.Name))
