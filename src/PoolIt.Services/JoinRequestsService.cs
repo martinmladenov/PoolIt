@@ -133,7 +133,7 @@ namespace PoolIt.Services
 
         public bool CanUserSendJoinRequest(RideServiceModel rideServiceModel, string userName)
             => userName != null
-               && rideServiceModel.Date >= DateTime.Now
+               && rideServiceModel.Date >= DateTime.UtcNow
                && rideServiceModel.Participants.All(p => p.User.UserName != userName)
                && rideServiceModel.JoinRequests.All(r => r.User.UserName != userName)
                && rideServiceModel.Participants.Count <= rideServiceModel.AvailableSeats + 1;

@@ -30,7 +30,7 @@ namespace PoolIt.Web.Middlewares.MiddlewareServices
             {
                 var requestsQueue = client.Requests;
 
-                requestsQueue.Enqueue(DateTime.Now.AddMinutes(TimeIntervalInMinutes));
+                requestsQueue.Enqueue(DateTime.UtcNow.AddMinutes(TimeIntervalInMinutes));
                 RemoveExpired(requestsQueue);
 
                 if (requestsQueue.Count > AllowedRequestsInTimeInterval)
@@ -72,7 +72,7 @@ namespace PoolIt.Web.Middlewares.MiddlewareServices
 
         private static void RemoveExpired(Queue<DateTime> queue)
         {
-            var currTime = DateTime.Now;
+            var currTime = DateTime.UtcNow;
 
             while (queue.Count > 0 && queue.Peek() <= currTime)
             {
