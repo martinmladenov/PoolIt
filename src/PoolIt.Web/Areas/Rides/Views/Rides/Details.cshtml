@@ -148,7 +148,6 @@
 
 @section Scripts
 {
-    <script src="~/js/moment.min.js" type="text/javascript"></script>
     <script>
         $('#timeDisplay').text(moment('@Model.Date.ToString(GlobalConstants.DateFormat)', 'DD/MM/YYYY HH:mm')
             .calendar(null,
