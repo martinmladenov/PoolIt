@@ -28,9 +28,12 @@ connection.on('MessageReceived',
 
         messageHtml += `<div>${message.content}</div></li>`;
 
-        $('#messages').append(messageHtml);
+        $(messageHtml).hide().appendTo('#messages').fadeIn(350);
 
-        window.scrollTo(0, document.body.scrollHeight);
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth'
+        });
 
         if (message.authorId !== currentUserId) {
             sound.play();
