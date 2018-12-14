@@ -12,7 +12,7 @@
             <th scope="col" class="col-3">Ride</th>
             <th scope="col" class="col-2">User</th>
             <th scope="col" class="col-3">Message</th>
-            <th scope="col" class="col-2">Received on</th>
+            <th scope="col" class="col-2">Received</th>
             <th scope="col" class="col-2">Actions</th>
         </tr>
         </thead>
@@ -23,7 +23,7 @@
                 <td class="col-3">@request.Ride.Title</td>
                 <td class="col-2">@request.UserFullName</td>
                 <td class="col-3">@request.Message</td>
-                <td class="col-2">@request.SentOn.ToString(GlobalConstants.DateFormat)</td>
+                <td class="col-2 auto-friendly-date">@request.SentOn.ToString("O")</td>
                 <td class="col-2">
                     <div class="d-flex justify-content-around">
                         <form asp-controller="JoinRequests" asp-action="Accept" method="post">

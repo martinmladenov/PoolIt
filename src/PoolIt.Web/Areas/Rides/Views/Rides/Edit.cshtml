@@ -22,8 +22,8 @@
         </div>
         <div class="form-group">
             <label>Date and time</label>
-            <input class="form-control" disabled="disabled"
-                   value="@Model.Date.ToString(GlobalConstants.DateFormat)"/>
+            <input class="form-control" disabled="disabled" id="date"
+                   value="@Model.Date.ToString("O")"/>
         </div>
         <div class="form-group">
             <label>From</label>
@@ -52,3 +52,11 @@
         </div>
     </form>
 </div>
+
+@section Scripts
+{
+    <script>
+        var dateField = $('#date');
+        dateField.val(getFormattedDate(moment.utc(dateField.val()).local()));
+    </script>
+}

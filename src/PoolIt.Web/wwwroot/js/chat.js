@@ -14,7 +14,7 @@ connection.on('MessageReceived',
     function (message) {
         $('#messages').append(
             `<li class='chat-${(message.authorId === currentUserId ? 'user' : 'other')}'>
-                <small class='text-muted px-2'>${message.authorName}, ${message.sentOn.replace('T', ' ').split('.')[0]}</small>
+                <small class='text-muted px-2'>${message.authorName}, ${getFriendlyDate(moment.utc(message.sentOn).local())}</small>
                 <div>${message.content}</div>
             </li>`);
 
