@@ -82,12 +82,12 @@
 }
 
 @section Scripts {
+    <script src="~/js/location.js"></script>
+    
     <script>
         $('#carousel').carousel({
             interval: 5000,
             pause: false
         });
     </script>
-
-    @await Html.PartialAsync("_LocationScriptPartial")
 }
