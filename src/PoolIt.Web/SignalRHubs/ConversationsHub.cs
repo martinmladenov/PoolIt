@@ -67,7 +67,7 @@ namespace PoolIt.Web.SignalRHubs
                 },
                 Content = content,
                 ConversationId = convId,
-                SentOn = DateTime.Now
+                SentOn = DateTime.UtcNow
             };
 
             var resultMsg = await this.conversationsService.SendMessageAsync(serviceModel);

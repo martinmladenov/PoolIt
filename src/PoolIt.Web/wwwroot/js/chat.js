@@ -10,15 +10,30 @@ var connection =
         .withUrl('/conversationsHub')
         .build();
 
+var lastUser;
+var lastTime;
+
 connection.on('MessageReceived',
     function (message) {
-        $('#messages').append(
-            `<li class='chat-${(message.authorId === currentUserId ? 'user' : 'other')}'>
-                <small class='text-muted px-2'>${message.authorName}, ${message.sentOn.replace('T', ' ').split('.')[0]}</small>
-                <div>${message.content}</div>
-            </li>`);
+        var messageHtml = `<li class='chat-${(message.authorId === currentUserId ? 'user' : 'other')}'>`;
 
-        window.scrollTo(0, document.body.scrollHeight);
+        var newTime = moment.utc(message.sentOn);
+
+        if (message.authorId !== lastUser || lastTime == null || lastTime.diff(newTime, 'minutes')) {
+            lastUser = message.authorId;
+            messageHtml += `<small class='text-muted px-2'>${message.authorName}, ${getFriendlyDate(moment.utc(message.sentOn).local())}</small>`;
+        }
+
+        lastTime = newTime;
+
+        messageHtml += `<div>${message.content}</div></li>`;
+
+        $(messageHtml).hide().appendTo('#messages').fadeIn(350);
+
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth'
+        });
 
         if (message.authorId !== currentUserId) {
             sound.play();

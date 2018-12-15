@@ -19,7 +19,10 @@
                 @if (message.AuthorId != lastUser || !lastTime.HasValue || lastTime.Value.AddMinutes(1) < message.SentOn)
                 {
                     lastUser = message.AuthorId;
-                    <small class="text-muted px-2">@message.AuthorName, @message.SentOn.ToString(GlobalConstants.DateFormat)</small>
+                    <small class="text-muted px-2">
+                        @message.AuthorName,
+                        <span class="auto-friendly-date">@message.SentOn.ToString("O")</span>
+                    </small>
                 }
                 @{
                     lastTime = message.SentOn;

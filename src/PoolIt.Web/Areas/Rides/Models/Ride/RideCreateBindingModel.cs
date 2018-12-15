@@ -46,7 +46,7 @@ namespace PoolIt.Web.Areas.Rides.Models.Ride
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (this.Date <= DateTime.Now)
+            if (this.Date <= DateTime.UtcNow)
             {
                 yield return new ValidationResult("The date and time must be after the current time", new[] {"Date"});
             }

@@ -89,7 +89,7 @@ namespace PoolIt.Web.Areas.Rides.Controllers
             };
 
             serviceModel.RideId = id;
-            serviceModel.SentOn = DateTime.Now;
+            serviceModel.SentOn = DateTime.UtcNow;
 
             var result = await this.joinRequestsService.CreateAsync(serviceModel);
 
