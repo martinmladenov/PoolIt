@@ -3,6 +3,8 @@
     <PropertyGroup>
         <TargetFramework>netcoreapp2.2</TargetFramework>
         <UserSecretsId>aspnet-PoolIt.Web-8F7FE722-F0F1-4171-84D6-DF72E58ABF1E</UserSecretsId>
+        <AspNetCoreModuleName>AspNetCoreModule</AspNetCoreModuleName>
+        <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
     </PropertyGroup>
 
     <ItemGroup>
