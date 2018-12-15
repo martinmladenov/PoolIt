@@ -16,7 +16,9 @@
                         <li class="list-group-item">
                             <i class="fas fa-car"></i> @ride.CarModel</li>
                         <li class="list-group-item">
-                            <i class="fas fa-calendar-alt"></i> @ride.Date.ToString(GlobalConstants.DateFormat)</li>
+                            <i class="fas fa-calendar-alt"></i>
+                            <span class="auto-format-date">@ride.Date.ToString("O")</span>
+                        </li>
                         <li class="list-group-item">
                             <i class="fas fa-user-friends"></i> @ride.RemainingSeats remaining free
                             @(ride.RemainingSeats > 1 ? "seats" : "seat")

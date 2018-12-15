@@ -58,7 +58,7 @@ namespace PoolIt.Services
         public async Task<IEnumerable<RideServiceModel>> GetAllUpcomingWithFreeSeatsAsync()
         {
             var rides = await this.ridesRepository.All()
-                .Where(r => r.Date > DateTime.Now &&
+                .Where(r => r.Date > DateTime.UtcNow &&
                             r.AvailableSeats > r.Participants.Count - 1)
                 .OrderBy(r => r.Date)
                 .ProjectTo<RideServiceModel>()
@@ -77,7 +77,7 @@ namespace PoolIt.Services
             }
 
             var userRides = await this.ridesRepository.All()
-                .Where(r => r.Date > DateTime.Now &&
+                .Where(r => r.Date > DateTime.UtcNow &&
                             r.Participants.Any(p => p.UserId == user.Id))
                 .OrderBy(r => r.Date)
                 .ProjectTo<RideServiceModel>()
@@ -96,7 +96,7 @@ namespace PoolIt.Services
             }
 
             var userRides = await this.ridesRepository.All()
-                .Where(r => r.Date <= DateTime.Now &&
+                .Where(r => r.Date <= DateTime.UtcNow &&
                             r.Participants.Any(p => p.UserId == user.Id))
                 .OrderByDescending(r => r.Date)
                 .ProjectTo<RideServiceModel>()
@@ -120,7 +120,7 @@ namespace PoolIt.Services
         }
 
         public bool CanUserAccessRide(RideServiceModel rideServiceModel, string userName)
-            => rideServiceModel.Date > DateTime.Now
+            => rideServiceModel.Date > DateTime.UtcNow
                || userName != null
                && rideServiceModel.Participants.Any(p => p.User.UserName == userName);
 
