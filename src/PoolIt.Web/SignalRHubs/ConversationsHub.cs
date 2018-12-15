@@ -2,6 +2,7 @@ namespace PoolIt.Web.SignalRHubs
 {
     using System;
     using System.Threading.Tasks;
+    using System.Web;
     using Areas.Conversations.Models;
     using AutoMapper;
     using Infrastructure;
@@ -77,6 +78,9 @@ namespace PoolIt.Web.SignalRHubs
             }
 
             var viewModel = Mapper.Map<MessageViewModel>(resultMsg);
+
+            viewModel.AuthorName = HttpUtility.HtmlEncode(viewModel.AuthorName);
+            viewModel.Content = HttpUtility.HtmlEncode(viewModel.Content);
 
             await this.Clients.Groups(convId).SendAsync("MessageReceived", viewModel);
         }
