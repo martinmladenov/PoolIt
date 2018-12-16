@@ -12,6 +12,8 @@ namespace PoolIt.Infrastructure
         public const string CarCreated = "Your car was added, you can now organise a ride";
         public const string CarEdited = "Car information updated";
         public const string CarEditError = "An error occured while updating car information";
+        public const string CarDeleted = "Car deleted";
+        public const string CarDeleteError = "An error occured while deleting this car";
 
         public const string ModelCreated = "Model added";
 
