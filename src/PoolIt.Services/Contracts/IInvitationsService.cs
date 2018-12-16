@@ -1,5 +1,6 @@
 namespace PoolIt.Services.Contracts
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Models;
 
@@ -9,5 +10,6 @@ namespace PoolIt.Services.Contracts
         Task<InvitationServiceModel> GetAsync(string key);
         Task<bool> DeleteAsync(string key);
         Task<bool> AcceptAsync(string userName, string invitationKey);
+        Task<IEnumerable<InvitationServiceModel>> GetAllAsync();
     }
 }
