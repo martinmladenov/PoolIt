@@ -8,5 +8,9 @@ namespace PoolIt.Services.Contracts
     {
         Task<CarManufacturerServiceModel> GetAsync(string name);
         Task<IEnumerable<CarManufacturerServiceModel>> GetAllAsync();
+        Task<bool> CreateAsync(CarManufacturerServiceModel model);
+        Task<bool> DeleteAsync(string id);
+        Task<bool> UpdateAsync(CarManufacturerServiceModel model);
+        Task<bool> ExistsAsync(CarManufacturerServiceModel model);
     }
 }
