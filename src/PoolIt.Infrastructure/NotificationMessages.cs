@@ -15,6 +15,15 @@ namespace PoolIt.Infrastructure
         public const string CarDeleted = "Car deleted";
         public const string CarDeleteError = "An error occured while deleting this car";
 
+        public const string ManufacturerCreated = "Manufacturer added";
+        public const string ManufacturerInvalidName = "Manufacturer name must be between 3 and 50 characters long";
+        public const string ManufacturerExists = "This manufacturer already exists";
+        public const string ManufacturerCreateError = "An error occured while adding manufacturer";
+        public const string ManufacturerDeleted = "Manufacturer deleted";
+        public const string ManufacturerDeleteError = "An error occured while deleting manufacturer";
+        public const string ManufacturerEdited = "Manufacturer information updated";
+        public const string ManufacturerEditError = "An error occured while updating manufacturer information";
+
         public const string ModelCreated = "Model added";
 
         public const string InvitationGenerated = "Invitation generated successfully";
