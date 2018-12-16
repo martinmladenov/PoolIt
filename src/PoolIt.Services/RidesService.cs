@@ -17,13 +17,15 @@ namespace PoolIt.Services
         private readonly IRepository<Ride> ridesRepository;
         private readonly IRepository<PoolItUser> usersRepository;
         private readonly IRepository<Car> carsRepository;
+        private readonly IRepository<Conversation> conversationsRepository;
 
         public RidesService(IRepository<Ride> ridesRepository, IRepository<PoolItUser> usersRepository,
-            IRepository<Car> carsRepository)
+            IRepository<Car> carsRepository, IRepository<Conversation> conversationsRepository)
         {
             this.ridesRepository = ridesRepository;
             this.usersRepository = usersRepository;
             this.carsRepository = carsRepository;
+            this.conversationsRepository = conversationsRepository;
         }
 
         public async Task<string> CreateAsync(RideServiceModel model)
@@ -152,6 +154,40 @@ namespace PoolIt.Services
             ride.Notes = model.Notes;
 
             this.ridesRepository.Update(ride);
+            await this.ridesRepository.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<IEnumerable<RideServiceModel>> GetAllAsync()
+        {
+            var rides = await this.ridesRepository.All()
+                .ProjectTo<RideServiceModel>()
+                .ToArrayAsync();
+
+            return rides;
+        }
+
+        public async Task<bool> DeleteAsync(string id)
+        {
+            if (id == null)
+            {
+                return false;
+            }
+
+            var ride = await this.ridesRepository.All()
+                .Include(r => r.Conversation)
+                .SingleOrDefaultAsync(r => r.Id == id);
+
+            if (ride == null)
+            {
+                return false;
+            }
+
+            this.ridesRepository.Remove(ride);
+
+            this.conversationsRepository.Remove(ride.Conversation);
+
             await this.ridesRepository.SaveChangesAsync();
 
             return true;
