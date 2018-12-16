@@ -154,5 +154,14 @@ namespace PoolIt.Services
 
             return request != null && request.Ride.Car.Owner.UserName == userName;
         }
+
+        public async Task<IEnumerable<JoinRequestServiceModel>> GetAllAsync()
+        {
+            var requests = await this.joinRequestsRepository.All()
+                .ProjectTo<JoinRequestServiceModel>()
+                .ToArrayAsync();
+
+            return requests;
+        }
     }
 }
