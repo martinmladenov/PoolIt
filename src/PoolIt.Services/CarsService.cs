@@ -78,6 +78,15 @@ namespace PoolIt.Services
             return cars;
         }
 
+        public async Task<IEnumerable<CarServiceModel>> GetAllAsync()
+        {
+            var cars = await this.carsRepository.All()
+                .ProjectTo<CarServiceModel>()
+                .ToArrayAsync();
+
+            return cars;
+        }
+
         public async Task<CarServiceModel> GetAsync(string id)
         {
             if (id == null)
@@ -114,6 +123,29 @@ namespace PoolIt.Services
             car.Details = model.Details;
 
             this.carsRepository.Update(car);
+            await this.carsRepository.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> DeleteAsync(string id)
+        {
+            if (id == null)
+            {
+                return false;
+            }
+
+            var car = await this.carsRepository.All()
+                .Include(r => r.Rides)
+                .SingleOrDefaultAsync(r => r.Id == id);
+
+            if (car == null || car.Rides.Any())
+            {
+                return false;
+            }
+
+            this.carsRepository.Remove(car);
+
             await this.carsRepository.SaveChangesAsync();
 
             return true;
