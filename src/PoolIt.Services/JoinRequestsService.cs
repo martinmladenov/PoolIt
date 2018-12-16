@@ -124,6 +124,11 @@ namespace PoolIt.Services
             var request = await this.joinRequestsRepository.All()
                 .SingleOrDefaultAsync(r => r.Id == id);
 
+            if (request == null)
+            {
+                return false;
+            }
+
             this.joinRequestsRepository.Remove(request);
 
             await this.joinRequestsRepository.SaveChangesAsync();
