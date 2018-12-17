@@ -11,30 +11,30 @@
         <div asp-validation-summary="All" class="text-danger"></div>
         <div class="form-group">
             <label>Manufacturer</label>
-            <div class="row">
-                <div class="col-11 pr-2">
-                    <select class="form-control selectpicker" data-live-search="true" title="Select manufacturer..."
-                            id="manufacturer" asp-items="Model.Manufacturers">
-                    </select>
+            <div class="input-group">
+                <select class="form-control selectpicker" data-live-search="true" title="Select manufacturer..."
+                        id="manufacturer" asp-items="Model.Manufacturers">
+                </select>
+                <div class="input-group-append">
+                    <a class="btn btn-secondary" asp-controller="Models" asp-action="Create"
+                       asp-route-returnUrl="@Url.Action()">
+                        <i class="fas fa-plus"></i>
+                    </a>
                 </div>
-                <a class="btn btn-secondary col-1" asp-controller="Models" asp-action="Create"
-                   asp-route-returnUrl="@Url.Action()">
-                    <i class="fas fa-plus"></i>
-                </a>
             </div>
         </div>
         <div class="form-group">
             <label asp-for="ModelId"></label>
-            <div class="row">
-                <div class="col-11 pr-2">
-                    <select class="form-control selectpicker" data-live-search="true" disabled="disabled"
-                            title="Select manufacturer first" id="model" asp-for="ModelId">
-                    </select>
+            <div class="input-group">
+                <select class="form-control selectpicker" data-live-search="true" disabled="disabled"
+                        title="Select manufacturer first" id="model" asp-for="ModelId">
+                </select>
+                <div class="input-group-append">
+                    <a class="btn btn-secondary" asp-controller="Models" asp-action="Create"
+                       asp-route-returnUrl="@Url.Action()">
+                        <i class="fas fa-plus"></i>
+                    </a>
                 </div>
-                <a class="btn btn-secondary col-1" asp-controller="Models" asp-action="Create"
-                   asp-route-returnUrl="@Url.Action()">
-                    <i class="fas fa-plus"></i>
-                </a>
             </div>
             <span asp-validation-for="ModelId" class="text-danger"></span>
         </div>
