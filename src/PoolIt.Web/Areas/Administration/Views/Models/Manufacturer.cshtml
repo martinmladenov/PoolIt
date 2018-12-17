@@ -1,0 +1,180 @@
+@using PoolIt.Web.Areas.Administration.Controllers
+@using PoolIt.Web.Areas.Administration.Models
+@model CarModelAdminBindingModel
+
+@{
+    var manufacturerId = ViewData[ModelsController.ManufacturerIdKey];
+    var manufacturerName = ViewData[ModelsController.ManufacturerNameKey];
+    ViewData["Title"] = $"{manufacturerName} Models";
+}
+
+<a class="d-block mb-3" asp-controller="Manufacturers" asp-action="Index">
+    <i class="fas fa-less-than"></i> All manufacturers
+</a>
+
+<button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#createModal">
+    <i class="fas fa-plus"></i> Add model
+</button>
+
+<table class="table table-hover mt-3 dt-responsive dataTable nowrap">
+    <thead>
+    <tr class="font-weight-bold">
+        <th>Model</th>
+        <th>Cars</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var carModel in (IEnumerable<CarModelAdminViewModel>) ViewData[ModelsController.ModelsKey])
+    {
+        <tr>
+            <td>@carModel.Model</td>
+            <td>@carModel.CarCount</td>
+            <td>
+                <button class="btn btn-outline-secondary" data-toggle="modal"
+                        data-target="#editModal" data-id="@carModel.Id"
+                        data-name="@carModel.Model">
+                    <i class="fas fa-pen"></i> Edit
+                </button>
+
+                @if (carModel.CarCount == 0)
+                {
+                    <button class="btn btn-outline-danger" data-toggle="modal"
+                            data-target="#deleteModal" data-id="@carModel.Id"
+                            data-name="@carModel.Model">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                }
+                else
+                {
+                    <div class="d-inline-block" tabindex="0" data-toggle="tooltip" data-placement="right"
+                         title="Models with cars cannot be deleted">
+                        <button class="btn btn-outline-danger" disabled="disabled">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Cancel</button>
+                <form asp-action="Delete" asp-controller="Models" method="post">
+                    <input type="hidden" name="id">
+                    <input type="hidden" name="manufacturerId" value="@manufacturerId"/>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form asp-controller="Models" asp-action="Create" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add @manufacturerName model</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <input type="hidden" name="manufacturerId" value="@manufacturerId"/>
+                        <label asp-for="ModelName" class="col-form-label"></label>
+                        <input asp-for="ModelName" class="form-control" id="createField"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form asp-controller="Models" asp-action="Edit" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit model</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <input type="hidden" name="id"/>
+                    <div class="form-group">
+                        <input type="hidden" name="manufacturerId" value="@manufacturerId"/>
+                        <label asp-for="ModelName" class="col-form-label"></label>
+                        <input asp-for="ModelName" class="form-control" id="editField"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-pen"></i> Edit
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $('#deleteModal').on('show.bs.modal',
+            function(event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                var name = button.data('name');
+                var modal = $(this);
+                modal.find('.modal-title').text('Delete ' + name);
+                modal.find('.modal-body').text('Are you sure you would like to delete ' + name + ' ?');
+                modal.find('.modal-footer input[name=id]').val(id);
+            });
+
+
+        $('body').tooltip({ selector: '[data-toggle="tooltip"]' });
+
+        $('#createModal').on('shown.bs.modal',
+            function() {
+                $('#createField').trigger('focus');
+            });
+
+        $('#editModal').on('show.bs.modal',
+            function(event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                var name = button.data('name');
+                var modal = $(this);
+                modal.find('.modal-body input[name=id]').val(id);
+                modal.find('#editField').val(name);
+            });
+
+        $('#editModal').on('shown.bs.modal',
+            function() {
+                $('#editField').trigger('focus');
+            });
+    </script>
+}

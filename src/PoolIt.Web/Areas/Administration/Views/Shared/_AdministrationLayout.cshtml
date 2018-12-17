@@ -1,0 +1,39 @@
+@{
+    ViewData["Title"] += " - Administration";
+    Layout = "_Layout";
+}
+
+<div class="mx-auto my-4">
+    <h2>@ViewData["Title"]</h2>
+    @RenderBody()
+</div>
+
+@section UnderNavbar
+{
+    <nav class="navbar navbar-expand-lg navbar-light bg-darker-gray mb-3 shadow">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Cars" asp-action="Index">Cars</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Invitations" asp-action="Index">Invitations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="JoinRequests" asp-action="Index">Join requests</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Rides" asp-action="Index">Rides</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Manufacturers" asp-action="Index">Manufacturers and models</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+}
+
+@section Scripts
+{
+    @RenderSection("Scripts", required: false)
+}

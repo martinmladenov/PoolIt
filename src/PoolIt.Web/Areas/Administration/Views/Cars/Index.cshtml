@@ -1,0 +1,95 @@
+@model IEnumerable<PoolIt.Web.Areas.Administration.Models.CarAdminListingViewModel>
+
+@{
+    ViewData["Title"] = "Cars";
+}
+
+<table class="table table-hover mt-3 dt-responsive dataTable nowrap">
+    <thead>
+    <tr class="font-weight-bold">
+        <th>Model</th>
+        <th>Owner</th>
+        <th>Colour</th>
+        <th>Rides</th>
+        <th>Details</th>
+        <th>Email</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var car in Model)
+    {
+        <tr>
+            <td>@car.Model.Manufacturer.Name @car.Model.Model</td>
+            <td>@car.OwnerFullName</td>
+            <td>@car.Colour</td>
+            <td>@car.RidesCount</td>
+            <td>@car.Details</td>
+            <td>@car.OwnerEmail</td>
+            <td>
+                <a class="btn btn-outline-secondary" asp-area="Profile" asp-controller="Cars" asp-action="Edit" asp-route-id="@car.Id">
+                    <i class="fas fa-pen"></i> Edit
+                </a>
+
+                @if (car.RidesCount == 0)
+                {
+                    <button class="btn btn-outline-danger" data-toggle="modal"
+                            data-target="#deleteModal" data-id="@car.Id"
+                            data-name="@car.OwnerFullName's @car.Colour @car.Model.Manufacturer.Name @car.Model.Model">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                }
+                else
+                {
+                    <div class="d-inline-block" tabindex="0" data-toggle="tooltip" data-placement="right"
+                         title="Cars with rides cannot be deleted">
+                        <button class="btn btn-outline-danger" disabled="disabled">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Cancel</button>
+
+                <form asp-action="Delete" asp-controller="Cars" method="post">
+                    <input type="hidden" name="id">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $('#deleteModal').on('show.bs.modal',
+            function(event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                var name = button.data('name');
+                var modal = $(this);
+                modal.find('.modal-title').text('Delete ' + name);
+                modal.find('.modal-body').text('Are you sure you would like to delete ' + name + ' ?');
+                modal.find('.modal-footer input[name=id]').val(id);
+            });
+
+
+        $('body').tooltip({ selector: '[data-toggle="tooltip"]' });
+    </script>
+}

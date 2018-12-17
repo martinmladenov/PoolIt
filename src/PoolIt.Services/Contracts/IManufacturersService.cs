@@ -6,7 +6,12 @@ namespace PoolIt.Services.Contracts
 
     public interface IManufacturersService
     {
-        Task<CarManufacturerServiceModel> GetAsync(string name);
+        Task<CarManufacturerServiceModel> GetAsync(string id);
+        Task<CarManufacturerServiceModel> GetByNameAsync(string name);
         Task<IEnumerable<CarManufacturerServiceModel>> GetAllAsync();
+        Task<bool> CreateAsync(CarManufacturerServiceModel model);
+        Task<bool> DeleteAsync(string id);
+        Task<bool> UpdateAsync(CarManufacturerServiceModel model);
+        Task<bool> ExistsAsync(CarManufacturerServiceModel model);
     }
 }

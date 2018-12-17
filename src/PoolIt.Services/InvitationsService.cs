@@ -1,5 +1,6 @@
 namespace PoolIt.Services
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper.QueryableExtensions;
@@ -144,6 +145,15 @@ namespace PoolIt.Services
             await this.invitationsRepository.SaveChangesAsync();
 
             return true;
+        }
+
+        public async Task<IEnumerable<InvitationServiceModel>> GetAllAsync()
+        {
+            var invitations = await this.invitationsRepository.All()
+                .ProjectTo<InvitationServiceModel>()
+                .ToArrayAsync();
+
+            return invitations;
         }
     }
 }

@@ -1,0 +1,92 @@
+@model IEnumerable<PoolIt.Web.Areas.Rides.Models.Ride.RideDetailsViewModel>
+
+@{
+    ViewData["Title"] = "Rides";
+}
+
+<table class="table table-hover mt-3 dt-responsive dataTable nowrap">
+    <thead>
+    <tr class="font-weight-bold">
+        <th>Title</th>
+        <th>Date</th>
+        <th>Organiser</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Seats</th>
+        <th>Participants</th>
+        <th>Car</th>
+        <th>Email</th>
+        <th>Phone number</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var ride in Model)
+    {
+        <tr>
+            <td>@ride.Title</td>
+            <td class="auto-format-date">@ride.Date.ToString("O")</td>
+            <td>@ride.OrganiserFullName</td>
+            <td>@ride.From</td>
+            <td>@ride.To</td>
+            <td>@(ride.AvailableSeats + 1)</td>
+            <td>@ride.Participants.Count</td>
+            <td>@ride.Car.Model.Manufacturer.Name @ride.Car.Model.Model</td>
+            <td>@ride.OrganiserEmail</td>
+            <td>@ride.PhoneNumber</td>
+            <td>
+                <a class="btn btn-primary" asp-area="Rides" asp-controller="Rides" asp-action="Details" asp-route-id="@ride.Id">
+                    <i class="fas fa-external-link-alt"></i> Details
+                </a>
+                <a class="btn btn-outline-info" asp-area="Conversations" asp-controller="Conversations" asp-action="Details" asp-route-id="@ride.ConversationId">
+                    <i class="fas fa-comments"></i> Conversation
+                </a>
+                <a class="btn btn-outline-secondary" asp-area="Rides" asp-controller="Rides" asp-action="Edit" asp-route-id="@ride.Id">
+                    <i class="fas fa-pen"></i> Edit
+                </a>
+                <button class="btn btn-outline-danger" data-toggle="modal"
+                        data-target="#deleteModal" data-id="@ride.Id" data-title="@ride.Title">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Cancel</button>
+
+                <form asp-action="Delete" asp-controller="Rides" method="post">
+                    <input type="hidden" name="id">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $('#deleteModal').on('show.bs.modal',
+            function(event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                var title = button.data('title');
+                var modal = $(this);
+                modal.find('.modal-title').text('Delete ' + title);
+                modal.find('.modal-body').text('Are you sure you would like to delete the ride ' + title + '?');
+                modal.find('.modal-footer input[name=id]').val(id);
+            })
+    </script>
+}
