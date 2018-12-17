@@ -1,52 +1,54 @@
 @using PoolIt.Web.Areas.Administration.Controllers
 @using PoolIt.Web.Areas.Administration.Models
-@model CarManufacturerAdminBindingModel
+@model CarModelAdminBindingModel
 
 @{
-    ViewData["Title"] = "Manufacturers";
+    var manufacturerId = ViewData[ModelsController.ManufacturerIdKey];
+    var manufacturerName = ViewData[ModelsController.ManufacturerNameKey];
+    ViewData["Title"] = $"{manufacturerName} Models";
 }
 
+<a class="d-block mb-3" asp-controller="Manufacturers" asp-action="Index">
+    <i class="fas fa-less-than"></i> All manufacturers
+</a>
+
 <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#createModal">
-    <i class="fas fa-plus"></i> Add manufacturer
+    <i class="fas fa-plus"></i> Add model
 </button>
 
 <table class="table table-hover mt-3 dt-responsive dataTable nowrap">
     <thead>
     <tr class="font-weight-bold">
-        <th>Manufacturer</th>
-        <th>Models</th>
+        <th>Model</th>
+        <th>Cars</th>
         <th>Actions</th>
     </tr>
     </thead>
     <tbody>
-    @foreach (var manufacturer in (IEnumerable<CarManufacturerAdminViewModel>) ViewData[ManufacturersController.ManufacturersKey])
+    @foreach (var carModel in (IEnumerable<CarModelAdminViewModel>) ViewData[ModelsController.ModelsKey])
     {
         <tr>
-            <td>@manufacturer.Name</td>
-            <td>@manufacturer.Models.Count</td>
+            <td>@carModel.Model</td>
+            <td>@carModel.CarCount</td>
             <td>
-                <a class="btn btn-primary" asp-controller="Models" asp-action="Manufacturer" asp-route-id="@manufacturer.Id">
-                    <i class="fas fa-list"></i> Manage models
-                </a>
-
                 <button class="btn btn-outline-secondary" data-toggle="modal"
-                        data-target="#editModal" data-id="@manufacturer.Id"
-                        data-name="@manufacturer.Name">
+                        data-target="#editModal" data-id="@carModel.Id"
+                        data-name="@carModel.Model">
                     <i class="fas fa-pen"></i> Edit
                 </button>
 
-                @if (manufacturer.Models.Count == 0)
+                @if (carModel.CarCount == 0)
                 {
                     <button class="btn btn-outline-danger" data-toggle="modal"
-                            data-target="#deleteModal" data-id="@manufacturer.Id"
-                            data-name="@manufacturer.Name">
+                            data-target="#deleteModal" data-id="@carModel.Id"
+                            data-name="@carModel.Model">
                         <i class="fas fa-trash"></i> Delete
                     </button>
                 }
                 else
                 {
                     <div class="d-inline-block" tabindex="0" data-toggle="tooltip" data-placement="right"
-                         title="Manufacturers with models cannot be deleted">
+                         title="Models with cars cannot be deleted">
                         <button class="btn btn-outline-danger" disabled="disabled">
                             <i class="fas fa-trash"></i> Delete
                         </button>
@@ -70,8 +72,9 @@
             <div class="modal-body"></div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Cancel</button>
-                <form asp-action="Delete" asp-controller="Manufacturers" method="post">
+                <form asp-action="Delete" asp-controller="Models" method="post">
                     <input type="hidden" name="id">
+                    <input type="hidden" name="manufacturerId" value="@manufacturerId"/>
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
             </div>
@@ -82,9 +85,9 @@
 <div class="modal fade" id="createModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form asp-controller="Manufacturers" asp-action="Create" method="post">
+            <form asp-controller="Models" asp-action="Create" method="post">
                 <div class="modal-header">
-                    <h5 class="modal-title">New manufacturer</h5>
+                    <h5 class="modal-title">Add @manufacturerName model</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -92,8 +95,9 @@
                 <div class="modal-body">
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="form-group">
-                        <label asp-for="Name" class="col-form-label"></label>
-                        <input asp-for="Name" class="form-control" id="createField"/>
+                        <input type="hidden" name="manufacturerId" value="@manufacturerId"/>
+                        <label asp-for="ModelName" class="col-form-label"></label>
+                        <input asp-for="ModelName" class="form-control" id="createField"/>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -110,9 +114,9 @@
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form asp-controller="Manufacturers" asp-action="Edit" method="post">
+            <form asp-controller="Models" asp-action="Edit" method="post">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit manufacturer</h5>
+                    <h5 class="modal-title">Edit model</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -121,8 +125,9 @@
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <input type="hidden" name="id"/>
                     <div class="form-group">
-                        <label asp-for="Name" class="col-form-label"></label>
-                        <input asp-for="Name" class="form-control" id="editField"/>
+                        <input type="hidden" name="manufacturerId" value="@manufacturerId"/>
+                        <label asp-for="ModelName" class="col-form-label"></label>
+                        <input asp-for="ModelName" class="form-control" id="editField"/>
                     </div>
                 </div>
                 <div class="modal-footer">

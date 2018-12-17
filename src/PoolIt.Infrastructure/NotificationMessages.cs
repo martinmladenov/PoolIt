@@ -25,6 +25,13 @@ namespace PoolIt.Infrastructure
         public const string ManufacturerEditError = "An error occured while updating manufacturer information";
 
         public const string ModelCreated = "Model added";
+        public const string ModelInvalidName = "Model name must be between 3 and 50 characters long";
+        public const string ModelExists = "This model already exists";
+        public const string ModelCreateError = "An error occured while adding model";
+        public const string ModelDeleted = "Model deleted";
+        public const string ModelDeleteError = "An error occured while deleting model";
+        public const string ModelEdited = "Model information updated";
+        public const string ModelEditError = "An error occured while updating model information";
 
         public const string InvitationGenerated = "Invitation generated successfully";
         public const string InvitationAccepted = "Invitation accepted";
