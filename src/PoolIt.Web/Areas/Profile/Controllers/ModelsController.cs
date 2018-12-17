@@ -35,7 +35,7 @@ namespace PoolIt.Web.Areas.Profile.Controllers
                 return this.View();
             }
 
-            var manufacturer = await this.manufacturersService.GetAsync(model.Manufacturer)
+            var manufacturer = await this.manufacturersService.GetByNameAsync(model.Manufacturer)
                                ?? new CarManufacturerServiceModel
                                {
                                    Name = model.Manufacturer
