@@ -21,6 +21,25 @@ namespace PoolIt.Services
             this.carManufacturersRepository = carManufacturersRepository;
         }
 
+        public async Task<CarManufacturerServiceModel> GetAsync(string id)
+        {
+            if (id == null)
+            {
+                return null;
+            }
+
+            var manufacturer = await this.carManufacturersRepository.All()
+                .ProjectTo<CarManufacturerServiceModel>()
+                .SingleOrDefaultAsync(m => m.Id == id);
+
+            if (manufacturer == null)
+            {
+                return null;
+            }
+
+            return manufacturer;
+        }
+
         public async Task<CarManufacturerServiceModel> GetByNameAsync(string name)
         {
             if (name == null)
