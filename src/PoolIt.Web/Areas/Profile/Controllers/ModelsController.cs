@@ -1,9 +1,12 @@
 namespace PoolIt.Web.Areas.Profile.Controllers
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Infrastructure;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using Models.CarModel;
     using Services.Contracts;
     using Services.Models;
@@ -22,9 +25,16 @@ namespace PoolIt.Web.Areas.Profile.Controllers
             this.modelsService = modelsService;
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return this.View();
+            var manufacturers = await this.GetAllManufacturers();
+
+            var model = new CarModelCreateBindingModel()
+            {
+                Manufacturers = manufacturers
+            };
+
+            return this.View(model);
         }
 
         [HttpPost]
@@ -32,7 +42,9 @@ namespace PoolIt.Web.Areas.Profile.Controllers
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View();
+                model.Manufacturers = await this.GetAllManufacturers();
+
+                return this.View(model);
             }
 
             var manufacturer = await this.manufacturersService.GetByNameAsync(model.Manufacturer)
@@ -54,6 +66,19 @@ namespace PoolIt.Web.Areas.Profile.Controllers
             this.Success(NotificationMessages.ModelCreated);
 
             return this.LocalRedirect(returnUrl);
+        }
+
+        private async Task<IEnumerable<SelectListItem>> GetAllManufacturers()
+        {
+            var manufacturers = (await this.manufacturersService
+                    .GetAllAsync())
+                .Select(m => new SelectListItem
+                {
+                    Text = m.Name,
+                    Value = m.Name
+                });
+
+            return manufacturers;
         }
     }
 }

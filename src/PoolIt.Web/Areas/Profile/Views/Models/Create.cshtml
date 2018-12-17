@@ -6,17 +6,21 @@
 
 <div class="text-center w-md-75 w-lg-50 mx-auto my-4">
     <h2>@ViewData["Title"]</h2>
-    <form method="post">
+    <form method="post" id="createForm">
         <hr/>
         <div asp-validation-summary="All" class="text-danger"></div>
         <div class="form-group">
             <label asp-for="Manufacturer"></label>
-            <input class="form-control" asp-for="Manufacturer" class="form-control"/>
+            <select class="form-control selectpicker" data-live-search="true" title="Select manufacturer..."
+                    id="manufacturer" asp-items="Model.Manufacturers">
+                <option value="OtherManufacturer">Other...</option>
+            </select>
+            <input class="form-control mt-1" asp-for="Manufacturer" class="form-control" id="selected" style="display: none;"/>
             <span asp-validation-for="Manufacturer" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="CarModel"></label>
-            <input class="form-control" asp-for="CarModel" class="form-control"/>
+            <input class="form-control" asp-for="CarModel" class="form-control" id="carModel"/>
             <span asp-validation-for="CarModel" class="text-danger"></span>
         </div>
         <div class="form-group">
@@ -24,3 +28,26 @@
         </div>
     </form>
 </div>
+
+@section Scripts{
+    <script>
+        var manufacturer = $('#manufacturer');
+        var selectedManufacturer = $('#selected');
+
+        manufacturer.find('option:first').appendTo(manufacturer);
+
+        manufacturer.change(function() {
+            var value = $(this).val();
+
+            if (value === 'OtherManufacturer') {
+                selectedManufacturer.show();
+                selectedManufacturer.val('');
+                selectedManufacturer.trigger('focus');
+            } else {
+                selectedManufacturer.hide();
+                selectedManufacturer.val(value);
+                $('#carModel').trigger('focus');
+            }
+        });
+    </script>
+}
