@@ -1,5 +1,6 @@
 namespace PoolIt.Services.Models
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using Infrastructure.Mapping;
     using PoolIt.Models;
@@ -11,5 +12,7 @@ namespace PoolIt.Services.Models
         [Required]
         [StringLength(50, MinimumLength = 3)]
         public string Name { get; set; }
+
+        public ICollection<CarModelServiceModel> Models { get; set; }
     }
 }

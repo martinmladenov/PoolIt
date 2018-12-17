@@ -124,6 +124,11 @@ namespace PoolIt.Services
             var request = await this.joinRequestsRepository.All()
                 .SingleOrDefaultAsync(r => r.Id == id);
 
+            if (request == null)
+            {
+                return false;
+            }
+
             this.joinRequestsRepository.Remove(request);
 
             await this.joinRequestsRepository.SaveChangesAsync();
@@ -148,6 +153,15 @@ namespace PoolIt.Services
             var request = await this.GetAsync(id);
 
             return request != null && request.Ride.Car.Owner.UserName == userName;
+        }
+
+        public async Task<IEnumerable<JoinRequestServiceModel>> GetAllAsync()
+        {
+            var requests = await this.joinRequestsRepository.All()
+                .ProjectTo<JoinRequestServiceModel>()
+                .ToArrayAsync();
+
+            return requests;
         }
     }
 }

@@ -15,5 +15,7 @@ namespace PoolIt.Services.Contracts
         bool IsUserOrganiser(RideServiceModel rideServiceModel, string userName);
         bool IsUserParticipant(RideServiceModel rideServiceModel, string userName);
         Task<bool> UpdateAsync(RideServiceModel model);
+        Task<IEnumerable<RideServiceModel>> GetAllAsync();
+        Task<bool> DeleteAsync(string id);
     }
 }

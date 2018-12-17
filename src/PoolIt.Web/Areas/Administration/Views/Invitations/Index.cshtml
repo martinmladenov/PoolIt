@@ -1,0 +1,77 @@
+@model IEnumerable<PoolIt.Web.Areas.Rides.Models.Invitation.InvitationViewModel>
+
+@{
+    ViewData["Title"] = "Invitations";
+}
+
+<table class="table table-hover mt-3 dt-responsive dataTable nowrap">
+    <thead>
+    <tr class="font-weight-bold">
+        <th>Key</th>
+        <th>Ride</th>
+        <th>Date</th>
+        <th>Organiser</th>
+        <th>Email</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var invitation in Model)
+    {
+        <tr>
+            <td>@invitation.Key</td>
+            <td>
+                <a asp-area="Rides" asp-controller="Rides" asp-action="Details" asp-route-id="@invitation.Ride.Id">@invitation.Ride.Title</a>
+            </td>
+            <td class="auto-format-date">@invitation.Ride.Date.ToString("O")</td>
+            <td>@invitation.Ride.OrganiserFullName</td>
+            <td>@invitation.Ride.OrganiserEmail</td>
+            <td>
+                <a class="btn btn-primary" asp-area="Rides" asp-controller="Rides" asp-action="Details" asp-route-id="@invitation.Ride.Id">
+                    <i class="fas fa-external-link-alt"></i> Ride details
+                </a>
+                <button class="btn btn-outline-danger" data-toggle="modal"
+                        data-target="#deleteModal" data-key="@invitation.Key">
+                    <i class="fas fa-trash"></i> Delete invitation
+                </button>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete invitation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Cancel</button>
+
+                <form asp-action="Delete" asp-controller="Invitations" method="post">
+                    <input type="hidden" name="key">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $('#deleteModal').on('show.bs.modal',
+            function(event) {
+                var button = $(event.relatedTarget);
+                var key = button.data('key');
+                var modal = $(this);
+                modal.find('.modal-body')
+                    .text('Are you sure you would like to delete the invitation with key ' + key + '?');
+                modal.find('.modal-footer input[name=key]').val(key);
+            })
+    </script>
+}

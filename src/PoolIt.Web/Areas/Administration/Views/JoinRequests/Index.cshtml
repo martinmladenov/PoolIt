@@ -1,0 +1,75 @@
+@model IEnumerable<PoolIt.Web.Areas.Rides.Models.JoinRequest.JoinRequestListingViewModel>
+
+@{
+    ViewData["Title"] = "Join requests";
+}
+
+<table class="table table-hover mt-3 dt-responsive dataTable nowrap">
+    <thead>
+    <tr class="font-weight-bold">
+        <th>User</th>
+        <th>Sent on</th>
+        <th>Ride</th>
+        <th>Message</th>
+        <th>Email</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var request in Model)
+    {
+        <tr>
+            <td>@request.UserFullName</td>
+            <td class="auto-format-date">@request.SentOn.ToString("O")</td>
+            <td>
+                <a asp-area="Rides" asp-controller="Rides" asp-action="Details" asp-route-id="@request.RideId">@request.Ride.Title</a>
+            </td>
+            <td>@request.Message</td>
+            <td>@request.UserEmail</td>
+            <td>
+                <a class="btn btn-primary" asp-area="Rides" asp-controller="Rides" asp-action="Details" asp-route-id="@request.RideId">
+                    <i class="fas fa-external-link-alt"></i> Ride details
+                </a>
+                <button class="btn btn-outline-danger" data-toggle="modal"
+                        data-target="#deleteModal" data-id="@request.Id">
+                    <i class="fas fa-trash"></i> Delete request
+                </button>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete join request</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">Are you sure you would like to delete this join request?</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Cancel</button>
+
+                <form asp-action="Delete" asp-controller="JoinRequests" method="post">
+                    <input type="hidden" name="id">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $('#deleteModal').on('show.bs.modal',
+            function(event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                var modal = $(this);
+                modal.find('.modal-footer input[name=id]').val(id);
+            })
+    </script>
+}
