@@ -12,13 +12,13 @@
 
 @if (isOrganiser)
 {
-    <div class="card w-75 mx-auto text-center shadow my-5">
+    <div class="card w-md-75 mx-auto text-center shadow my-5">
         <div class="card-body">
             <div class="card-title">
                 <h5>Share this link with the person you would like to invite</h5>
             </div>
 
-            <div class="input-group input-group-lg">
+            <div class="input-group input-group-lg w-lg-75 mx-auto">
                 <input type="text" class="form-control bg-white text-center" value="123" id="linkField"
                        readonly="readonly" onClick="this.select();">
 
@@ -64,7 +64,7 @@
     </div>
 }
 
-<div class="card w-75 mx-auto text-center shadow-lg my-5">
+<div class="card w-md-75 mx-auto text-center shadow-lg my-5">
     @if (isOrganiser)
     {
         <div class="card-header">This is how the invitation looks like:</div>
@@ -75,7 +75,7 @@
             <h6 class="text-muted">has invited you to join the ride</h6>
             <h3>@Model.Ride.Title</h3>
         </div>
-        <div class="card text-center w-50 mt-3 mx-auto">
+        <div class="card text-center w-md-75 w-lg-50 mt-3 mx-auto">
             @if (isUserParticipant)
             {
                 <div class="card-body">
