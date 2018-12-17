@@ -8,5 +8,8 @@ namespace PoolIt.Services.Contracts
     {
         Task<bool> CreateAsync(CarModelServiceModel serviceModel);
         Task<IEnumerable<CarModelServiceModel>> GetAllByManufacturerAsync(string manufacturerId);
+        Task<bool> ExistsAsync(CarModelServiceModel serviceModel);
+        Task<bool> DeleteAsync(string id);
+        Task<bool> UpdateAsync(CarModelServiceModel model);
     }
 }
