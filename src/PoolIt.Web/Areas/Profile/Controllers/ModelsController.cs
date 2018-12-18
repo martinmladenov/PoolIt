@@ -55,15 +55,32 @@ namespace PoolIt.Web.Areas.Profile.Controllers
 
             var carModel = new CarModelServiceModel
             {
+                ManufacturerId = manufacturer.Id,
                 Manufacturer = manufacturer,
                 Model = model.CarModel
             };
 
-            await this.modelsService.CreateAsync(carModel);
-
             returnUrl = returnUrl ?? "/";
 
-            this.Success(NotificationMessages.ModelCreated);
+            if (await this.modelsService.ExistsAsync(carModel))
+            {
+                this.Success(NotificationMessages.ModelExistsNotCreated);
+                return this.LocalRedirect(returnUrl);
+            }
+
+            var result = await this.modelsService.CreateAsync(carModel);
+
+            if (result)
+            {
+                this.Success(NotificationMessages.ModelCreated);
+            }
+            else
+            {
+                this.Error(NotificationMessages.ModelCreateError);
+
+                model.Manufacturers = await this.GetAllManufacturers();
+                return this.View(model);
+            }
 
             return this.LocalRedirect(returnUrl);
         }

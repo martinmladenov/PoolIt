@@ -27,6 +27,7 @@ namespace PoolIt.Infrastructure
         public const string ModelCreated = "Model added";
         public const string ModelInvalidName = "Model name must be between 3 and 50 characters long";
         public const string ModelExists = "This model already exists";
+        public const string ModelExistsNotCreated = "This model already exists, no need to add it";
         public const string ModelCreateError = "An error occured while adding model";
         public const string ModelDeleted = "Model deleted";
         public const string ModelDeleteError = "An error occured while deleting model";
