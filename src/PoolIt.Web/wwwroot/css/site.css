@@ -99,3 +99,17 @@ a {
         width: 25% !important;
     }
 }
+
+.btn,
+.form-control {
+    padding-left: 2em;
+    padding-right: 2em;
+
+    border-radius: 50px;
+}
+
+.input-group .btn,
+.form-control {
+    padding-left: 1em;
+    padding-right: 1em;
+}
