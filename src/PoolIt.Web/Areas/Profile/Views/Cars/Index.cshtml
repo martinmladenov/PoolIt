@@ -4,51 +4,39 @@
     ViewData["Title"] = "My cars";
 }
 
-<div class="mx-auto my-4 text-center">
-    <h2>@ViewData["Title"]</h2>
-    <table class="table table-hover mt-3">
+<div class="mx-auto my-4">
+    <div class="text-center mb-3">
+        <h2>@ViewData["Title"]</h2>
+        <a class="btn btn-primary" asp-controller="Cars" asp-action="Create">
+            <i class="fas fa-plus"></i> Add a car
+        </a>
+    </div>
+
+    <table class="table table-hover dt-responsive dataTable nowrap">
         <thead>
-        <tr class="row font-weight-bold">
-            <th scope="col" class="col-3">Manufacturer</th>
-            <th scope="col" class="col-3">Model</th>
-            <th scope="col" class="col-2">Colour</th>
-            <th scope="col" class="col-3">Details</th>
-            <th scope="col" class="col-1">Edit</th>
+        <tr class="font-weight-bold">
+            <th>Manufacturer</th>
+            <th>Model</th>
+            <th>Colour</th>
+            <th>Details</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
         @foreach (var car in Model)
         {
-            <tr class="row">
-                <td class="col-3">@car.Model.Manufacturer.Name</td>
-                <td class="col-3">@car.Model.Model</td>
-                <td class="col-2">@car.Colour</td>
-                <td class="col-3">@car.Details</td>
-                <td class="col-1">
-                    <a asp-action="Edit" asp-route-id="@car.Id">
-                        <i class="fas fa-pen"></i>
+            <tr>
+                <td>@car.Model.Manufacturer.Name</td>
+                <td>@car.Model.Model</td>
+                <td>@car.Colour</td>
+                <td>@car.Details</td>
+                <td>
+                    <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@car.Id">
+                        <i class="fas fa-pen"></i> Edit
                     </a>
                 </td>
             </tr>
         }
         </tbody>
     </table>
-
-    @if (!Model.Any())
-    {
-        <div>
-            <p class="text-muted">You haven't added any cars yet.</p>
-            <a class="btn btn-primary" asp-controller="Cars" asp-action="Create">Add a car</a>
-        </div>
-    }
-    else
-    {
-        <div class="row">
-            <div class="offset-11 col-1">
-                <a class="btn btn-secondary" asp-controller="Cars" asp-action="Create">
-                    <i class="fas fa-plus"></i>
-                </a>
-            </div>
-        </div>
-    }
 </div>

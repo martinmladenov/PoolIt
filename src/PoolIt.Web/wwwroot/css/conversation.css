@@ -46,6 +46,10 @@
     float: right;
 }
 
+.chat-user small {
+    text-align: right;
+}
+
 .chat-other div {
     float: left
 }

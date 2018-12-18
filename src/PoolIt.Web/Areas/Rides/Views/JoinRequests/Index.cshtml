@@ -4,51 +4,42 @@
     ViewData["Title"] = "Received requests";
 }
 
-<div class="mx-auto my-4 text-center">
-    <h2>@ViewData["Title"]</h2>
-    <table class="table table-hover mt-3">
+<div class="mx-auto my-4">
+    <h2 class="text-center mb-3">@ViewData["Title"]</h2>
+    <table class="table table-hover dt-responsive dataTable nowrap">
         <thead>
-        <tr class="row font-weight-bold">
-            <th scope="col" class="col-3">Ride</th>
-            <th scope="col" class="col-2">User</th>
-            <th scope="col" class="col-3">Message</th>
-            <th scope="col" class="col-2">Received</th>
-            <th scope="col" class="col-2">Actions</th>
+        <tr class="font-weight-bold">
+            <th>Ride</th>
+            <th>User</th>
+            <th>Message</th>
+            <th>Received</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
         @foreach (var request in Model)
         {
-            <tr class="row">
-                <td class="col-3">@request.Ride.Title</td>
-                <td class="col-2">@request.UserFullName</td>
-                <td class="col-3">@request.Message</td>
-                <td class="col-2 auto-friendly-date">@request.SentOn.ToString("O")</td>
-                <td class="col-2">
-                    <div class="d-flex justify-content-around">
-                        <form asp-controller="JoinRequests" asp-action="Accept" method="post">
-                            <input type="hidden" name="id" value="@request.Id">
-                            <button class="btn btn-success" type="submit">
-                                <i class="fas fa-check"></i>
-                            </button>
-                        </form>
-                        <form asp-controller="JoinRequests" asp-action="Refuse" method="post">
-                            <input type="hidden" name="id" value="@request.Id">
-                            <button class="btn btn-danger" type="submit">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </form>
-                    </div>
+            <tr>
+                <td>@request.Ride.Title</td>
+                <td>@request.UserFullName</td>
+                <td>@request.Message</td>
+                <td class="auto-friendly-date">@request.SentOn.ToString("O")</td>
+                <td>
+                    <form class="d-inline-block" asp-controller="JoinRequests" asp-action="Accept" method="post">
+                        <input type="hidden" name="id" value="@request.Id">
+                        <button class="btn btn-success" type="submit">
+                            <i class="fas fa-check"></i> Accept
+                        </button>
+                    </form>
+                    <form class="d-inline-block" asp-controller="JoinRequests" asp-action="Refuse" method="post">
+                        <input type="hidden" name="id" value="@request.Id">
+                        <button class="btn btn-danger" type="submit">
+                            <i class="fas fa-times"></i> Delete
+                        </button>
+                    </form>
                 </td>
             </tr>
         }
         </tbody>
     </table>
-
-    @if (!Model.Any())
-    {
-        <div>
-            <p class="text-muted">You don't have any pending requests.</p>
-        </div>
-    }
 </div>

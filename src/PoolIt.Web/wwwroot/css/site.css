@@ -71,3 +71,49 @@ a {
     color: inherit;
     text-decoration: none;
 }
+
+@media (min-width: 768px) {
+    .w-md-75 {
+        width: 75% !important;
+    }
+
+    .w-md-50 {
+        width: 50% !important;
+    }
+
+    .w-md-25 {
+        width: 25% !important;
+    }
+}
+
+@media (min-width: 992px) {
+    .w-lg-75 {
+        width: 75% !important;
+    }
+
+    .w-lg-50 {
+        width: 50% !important;
+    }
+
+    .w-lg-25 {
+        width: 25% !important;
+    }
+}
+
+.btn,
+.form-control {
+    padding-left: 2em;
+    padding-right: 2em;
+
+    border-radius: 50px;
+}
+
+.input-group .btn,
+.form-control {
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.g-recaptcha {
+    display: inline-block;
+}
