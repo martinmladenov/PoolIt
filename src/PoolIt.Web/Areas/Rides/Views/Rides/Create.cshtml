@@ -4,7 +4,7 @@
     ViewData["Title"] = "Create Ride";
 }
 
-<div class="text-center w-50 mx-auto my-4">
+<div class="text-center w-md-75 w-lg-50 mx-auto my-4">
     <h2>@ViewData["Title"]</h2>
     <form method="post" id="createForm">
         <hr/>
@@ -16,15 +16,15 @@
         </div>
         <div class="form-group">
             <label asp-for="CarId"></label>
-            <div class="row">
-                <div class="col-11 pr-2">
-                    <select class="form-control selectpicker" data-live-search="true" title="Select car..."
-                            asp-for="CarId" asp-items="Model.OwnedCars">
-                    </select>
+            <div class="input-group">
+                <select class="form-control selectpicker" data-live-search="true" title="Select car..."
+                        asp-for="CarId" asp-items="Model.OwnedCars">
+                </select>
+                <div class="input-group-append">
+                    <a class="btn btn-secondary" asp-area="Profile" asp-controller="Cars" asp-action="Create">
+                        <i class="fas fa-plus"></i>
+                    </a>
                 </div>
-                <a class="btn btn-secondary col-1" asp-area="Profile" asp-controller="Cars" asp-action="Create">
-                    <i class="fas fa-plus"></i>
-                </a>
             </div>
             <span asp-validation-for="CarId" class="text-danger"></span>
         </div>
@@ -36,27 +36,27 @@
         </div>
         <div class="form-group">
             <label asp-for="From"></label>
-            <div class="row">
-                <div class="col-11 pr-2">
-                    <input id="fromField" class="form-control" asp-for="From"/>
+            <div class="input-group">
+                <input id="fromField" class="form-control" asp-for="From"/>
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-primary"
+                            onclick="fillLocation('#fromImage', '#fromField')">
+                        <i id="fromImage" class="fas fa-crosshairs"></i>
+                    </button>
                 </div>
-                <button type="button" class="btn btn-secondary col-1"
-                        onclick="fillLocation('#fromImage', '#fromField')">
-                    <i id="fromImage" class="fas fa-crosshairs"></i>
-                </button>
             </div>
             <span asp-validation-for="From" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="To"></label>
-            <div class="row">
-                <div class="col-11 pr-2">
-                    <input id="toField" class="form-control" asp-for="To"/>
+            <div class="input-group">
+                <input id="toField" class="form-control" asp-for="To"/>
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-primary"
+                            onclick="fillLocation('#toImage', '#toField')">
+                        <i id="toImage" class="fas fa-crosshairs"></i>
+                    </button>
                 </div>
-                <button type="button" class="btn btn-secondary col-1"
-                        onclick="fillLocation('#toImage', '#toField')">
-                    <i id="toImage" class="fas fa-crosshairs"></i>
-                </button>
             </div>
             <span asp-validation-for="To" class="text-danger"></span>
         </div>
