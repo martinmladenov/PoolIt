@@ -113,3 +113,7 @@ a {
     padding-left: 1em;
     padding-right: 1em;
 }
+
+.g-recaptcha {
+    display: inline-block;
+}
