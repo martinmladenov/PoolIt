@@ -1,19 +1,22 @@
-namespace PoolIt.Services
+namespace PoolIt.Services.Helpers
 {
     using System;
-    using System.IO;
+    using System.IO.Abstractions;
     using System.Threading.Tasks;
     using Contracts;
     using Newtonsoft.Json;
 
-    public class LocationService : ILocationService
+    public class LocationHelper : ILocationHelper
     {
         private const string TownsFileName = "towns.json";
 
         private Town[] towns;
 
-        public LocationService()
+        private readonly IFileSystem fileSystem;
+
+        public LocationHelper(IFileSystem fileSystem)
         {
+            this.fileSystem = fileSystem;
             this.LoadFromFile(TownsFileName);
         }
 
@@ -44,7 +47,7 @@ namespace PoolIt.Services
 
         private void LoadFromFile(string fileName)
         {
-            var jsonText = File.ReadAllText(fileName);
+            var jsonText = this.fileSystem.File.ReadAllText(fileName);
 
             this.towns = JsonConvert.DeserializeObject<Town[]>(jsonText);
         }

@@ -1,5 +1,6 @@
 ﻿namespace PoolIt.Web
 {
+    using System.IO.Abstractions;
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Security.Claims;
@@ -26,6 +27,7 @@
     using PoolIt.Models;
     using Services;
     using Services.Contracts;
+    using Services.Helpers;
     using SignalRHubs;
 
     public class Startup
@@ -128,9 +130,10 @@
             services.AddScoped<IInvitationsService, InvitationsService>();
             services.AddScoped<IConversationsService, ConversationsService>();
 
-            services.AddScoped<IRandomStringGeneratorService, RandomStringGeneratorService>();
+            services.AddScoped<IRandomStringGeneratorHelper, RandomStringGeneratorHelper>();
 
-            services.AddSingleton<ILocationService, LocationService>();
+            services.AddSingleton<IFileSystem, FileSystem>();
+            services.AddSingleton<ILocationHelper, LocationHelper>();
             services.AddSingleton<IRateLimitingService, RateLimitingService>();
         }
 

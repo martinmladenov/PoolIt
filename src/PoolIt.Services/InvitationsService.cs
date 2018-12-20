@@ -18,19 +18,19 @@ namespace PoolIt.Services
         private readonly IRepository<PoolItUser> usersRepository;
         private readonly IRepository<UserRide> userRidesRepository;
 
-        private readonly IRandomStringGeneratorService generatorService;
+        private readonly IRandomStringGeneratorHelper generatorHelper;
 
         public InvitationsService(IRepository<Invitation> invitationsRepository,
             IRepository<Ride> ridesRepository, IRepository<JoinRequest> joinRequestsRepository,
             IRepository<PoolItUser> usersRepository, IRepository<UserRide> userRidesRepository,
-            IRandomStringGeneratorService generatorService)
+            IRandomStringGeneratorHelper generatorHelper)
         {
             this.invitationsRepository = invitationsRepository;
             this.ridesRepository = ridesRepository;
             this.joinRequestsRepository = joinRequestsRepository;
             this.usersRepository = usersRepository;
             this.userRidesRepository = userRidesRepository;
-            this.generatorService = generatorService;
+            this.generatorHelper = generatorHelper;
         }
 
         public async Task<string> GenerateAsync(string rideId)
@@ -44,7 +44,7 @@ namespace PoolIt.Services
 
             while (true)
             {
-                generatedKey = this.generatorService.GenerateRandomString(length: 6);
+                generatedKey = this.generatorHelper.GenerateRandomString(length: 6);
                 var key = generatedKey;
                 if (!await this.invitationsRepository.All().AnyAsync(r => r.Key == key))
                 {
