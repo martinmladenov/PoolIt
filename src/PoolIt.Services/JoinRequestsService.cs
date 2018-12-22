@@ -99,6 +99,11 @@ namespace PoolIt.Services
             var request = await this.joinRequestsRepository.All()
                 .SingleOrDefaultAsync(r => r.Id == id);
 
+            if (request == null)
+            {
+                return false;
+            }
+
             var userRide = new UserRide
             {
                 UserId = request.UserId,
