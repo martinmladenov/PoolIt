@@ -7,6 +7,7 @@ namespace PoolIt.Models
     {
         public string Id { get; set; }
 
+        [Required]
         public string ModelId { get; set; }
 
         public CarModel Model { get; set; }
