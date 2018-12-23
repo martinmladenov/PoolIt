@@ -1,9 +1,11 @@
 namespace PoolIt.Web.Areas.Rides.Controllers
 {
+    using System;
     using System.Threading.Tasks;
     using AutoMapper;
     using Infrastructure;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Models.Invitation;
     using Services.Contracts;
@@ -57,6 +59,16 @@ namespace PoolIt.Web.Areas.Rides.Controllers
             if (serviceModel == null)
             {
                 return this.NotFound();
+            }
+
+            if (!this.ridesService.IsUserOrganiser(serviceModel.Ride, this.User?.Identity?.Name))
+            {
+                this.Response.Cookies.Append(GlobalConstants.InvitationCookieKey, invitationKey, new CookieOptions
+                {
+                    Secure = true,
+                    IsEssential = false,
+                    Expires = DateTimeOffset.UtcNow.AddDays(14)
+                });
             }
 
             var viewModel = Mapper.Map<InvitationViewModel>(serviceModel);
