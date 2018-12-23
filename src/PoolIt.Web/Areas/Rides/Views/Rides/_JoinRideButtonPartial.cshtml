@@ -23,7 +23,7 @@
             </div>
         </div>
     }
-    else if (remainingSeats == 0)
+    else if (remainingSeats <= 0)
     {
         <div class="card-body">
             <div class="btn btn-secondary btn-block py-3 disabled">All seats are taken</div>
@@ -31,12 +31,30 @@
     }
     else if (User.Identity.IsAuthenticated)
     {
-        <div class="card-body">
-            <a class="btn btn-primary btn-block py-3" 
-               asp-controller="JoinRequests" asp-action="Create" asp-route-id="@Model.Id">
-                <i class="fas fa-hand-point-right"></i> Join ride
-            </a>
-        </div>
+        if (Model.InvitationKey != null)
+        {
+            <div class="card-body">
+                <form asp-controller="Invitations" asp-action="Accept" method="post">
+                    <input type="hidden" name="invitationKey" value="@Model.InvitationKey">
+                    <button type="submit" class="btn btn-primary btn-block py-3">
+                        <i class="fas fa-hand-point-right"></i> Accept invitation
+                    </button>
+                </form>
+                <a class="d-block mt-2" asp-controller="Invitations" asp-action="Details"
+                   asp-route-invitationKey="@Model.InvitationKey">
+                    View invitation
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="card-body">
+                <a class="btn btn-primary btn-block py-3"
+                   asp-controller="JoinRequests" asp-action="Create" asp-route-id="@Model.Id">
+                    <i class="fas fa-hand-point-right"></i> Join ride
+                </a>
+            </div>
+        }
     }
     else
     {
