@@ -35,12 +35,17 @@ namespace PoolIt.Services
                 return null;
             }
 
+            var car = await this.carsRepository.All()
+                .SingleOrDefaultAsync(c => c.Id == model.CarId);
+
+            if (car == null)
+            {
+                return null;
+            }
+
             var ride = Mapper.Map<Ride>(model);
 
             ride.Conversation = new Conversation();
-
-            var car = await this.carsRepository.All()
-                .SingleOrDefaultAsync(c => c.Id == ride.CarId);
 
             ride.Participants = new List<UserRide>
             {

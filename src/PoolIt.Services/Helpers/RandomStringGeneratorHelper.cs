@@ -1,9 +1,9 @@
-namespace PoolIt.Services
+namespace PoolIt.Services.Helpers
 {
     using System;
     using Contracts;
 
-    public class RandomStringGeneratorService : BaseService, IRandomStringGeneratorService
+    public class RandomStringGeneratorHelper : IRandomStringGeneratorHelper
     {
         private Random random;
 
@@ -18,7 +18,7 @@ namespace PoolIt.Services
 
             for (int i = 0; i < length; i++)
             {
-                arr[i] = (char) ('a' + this.random.Next(26));
+                arr[i] = (char)('a' + this.random.Next(26));
             }
 
             return new string(arr);

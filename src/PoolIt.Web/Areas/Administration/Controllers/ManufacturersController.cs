@@ -40,7 +40,7 @@ namespace PoolIt.Web.Areas.Administration.Controllers
 
             var serviceModel = Mapper.Map<CarManufacturerServiceModel>(model);
 
-            if (await this.manufacturersService.ExistsAsync(serviceModel))
+            if (await this.manufacturersService.ExistsByNameAsync(serviceModel.Name))
             {
                 this.Error(NotificationMessages.ManufacturerExists);
                 return this.RedirectToAction("Index");
@@ -91,7 +91,7 @@ namespace PoolIt.Web.Areas.Administration.Controllers
 
             var serviceModel = Mapper.Map<CarManufacturerServiceModel>(model);
 
-            if (await this.manufacturersService.ExistsAsync(serviceModel))
+            if (await this.manufacturersService.ExistsByNameAsync(serviceModel.Name))
             {
                 this.Error(NotificationMessages.ManufacturerExists);
                 return this.RedirectToAction("Index");

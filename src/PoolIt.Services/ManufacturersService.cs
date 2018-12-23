@@ -32,11 +32,6 @@ namespace PoolIt.Services
                 .ProjectTo<CarManufacturerServiceModel>()
                 .SingleOrDefaultAsync(m => m.Id == id);
 
-            if (manufacturer == null)
-            {
-                return null;
-            }
-
             return manufacturer;
         }
 
@@ -129,8 +124,8 @@ namespace PoolIt.Services
             return true;
         }
 
-        public async Task<bool> ExistsAsync(CarManufacturerServiceModel model)
+        public async Task<bool> ExistsByNameAsync(string name)
             => await this.carManufacturersRepository.All()
-                .AnyAsync(r => string.Equals(r.Name, model.Name, StringComparison.InvariantCultureIgnoreCase));
+                .AnyAsync(r => string.Equals(r.Name, name, StringComparison.InvariantCultureIgnoreCase));
     }
 }
