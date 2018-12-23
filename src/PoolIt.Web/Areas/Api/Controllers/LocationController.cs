@@ -6,16 +6,16 @@ namespace PoolIt.Web.Areas.Api.Controllers
 
     public class LocationController : ApiController
     {
-        private readonly ILocationService locationService;
+        private readonly ILocationHelper locationHelper;
 
-        public LocationController(ILocationService locationService)
+        public LocationController(ILocationHelper locationHelper)
         {
-            this.locationService = locationService;
+            this.locationHelper = locationHelper;
         }
 
         public async Task<IActionResult> GetTownName(double latitude, double longitude)
         {
-            var townName = await this.locationService.GetTownNameAsync(latitude, longitude);
+            var townName = await this.locationHelper.GetTownNameAsync(latitude, longitude);
 
             return new JsonResult(new
             {

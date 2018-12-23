@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.2.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+    <PackageReference Include="Moq" Version="4.10.1" />
+    <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="3.0.2" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.analyzers" Version="0.10.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PoolIt.Data\PoolIt.Data.csproj" />
+    <ProjectReference Include="..\PoolIt.Infrastructure\PoolIt.Infrastructure.csproj" />
+    <ProjectReference Include="..\PoolIt.Models\PoolIt.Models.csproj" />
+    <ProjectReference Include="..\PoolIt.Services\PoolIt.Services.csproj" />
+  </ItemGroup>
+
+</Project>

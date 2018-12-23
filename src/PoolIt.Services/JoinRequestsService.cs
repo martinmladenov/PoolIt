@@ -99,6 +99,11 @@ namespace PoolIt.Services
             var request = await this.joinRequestsRepository.All()
                 .SingleOrDefaultAsync(r => r.Id == id);
 
+            if (request == null)
+            {
+                return false;
+            }
+
             var userRide = new UserRide
             {
                 UserId = request.UserId,
@@ -141,7 +146,7 @@ namespace PoolIt.Services
                && rideServiceModel.Date >= DateTime.UtcNow
                && rideServiceModel.Participants.All(p => p.User.UserName != userName)
                && rideServiceModel.JoinRequests.All(r => r.User.UserName != userName)
-               && rideServiceModel.Participants.Count <= rideServiceModel.AvailableSeats + 1;
+               && rideServiceModel.Participants.Count < rideServiceModel.AvailableSeats + 1;
 
         public async Task<bool> CanUserAccessRequestAsync(string id, string userName)
         {

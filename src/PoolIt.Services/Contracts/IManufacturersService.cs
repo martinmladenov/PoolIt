@@ -12,6 +12,6 @@ namespace PoolIt.Services.Contracts
         Task<bool> CreateAsync(CarManufacturerServiceModel model);
         Task<bool> DeleteAsync(string id);
         Task<bool> UpdateAsync(CarManufacturerServiceModel model);
-        Task<bool> ExistsAsync(CarManufacturerServiceModel model);
+        Task<bool> ExistsByNameAsync(string name);
     }
 }

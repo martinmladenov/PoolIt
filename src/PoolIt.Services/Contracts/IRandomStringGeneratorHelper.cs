@@ -1,6 +1,6 @@
 namespace PoolIt.Services.Contracts
 {
-    public interface IRandomStringGeneratorService
+    public interface IRandomStringGeneratorHelper
     {
         string GenerateRandomString(int length);
     }

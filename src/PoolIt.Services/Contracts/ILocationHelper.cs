@@ -2,7 +2,7 @@ namespace PoolIt.Services.Contracts
 {
     using System.Threading.Tasks;
 
-    public interface ILocationService
+    public interface ILocationHelper
     {
         Task<string> GetTownNameAsync(double longitude, double latitude);
     }
