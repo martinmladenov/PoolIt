@@ -1,0 +1,35 @@
+@model IEnumerable<PoolIt.Web.Areas.Administration.Models.UserAdminListingModel>
+
+@{
+    ViewData["Title"] = "Users";
+}
+
+<table class="table table-hover mt-3 dt-responsive dataTable nowrap">
+    <thead>
+    <tr class="font-weight-bold">
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Admin</th>
+        <th>Cars</th>
+        <th>Organised rides</th>
+        <th>Rides participating in</th>
+        <th>Sent join requests</th>
+        <th>Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var user in Model)
+    {
+        <tr class="@(user.IsAdmin ? "font-weight-bold" : "")">
+            <td>@user.FirstName</td>
+            <td>@user.LastName</td>
+            <td>@(user.IsAdmin ? "Yes" : "No")</td>
+            <td>@user.CarCount</td>
+            <td>@user.OrganisedRideCount</td>
+            <td>@user.ParticipatingRideCount</td>
+            <td>@user.SentRequestCount</td>
+            <td>@user.Email</td>
+        </tr>
+    }
+    </tbody>
+</table>
