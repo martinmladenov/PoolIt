@@ -11,10 +11,18 @@ namespace PoolIt.Services
     public class PersonalDataService : IPersonalDataService
     {
         private readonly IRepository<PoolItUser> usersRepository;
+        private readonly IRepository<JoinRequest> joinRequestsRepository;
+        private readonly IRepository<UserRide> userRidesRepository;
+        private readonly IRepository<Conversation> conversationsRepository;
 
-        public PersonalDataService(IRepository<PoolItUser> usersRepository)
+        public PersonalDataService(IRepository<PoolItUser> usersRepository,
+            IRepository<JoinRequest> joinRequestsRepository, IRepository<UserRide> userRidesRepository,
+            IRepository<Conversation> conversationsRepository)
         {
             this.usersRepository = usersRepository;
+            this.joinRequestsRepository = joinRequestsRepository;
+            this.userRidesRepository = userRidesRepository;
+            this.conversationsRepository = conversationsRepository;
         }
 
         public async Task<string> GetPersonalDataForUserJson(string userId)
@@ -155,6 +163,55 @@ namespace PoolIt.Services
             var json = JsonConvert.SerializeObject(personalData, Formatting.Indented);
 
             return json;
+        }
+
+        public async Task<bool> DeleteUser(string userId)
+        {
+            if (userId == null)
+            {
+                return false;
+            }
+
+            var user = await this.usersRepository.All()
+                .SingleOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            try
+            {
+                var joinRequests = this.joinRequestsRepository.All()
+                    .Where(r => r.UserId == userId)
+                    .ToArray();
+
+                this.joinRequestsRepository.RemoveRange(joinRequests);
+
+                var userRides = this.userRidesRepository.All()
+                    .Where(r => r.UserId == userId)
+                    .ToArray();
+
+                this.userRidesRepository.RemoveRange(userRides);
+
+                var conversations = this.conversationsRepository.All()
+                    .Where(c => c.Ride.Car.OwnerId == userId)
+                    .ToArray();
+
+                this.usersRepository.Remove(user);
+
+                await this.usersRepository.SaveChangesAsync();
+
+                this.conversationsRepository.RemoveRange(conversations);
+
+                await this.conversationsRepository.SaveChangesAsync();
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

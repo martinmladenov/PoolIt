@@ -5,5 +5,6 @@ namespace PoolIt.Services.Contracts
     public interface IPersonalDataService
     {
         Task<string> GetPersonalDataForUserJson(string userId);
+        Task<bool> DeleteUser(string userId);
     }
 }
