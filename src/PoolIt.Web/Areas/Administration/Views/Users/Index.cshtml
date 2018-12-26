@@ -15,6 +15,7 @@
         <th>Rides participating in</th>
         <th>Sent join requests</th>
         <th>Email</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -29,7 +30,97 @@
             <td>@user.ParticipatingRideCount</td>
             <td>@user.SentRequestCount</td>
             <td>@user.Email</td>
+            <td>
+                @if (user.IsAdmin)
+                {
+                    <button class="btn btn-outline-danger" data-toggle="modal"
+                            data-target="#demoteModal" data-id="@user.Id" data-name="@($"{user.FirstName} {user.LastName}")">
+                        <i class="fas fa-chevron-down"></i> Demote
+                    </button>
+                }
+                else
+                {
+                    <button class="btn btn-outline-success" data-toggle="modal"
+                            data-target="#promoteModal" data-id="@user.Id" data-name="@($"{user.FirstName} {user.LastName}")">
+                        <i class="fas fa-chevron-up"></i> Promote
+                    </button>
+                }
+            </td>
         </tr>
     }
     </tbody>
 </table>
+
+<div class="modal fade" id="promoteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Cancel</button>
+
+                <form asp-action="Promote" asp-controller="Users" method="post">
+                    <input type="hidden" name="id">
+                    <button type="submit" class="btn btn-success">Promote</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="demoteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Cancel</button>
+
+                <form asp-action="Demote" asp-controller="Users" method="post">
+                    <input type="hidden" name="id">
+                    <button type="submit" class="btn btn-danger">Demote</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $('#promoteModal').on('show.bs.modal',
+            function(event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                var name = button.data('name');
+                var modal = $(this);
+                modal.find('.modal-title').text('Promote ' + name);
+                modal.find('.modal-body').text('Are you sure you would like to promote the user ' +
+                    name +
+                    ' to Administrator? This will give them unrestricted control over the website.');
+                modal.find('.modal-footer input[name=id]').val(id);
+            }
+        );
+        $('#demoteModal').on('show.bs.modal',
+            function(event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                var name = button.data('name');
+                var modal = $(this);
+                modal.find('.modal-title').text('Demote ' + name);
+                modal.find('.modal-body')
+                    .text('Are you sure you would like to demote the user ' + name + ' to a regular user?');
+                modal.find('.modal-footer input[name=id]').val(id);
+            }
+        );
+    </script>
+}
