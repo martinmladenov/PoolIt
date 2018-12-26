@@ -8,14 +8,18 @@ namespace PoolIt.Web.Areas.Administration.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Models;
     using PoolIt.Models;
+    using Services.Contracts;
 
     public class UsersController : AdministrationController
     {
         private readonly UserManager<PoolItUser> userManager;
+        private readonly IRandomStringGeneratorHelper randomStringGeneratorHelper;
 
-        public UsersController(UserManager<PoolItUser> userManager)
+        public UsersController(UserManager<PoolItUser> userManager,
+            IRandomStringGeneratorHelper randomStringGeneratorHelper)
         {
             this.userManager = userManager;
+            this.randomStringGeneratorHelper = randomStringGeneratorHelper;
         }
 
         public async Task<IActionResult> Index()
@@ -95,6 +99,39 @@ namespace PoolIt.Web.Areas.Administration.Controllers
             }
 
             return this.RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(string id)
+        {
+            if (id == null)
+            {
+                return new JsonResult(new object());
+            }
+
+            var user = await this.userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                return new JsonResult(new object());
+            }
+
+            var newPassword = this.randomStringGeneratorHelper.GenerateRandomString(8);
+
+            var token = await this.userManager.GeneratePasswordResetTokenAsync(user);
+
+            var result = await this.userManager.ResetPasswordAsync(user, token, newPassword);
+
+            if (!result.Succeeded)
+            {
+                return new JsonResult(new object());
+            }
+
+            return new JsonResult(new
+            {
+                name = $"{user.FirstName} {user.LastName}",
+                newPassword
+            });
         }
     }
 }

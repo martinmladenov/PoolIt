@@ -31,6 +31,10 @@
             <td>@user.SentRequestCount</td>
             <td>@user.Email</td>
             <td>
+                <button class="btn btn-outline-primary" data-toggle="modal"
+                        data-target="#resetPasswordModal" data-id="@user.Id" data-name="@($"{user.FirstName} {user.LastName}")">
+                    <i class="fas fa-unlock"></i> Reset password
+                </button>
                 @if (user.IsAdmin)
                 {
                     <button class="btn btn-outline-danger" data-toggle="modal"
@@ -95,6 +99,44 @@
     </div>
 </div>
 
+<div class="modal fade" id="resetPasswordModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Reset password</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Cancel</button>
+
+                @Html.AntiForgeryToken()
+                <input type="hidden" id="resetPasswordUserId">
+                <button id="resetPasswordBtn" class="btn btn-outline-primary">Reset password</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="resetPasswordSuccessModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Password reset successfully</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary ml-auto" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script>
         $('#promoteModal').on('show.bs.modal',
@@ -110,6 +152,7 @@
                 modal.find('.modal-footer input[name=id]').val(id);
             }
         );
+
         $('#demoteModal').on('show.bs.modal',
             function(event) {
                 var button = $(event.relatedTarget);
@@ -122,5 +165,36 @@
                 modal.find('.modal-footer input[name=id]').val(id);
             }
         );
+
+        $('#resetPasswordModal').on('show.bs.modal',
+            function(event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                var name = button.data('name');
+                var modal = $(this);
+                modal.find('.modal-body')
+                    .text('Are you sure you would like to reset ' + name + '\'s password?');
+                $('#resetPasswordUserId').val(id);
+            }
+        );
+
+        $('#resetPasswordBtn').click(
+            function() {
+                $('#resetPasswordModal').modal('hide');
+                $.ajax({
+                    url: '@Url.Action("ResetPassword", "Users")',
+                    type: "POST",
+                    data: {
+                        id: $('#resetPasswordUserId').val(),
+                        __RequestVerificationToken:
+                            $('#resetPasswordModal input[name=__RequestVerificationToken]').val()
+                    },
+                    success: function(result) {
+                        var modal = $('#resetPasswordSuccessModal');
+                        modal.find('.modal-body').text(result.name + '\'s password was reset to ' + result.newPassword);
+                        modal.modal('show');
+                    }
+                });
+            });
     </script>
 }
