@@ -1,4 +1,4 @@
-﻿namespace PoolIt.Web.Controllers
+namespace PoolIt.Web.Controllers
 {
     using System.Diagnostics;
     using System.Linq;
@@ -37,6 +37,7 @@
             return this.View(model);
         }
 
+        [Route("/privacy")]
         public IActionResult Privacy()
         {
             return this.View();
