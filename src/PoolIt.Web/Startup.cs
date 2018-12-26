@@ -129,6 +129,7 @@
             services.AddScoped<IJoinRequestsService, JoinRequestsService>();
             services.AddScoped<IInvitationsService, InvitationsService>();
             services.AddScoped<IConversationsService, ConversationsService>();
+            services.AddScoped<IPersonalDataService, PersonalDataService>();
 
             services.AddScoped<IRandomStringGeneratorHelper, RandomStringGeneratorHelper>();
 
