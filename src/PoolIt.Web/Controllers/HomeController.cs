@@ -1,4 +1,4 @@
-namespace PoolIt.Web.Controllers
+﻿namespace PoolIt.Web.Controllers
 {
     using System.Diagnostics;
     using System.Linq;
@@ -39,6 +39,12 @@ namespace PoolIt.Web.Controllers
 
         [Route("/privacy")]
         public IActionResult Privacy()
+        {
+            return this.View();
+        }
+
+        [Route("/terms")]
+        public IActionResult Terms()
         {
             return this.View();
         }
