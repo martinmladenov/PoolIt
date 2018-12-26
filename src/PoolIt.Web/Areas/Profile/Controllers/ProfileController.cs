@@ -1,8 +1,10 @@
 namespace PoolIt.Web.Areas.Profile.Controllers
 {
     using System.Linq;
+    using System.Text;
     using System.Threading.Tasks;
     using AutoMapper;
+    using Infrastructure;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -10,18 +12,24 @@ namespace PoolIt.Web.Areas.Profile.Controllers
     using PoolIt.Models;
     using Rides.Models.Ride;
     using Services.Contracts;
+    using Web.Controllers;
 
     [Authorize]
     [Area("Profile")]
-    public class ProfileController : Controller
+    public class ProfileController : BaseController
     {
+        private const string PersonalDataFileName = "PoolIt_PersonalData_{0}_{1}.json";
+
         private readonly UserManager<PoolItUser> userManager;
         private readonly IRidesService ridesService;
+        private readonly IPersonalDataService personalDataService;
 
-        public ProfileController(UserManager<PoolItUser> userManager, IRidesService ridesService)
+        public ProfileController(UserManager<PoolItUser> userManager, IRidesService ridesService,
+            IPersonalDataService personalDataService)
         {
             this.userManager = userManager;
             this.ridesService = ridesService;
+            this.personalDataService = personalDataService;
         }
 
         [Route("/profile")]
@@ -46,6 +54,27 @@ namespace PoolIt.Web.Areas.Profile.Controllers
             };
 
             return this.View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DownloadPersonalData(string password)
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            var passwordValid = !await this.userManager.HasPasswordAsync(user) ||
+                                await this.userManager.CheckPasswordAsync(user, password);
+
+            if (!passwordValid)
+            {
+                this.Error(NotificationMessages.InvalidPassword);
+                return this.RedirectToAction("Index");
+            }
+
+            var json = await this.personalDataService.GetPersonalDataForUserJson(user.Id);
+
+            this.Response.Headers.Add("Content-Disposition",
+                "attachment; filename=" + string.Format(PersonalDataFileName, user.FirstName, user.LastName));
+            return new FileContentResult(Encoding.UTF8.GetBytes(json), "text/json");
         }
     }
 }

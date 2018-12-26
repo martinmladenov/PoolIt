@@ -6,6 +6,7 @@ namespace PoolIt.Infrastructure
         public const string LoggedOut = "Logged out successfully";
         public const string PasswordChanged = "Password changed successfully";
         public const string PasswordSet = "Password set successfully";
+        public const string InvalidPassword = "Invalid password";
         public const string ProfileDetailsUpdated = "Details updated successfully";
 
         public const string CarCreateError = "An error occured while adding your car, try again later";
