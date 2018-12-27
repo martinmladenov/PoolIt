@@ -1,5 +1,6 @@
 ﻿namespace PoolIt.Web
 {
+    using System;
     using System.IO.Abstractions;
     using System.Net.Http;
     using System.Net.Http.Headers;
@@ -72,6 +73,11 @@
                 options.Cookie.HttpOnly = true;
                 options.LoginPath = "/login";
                 options.LogoutPath = "/logout";
+            });
+
+            services.Configure<SecurityStampValidatorOptions>(options =>
+            {
+                options.ValidationInterval = TimeSpan.Zero;
             });
 
             services.AddAuthentication()
