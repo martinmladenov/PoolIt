@@ -9,6 +9,8 @@ namespace PoolIt.Infrastructure
         public const string InvalidPassword = "Invalid password";
         public const string ProfileDetailsUpdated = "Details updated successfully";
         public const string AccountDeleted = "We're sorry to see you go. Your account was deleted.";
+        public const string AccountDeletedAdmin = "User account deleted";
+        public const string AccountDeleteAdminError = "An error occured while deleting user account";
 
         public const string AccountDeleteError =
             "An error occured while deleting your account. Try again or contact support.";

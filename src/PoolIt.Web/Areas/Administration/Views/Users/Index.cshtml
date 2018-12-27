@@ -49,6 +49,11 @@
                         <i class="fas fa-chevron-up"></i> Promote
                     </button>
                 }
+                <button class="btn btn-outline-danger" data-toggle="modal"
+                        data-target="#deleteAccountModal" data-id="@user.Id" data-email="@user.Email"
+                        data-name="@($"{user.FirstName} {user.LastName}")">
+                    <i class="fas fa-trash"></i> Delete account
+                </button>
             </td>
         </tr>
     }
@@ -137,6 +142,41 @@
     </div>
 </div>
 
+<div class="modal fade" id="deleteAccountModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form asp-controller="Users" asp-action="DeleteAccount" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete user account</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="deleteAccountText"></p>
+                    <p>Type the user's email and your password to confirm deletion</p>
+
+                    <div class="form-group">
+                        <label id="deleteAccountEmailLabel"></label>
+                        <input id="deleteAccountEmail" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Your password</label>
+                        <input type="password" name="password" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Cancel</button>
+                    <input type="hidden" name="id">
+                    <button type="submit" class="btn btn-danger" id="deleteAccountButton">
+                        <i class="fas fa-trash"></i> Delete account
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script>
         $('#promoteModal').on('show.bs.modal',
@@ -195,6 +235,32 @@
                         modal.modal('show');
                     }
                 });
-            });
+            }
+        );
+
+        $('#deleteAccountModal').on('show.bs.modal',
+            function(event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                var name = button.data('name');
+                var email = button.data('email');
+                var modal = $(this);
+                modal.find('#deleteAccountText')
+                    .text('Are you sure you would like to delete ' + name + '\'s account?');
+                modal.find('#deleteAccountEmailLabel').text(email);
+                modal.find('#deleteAccountEmail').val('');
+                modal.find('#deleteAccountButton').prop('disabled', true);
+
+                modal.find('input[name=password]').val('');
+                modal.find('.modal-footer input[name=id]').val(id);
+            }
+        );
+
+        $('#deleteAccountEmail').change(function() {
+            var currentValue = $(this).val();
+            var userEmail = $('#deleteAccountEmailLabel').text();
+
+            $('#deleteAccountButton').prop('disabled', currentValue !== userEmail);
+        });
     </script>
 }

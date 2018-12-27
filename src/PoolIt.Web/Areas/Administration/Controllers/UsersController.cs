@@ -13,12 +13,14 @@ namespace PoolIt.Web.Areas.Administration.Controllers
     public class UsersController : AdministrationController
     {
         private readonly UserManager<PoolItUser> userManager;
+        private readonly IPersonalDataService personalDataService;
         private readonly IRandomStringGeneratorHelper randomStringGeneratorHelper;
 
-        public UsersController(UserManager<PoolItUser> userManager,
+        public UsersController(UserManager<PoolItUser> userManager, IPersonalDataService personalDataService,
             IRandomStringGeneratorHelper randomStringGeneratorHelper)
         {
             this.userManager = userManager;
+            this.personalDataService = personalDataService;
             this.randomStringGeneratorHelper = randomStringGeneratorHelper;
         }
 
@@ -132,6 +134,32 @@ namespace PoolIt.Web.Areas.Administration.Controllers
                 name = $"{user.FirstName} {user.LastName}",
                 newPassword
             });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteAccount(string password, string id)
+        {
+            var currentUser = await this.userManager.GetUserAsync(this.User);
+
+            var passwordValid = !await this.userManager.HasPasswordAsync(currentUser) ||
+                                await this.userManager.CheckPasswordAsync(currentUser, password);
+
+            if (!passwordValid)
+            {
+                this.Error(NotificationMessages.InvalidPassword);
+                return this.RedirectToAction("Index");
+            }
+
+            var result = await this.personalDataService.DeleteUser(id);
+
+            if (!result)
+            {
+                this.Error(NotificationMessages.AccountDeleteAdminError);
+                return this.RedirectToAction("Index");
+            }
+
+            this.Success(NotificationMessages.AccountDeletedAdmin);
+            return this.RedirectToAction("Index");
         }
     }
 }
