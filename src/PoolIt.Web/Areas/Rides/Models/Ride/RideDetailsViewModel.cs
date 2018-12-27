@@ -35,6 +35,8 @@ namespace PoolIt.Web.Areas.Rides.Models.Ride
 
         public string OrganiserFullName { get; set; }
 
+        public string InvitationKey { get; set; }
+
         public ICollection<UserRideViewModel> Participants { get; set; }
 
         public ICollection<JoinRequestListingViewModel> JoinRequests { get; set; }

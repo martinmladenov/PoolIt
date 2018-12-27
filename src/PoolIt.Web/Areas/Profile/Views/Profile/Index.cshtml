@@ -10,11 +10,16 @@
         <i class="fas fa-user fa-3x mb-4 text-primary"></i>
         <h1>@Model.FullName</h1>
         <h4 class="text-muted">@Model.Email</h4>
-        <div class="mt-4">
-            <a class="btn btn-outline-primary"
-               asp-area="Account" asp-controller="Details" asp-action="Edit">
-                Edit profile
+        <div class="mt-4 d-flex flex-column">
+            <a class="btn btn-outline-primary mx-auto" href="/account/details/edit">
+                <i class="far fa-edit"></i> Edit profile
             </a>
+            <button class="btn btn-link mx-auto mt-2" data-toggle="modal" data-target="#downloadDataModal">
+                <i class="fas fa-download"></i> Download personal data
+            </button>
+            <button class="btn btn-link mx-auto mt-1 text-danger" data-toggle="modal" data-target="#deleteAccountModal">
+                <i class="fas fa-trash"></i> Delete account
+            </button>
         </div>
     </div>
     <h3>Upcoming rides</h3>
@@ -36,3 +41,68 @@
         <partial name="Rides/_MyRidesPartial" model="@Model.PastRides"/>
     }
 </div>
+
+<div class="modal fade" id="downloadDataModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form asp-controller="Profile" asp-action="DownloadPersonalData" method="post"
+                  onsubmit="closeDownloadDataModal()">
+                <div class="modal-header">
+                    <h5 class="modal-title">Download personal data</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="col-form-label">Type your password to confirm download</label>
+                        <input type="password" name="password" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteAccountModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form asp-controller="Profile" asp-action="DeleteAccount" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete account</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <p>Account deletion is <b class="text-danger">immediate and irreversible</b>.</p>
+                        <p>Type your password to confirm deletion</p>
+                        <input type="password" name="password" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Delete account
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        function closeDownloadDataModal() {
+            $('#downloadDataModal').modal('hide');
+        }
+    </script>
+}

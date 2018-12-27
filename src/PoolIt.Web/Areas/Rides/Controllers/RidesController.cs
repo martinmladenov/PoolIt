@@ -19,11 +19,14 @@ namespace PoolIt.Web.Areas.Rides.Controllers
     {
         private readonly ICarsService carsService;
         private readonly IRidesService ridesService;
+        private readonly IInvitationsService invitationsService;
 
-        public RidesController(ICarsService carsService, IRidesService ridesService)
+        public RidesController(ICarsService carsService, IRidesService ridesService,
+            IInvitationsService invitationsService)
         {
             this.carsService = carsService;
             this.ridesService = ridesService;
+            this.invitationsService = invitationsService;
         }
 
         [Authorize]
@@ -116,6 +119,27 @@ namespace PoolIt.Web.Areas.Rides.Controllers
             }
 
             var viewModel = Mapper.Map<RideDetailsViewModel>(rideServiceModel);
+
+            var invitationKey = this.Request.Cookies[GlobalConstants.InvitationCookieKey];
+
+            if (string.IsNullOrEmpty(invitationKey))
+            {
+                return this.View(viewModel);
+            }
+
+            var invitation = await this.invitationsService.GetAsync(invitationKey);
+
+            if (invitation != null)
+            {
+                if (invitation.RideId == id)
+                {
+                    viewModel.InvitationKey = invitationKey;
+                }
+            }
+            else
+            {
+                this.Response.Cookies.Delete(GlobalConstants.InvitationCookieKey);
+            }
 
             return this.View(viewModel);
         }

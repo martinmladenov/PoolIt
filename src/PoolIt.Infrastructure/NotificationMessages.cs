@@ -6,7 +6,14 @@ namespace PoolIt.Infrastructure
         public const string LoggedOut = "Logged out successfully";
         public const string PasswordChanged = "Password changed successfully";
         public const string PasswordSet = "Password set successfully";
+        public const string InvalidPassword = "Invalid password";
         public const string ProfileDetailsUpdated = "Details updated successfully";
+        public const string AccountDeleted = "We're sorry to see you go. Your account was deleted.";
+        public const string AccountDeletedAdmin = "User account deleted";
+        public const string AccountDeleteAdminError = "An error occured while deleting user account";
+
+        public const string AccountDeleteError =
+            "An error occured while deleting your account. Try again or contact support.";
 
         public const string CarCreateError = "An error occured while adding your car, try again later";
         public const string CarCreated = "Your car was added, you can now organise a ride";
@@ -53,5 +60,10 @@ namespace PoolIt.Infrastructure
         public const string RideEditError = "An error occured while updating ride information";
         public const string RideDeleted = "Ride deleted";
         public const string RideDeleteError = "An error occured while deleting ride, try again later";
+
+        public const string UserPromoted = "User promoted to an administrator";
+        public const string UserPromoteError = "An error occured while promoting user.";
+        public const string UserDemoted = "User demoted to a regular user";
+        public const string UserDemoteError = "An error occured while demoting user.";
     }
 }

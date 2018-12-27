@@ -1,5 +1,6 @@
 ﻿namespace PoolIt.Web
 {
+    using System;
     using System.IO.Abstractions;
     using System.Net.Http;
     using System.Net.Http.Headers;
@@ -74,6 +75,11 @@
                 options.LogoutPath = "/logout";
             });
 
+            services.Configure<SecurityStampValidatorOptions>(options =>
+            {
+                options.ValidationInterval = TimeSpan.Zero;
+            });
+
             services.AddAuthentication()
                 .AddOAuth("GitHub", options =>
                 {
@@ -129,6 +135,7 @@
             services.AddScoped<IJoinRequestsService, JoinRequestsService>();
             services.AddScoped<IInvitationsService, InvitationsService>();
             services.AddScoped<IConversationsService, ConversationsService>();
+            services.AddScoped<IPersonalDataService, PersonalDataService>();
 
             services.AddScoped<IRandomStringGeneratorHelper, RandomStringGeneratorHelper>();
 
