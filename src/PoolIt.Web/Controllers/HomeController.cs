@@ -37,7 +37,14 @@
             return this.View(model);
         }
 
+        [Route("/privacy")]
         public IActionResult Privacy()
+        {
+            return this.View();
+        }
+
+        [Route("/terms")]
+        public IActionResult Terms()
         {
             return this.View();
         }

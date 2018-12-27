@@ -1,6 +1,7 @@
 namespace PoolIt.Data.Repository
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Common;
@@ -27,6 +28,9 @@ namespace PoolIt.Data.Repository
 
         public void Remove(TEntity entity)
             => this.set.Remove(entity);
+
+        public void RemoveRange(IEnumerable<TEntity> entity)
+            => this.set.RemoveRange(entity);
 
         public void Update(TEntity entity)
             => this.set.Update(entity);
