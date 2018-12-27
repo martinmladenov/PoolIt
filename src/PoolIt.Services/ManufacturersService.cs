@@ -56,6 +56,7 @@ namespace PoolIt.Services
         public async Task<IEnumerable<CarManufacturerServiceModel>> GetAllAsync()
         {
             var manufacturers = await this.carManufacturersRepository.All()
+                .OrderBy(m => m.Name)
                 .ProjectTo<CarManufacturerServiceModel>()
                 .ToArrayAsync();
 
