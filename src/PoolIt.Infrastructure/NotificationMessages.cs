@@ -61,9 +61,9 @@ namespace PoolIt.Infrastructure
         public const string RideDeleted = "Ride deleted";
         public const string RideDeleteError = "An error occured while deleting ride, try again later";
 
-        public const string UserPromoted = "User promoted. The changes will be applied on their next login.";
+        public const string UserPromoted = "User promoted to an administrator";
         public const string UserPromoteError = "An error occured while promoting user.";
-        public const string UserDemoted = "User demoted. The changes will be applied on their next login.";
+        public const string UserDemoted = "User demoted to a regular user";
         public const string UserDemoteError = "An error occured while demoting user.";
     }
 }
