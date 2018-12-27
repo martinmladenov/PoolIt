@@ -12,13 +12,13 @@
         <h4 class="text-muted">@Model.Email</h4>
         <div class="mt-4 d-flex flex-column">
             <a class="btn btn-outline-primary mx-auto" href="/account/details/edit">
-                Edit profile
+                <i class="far fa-edit"></i> Edit profile
             </a>
             <button class="btn btn-link mx-auto mt-2" data-toggle="modal" data-target="#downloadDataModal">
                 <i class="fas fa-download"></i> Download personal data
             </button>
             <button class="btn btn-link mx-auto mt-1 text-danger" data-toggle="modal" data-target="#deleteAccountModal">
-                Delete account
+                <i class="fas fa-trash"></i> Delete account
             </button>
         </div>
     </div>
@@ -90,7 +90,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-danger">
-                        <i class="fas fa-download"></i> Delete account
+                        <i class="fas fa-trash"></i> Delete account
                     </button>
                 </div>
             </form>
