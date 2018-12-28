@@ -136,6 +136,7 @@
             services.AddScoped<IInvitationsService, InvitationsService>();
             services.AddScoped<IConversationsService, ConversationsService>();
             services.AddScoped<IPersonalDataService, PersonalDataService>();
+            services.AddScoped<IContactMessagesService, ContactMessagesService>();
 
             services.AddScoped<IRandomStringGeneratorHelper, RandomStringGeneratorHelper>();
 

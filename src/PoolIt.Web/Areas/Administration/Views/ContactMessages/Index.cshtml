@@ -1,0 +1,82 @@
+@using System.Text.RegularExpressions
+@model IEnumerable<PoolIt.Web.Areas.Administration.Models.ContactMessageAdminListingViewModel>
+
+@{
+    ViewData["Title"] = "Contact messages";
+
+    var newLineRegex = new Regex(@"[\r\n]+");
+}
+
+<table class="table table-hover mt-3 dt-responsive dataTable nowrap">
+    <thead>
+    <tr class="font-weight-bold">
+        <th>Subject</th>
+        <th>Full name</th>
+        <th>Email</th>
+        <th>Logged in</th>
+        <th class="none">Message</th>
+        <th class="none">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var message in Model)
+    {
+        <tr>
+            <td>@message.Subject</td>
+            <td>@message.FullName</td>
+            <td>@message.Email</td>
+            <td>@(message.LoggedIn ? "Yes" : "No")</td>
+            <td>
+                @foreach (var line in newLineRegex.Split(message.Message))
+                {
+                    @line<br>
+                }
+            </td>
+            <td>
+                <button class="btn btn-outline-danger" data-toggle="modal"
+                        data-target="#deleteModal" data-id="@message.Id" data-subject="@message.Subject">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Cancel</button>
+
+                <form asp-action="Delete" asp-controller="ContactMessages" method="post">
+                    <input type="hidden" name="id">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $('#deleteModal').on('show.bs.modal',
+            function(event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                var subject = button.data('subject');
+                var modal = $(this);
+                modal.find('.modal-body').text('Are you sure you would like to delete the message with subject \'' +
+                    subject +
+                    '\'?');
+                modal.find('.modal-footer input[name=id]').val(id);
+            })
+    </script>
+}
