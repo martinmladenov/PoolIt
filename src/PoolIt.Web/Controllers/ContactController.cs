@@ -50,8 +50,11 @@ namespace PoolIt.Web.Controllers
 
             if (!this.ModelState.IsValid)
             {
-                model.FullName = $"{user.FirstName} {user.LastName}";
-                model.Email = user.Email;
+                if (user != null)
+                {
+                    model.FullName = $"{user.FirstName} {user.LastName}";
+                    model.Email = user.Email;
+                }
 
                 return this.View(model);
             }
@@ -66,8 +69,11 @@ namespace PoolIt.Web.Controllers
             {
                 this.Error(NotificationMessages.ContactMessageCreateError);
 
-                model.FullName = $"{user.FirstName} {user.LastName}";
-                model.Email = user.Email;
+                if (user != null)
+                {
+                    model.FullName = $"{user.FirstName} {user.LastName}";
+                    model.Email = user.Email;
+                }
 
                 return this.View(model);
             }
