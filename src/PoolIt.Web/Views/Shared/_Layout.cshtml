@@ -41,6 +41,10 @@
                         <a class="nav-link" asp-area="Rides" asp-controller="Rides" asp-action="Create">Organise ride</a>
                     </li>
                 }
+
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Contact" asp-action="Index">Contact us</a>
+                </li>
             </ul>
 
             <div class="navbar-nav ml-auto">
@@ -61,6 +65,7 @@
                                 <a class="dropdown-item" asp-area="Administration" asp-controller="Cars" asp-action="Index">Cars</a>
                                 <a class="dropdown-item" asp-area="Administration" asp-controller="Manufacturers" asp-action="Index">Manufacturers</a>
                                 <a class="dropdown-item" asp-area="Administration" asp-controller="Users" asp-action="Index">Users</a>
+                                <a class="dropdown-item" asp-area="Administration" asp-controller="ContactMessages" asp-action="Index">Contact messages</a>
                             </div>
                         </li>
                     }

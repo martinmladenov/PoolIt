@@ -51,6 +51,7 @@ namespace PoolIt.Services
 
             var models = await this.carModelsRepository.All()
                 .Where(m => m.ManufacturerId == manufacturerId)
+                .OrderBy(m => m.Model)
                 .ProjectTo<CarModelServiceModel>()
                 .ToArrayAsync();
 

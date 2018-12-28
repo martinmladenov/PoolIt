@@ -65,5 +65,10 @@ namespace PoolIt.Infrastructure
         public const string UserPromoteError = "An error occured while promoting user.";
         public const string UserDemoted = "User demoted to a regular user";
         public const string UserDemoteError = "An error occured while demoting user.";
+
+        public const string ContactMessageCreated = "Thank you. We will reply as soon as possible via email.";
+        public const string ContactMessageCreateError = "An error occured while submitting your contact message";
+        public const string ContactMessageDeleted = "Contact message deleted";
+        public const string ContactMessageDeleteError = "An error occured while deleting contact message";
     }
 }
