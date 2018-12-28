@@ -5,6 +5,7 @@ namespace PoolIt.Web.Extensions
     using Infrastructure;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
 
     public static class ApplicationBuilderExtensions
@@ -15,8 +16,8 @@ namespace PoolIt.Web.Extensions
             {
                 var dbContext = serviceScope.ServiceProvider.GetRequiredService<PoolItDbContext>();
 
-                await dbContext.Database.EnsureCreatedAsync();
-                
+                await dbContext.Database.MigrateAsync();
+
                 var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
 
                 if (!await roleManager.RoleExistsAsync(GlobalConstants.AdminRoleName))
