@@ -29,6 +29,8 @@
 
         public DbSet<Invitation> Invitations { get; set; }
 
+        public DbSet<ContactMessage> ContactMessages { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<UserRide>()
