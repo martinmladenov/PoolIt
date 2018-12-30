@@ -1,7 +1,8 @@
 @if (User.Identity.IsAuthenticated)
 {
     <form asp-area="Account" asp-controller="Authentication" asp-action="Logout" method="post" id="logoutForm">
-        <li class="nav-item">
+        <li class="nav-item navbar-popover"
+            data-toggle="tooltip" data-placement="bottom" title="Logout">
             <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()">
                 <i class="fas fa-sign-out-alt"></i>
             </a>

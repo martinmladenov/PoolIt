@@ -70,7 +70,8 @@
                         </li>
                     }
 
-                    <li class="nav-item">
+                    <li class="nav-item navbar-popover"
+                        data-toggle="tooltip" data-placement="bottom" title="Received join requests">
                         <a class="nav-link" asp-area="Rides" asp-controller="JoinRequests" asp-action="Index">
                             <i class="fas fa-vote-yea"></i>
                         </a>
@@ -79,7 +80,9 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-user"></i>
+                            <i class="fas fa-user navbar-popover"
+                               data-toggle="tooltip" data-placement="bottom" title="Profile">
+                            </i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <h5 class="dropdown-header">
@@ -179,6 +182,7 @@
 <script src="~/js/bootstrap-select.min.js"></script>
 <script src="~/js/datatables.min.js"></script>
 <script src="~/js/datatables-init.js"></script>
+<script src="~/js/navbar-popover-init.js"></script>
 
 
 <partial name="_ValidationScriptsPartial"/>
