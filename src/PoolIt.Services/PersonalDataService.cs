@@ -10,19 +10,21 @@ namespace PoolIt.Services
 
     public class PersonalDataService : IPersonalDataService
     {
-        private readonly IRepository<PoolItUser> usersRepository;
+        private readonly IRepository<ContactMessage> contactMessagesRepository;
+        private readonly IRepository<Conversation> conversationsRepository;
         private readonly IRepository<JoinRequest> joinRequestsRepository;
         private readonly IRepository<UserRide> userRidesRepository;
-        private readonly IRepository<Conversation> conversationsRepository;
+        private readonly IRepository<PoolItUser> usersRepository;
 
         public PersonalDataService(IRepository<PoolItUser> usersRepository,
             IRepository<JoinRequest> joinRequestsRepository, IRepository<UserRide> userRidesRepository,
-            IRepository<Conversation> conversationsRepository)
+            IRepository<Conversation> conversationsRepository, IRepository<ContactMessage> contactMessagesRepository)
         {
             this.usersRepository = usersRepository;
             this.joinRequestsRepository = joinRequestsRepository;
             this.userRidesRepository = userRidesRepository;
             this.conversationsRepository = conversationsRepository;
+            this.contactMessagesRepository = contactMessagesRepository;
         }
 
         public async Task<string> GetPersonalDataForUserJson(string userId)
@@ -193,6 +195,12 @@ namespace PoolIt.Services
                     .ToArray();
 
                 this.userRidesRepository.RemoveRange(userRides);
+
+                var contactMessages = this.contactMessagesRepository.All()
+                    .Where(r => r.UserId == userId)
+                    .ToArray();
+
+                this.contactMessagesRepository.RemoveRange(contactMessages);
 
                 var conversations = this.conversationsRepository.All()
                     .Where(c => c.Ride.Car.OwnerId == userId)
