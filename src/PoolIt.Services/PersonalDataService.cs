@@ -48,6 +48,7 @@ namespace PoolIt.Services
                 .Include(u => u.UserRides).ThenInclude(r => r.Ride.Car.Model.Manufacturer)
                 .Include(u => u.UserRides).ThenInclude(r => r.Ride.Conversation.Messages).ThenInclude(m => m.Author)
                 .Include(u => u.UserRides).ThenInclude(r => r.Ride.Participants).ThenInclude(p => p.User)
+                .Include(u => u.ContactMessages)
                 .SingleOrDefaultAsync(u => u.Id == userId);
 
             if (user == null)
@@ -158,6 +159,12 @@ namespace PoolIt.Services
                                 })
                                 .ToArray()
                         }
+                    })
+                    .ToArray(),
+                ContactMessages = user.ContactMessages.Select(m => new
+                    {
+                        m.Subject,
+                        m.Message
                     })
                     .ToArray()
             };
