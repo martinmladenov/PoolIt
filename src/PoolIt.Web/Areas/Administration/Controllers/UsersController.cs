@@ -142,6 +142,7 @@ namespace PoolIt.Web.Areas.Administration.Controllers
             var currentUser = await this.userManager.GetUserAsync(this.User);
 
             var passwordValid = !await this.userManager.HasPasswordAsync(currentUser) ||
+                                password != null &&
                                 await this.userManager.CheckPasswordAsync(currentUser, password);
 
             if (!passwordValid)

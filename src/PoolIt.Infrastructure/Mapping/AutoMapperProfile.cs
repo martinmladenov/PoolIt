@@ -20,7 +20,7 @@
                 .SelectMany(a => a.GetTypes())
                 .ToArray();
 
-            var allMappingTypes = allTypes
+            var withBidirectionalMapping = allTypes
                 .Where(t => t.IsClass
                             && !t.IsAbstract
                             && t.GetInterfaces()
@@ -29,8 +29,8 @@
                                 .Contains(typeof(IMapWith<>)))
                 .Select(t => new
                 {
-                    Destination = t,
-                    Sourse = t.GetInterfaces()
+                    Type1 = t,
+                    Type2 = t.GetInterfaces()
                         .Where(i => i.IsGenericType)
                         .Select(i => new
                         {
@@ -41,24 +41,27 @@
                         .SelectMany(i => i.Arguments)
                         .First()
                 })
-                .ToList();
+                .ToArray();
 
-            //Creates bidirectional mapping for all types, which extends IAutoMapWith<TModel> interface
-            foreach (var type in allMappingTypes)
+            //Create bidirectional mapping for all types implementing the IMapWith<TModel> interface
+            foreach (var mapping in withBidirectionalMapping)
             {
-                this.CreateMap(type.Destination, type.Sourse);
-                this.CreateMap(type.Sourse, type.Destination);
+                this.CreateMap(mapping.Type1, mapping.Type2);
+                this.CreateMap(mapping.Type2, mapping.Type1);
             }
 
-            // Creates custom mapping configuration for all types, which extends ICustomMappingConfiguration interface
-            allTypes
-                .Where(t => t.IsClass
-                            && !t.IsAbstract
-                            && typeof(IHaveCustomMapping).IsAssignableFrom(t))
+            // Create custom mapping for all types implementing the IHaveCustomMapping interface
+            var withCustomMapping = allTypes.Where(t => t.IsClass
+                                                        && !t.IsAbstract
+                                                        && typeof(IHaveCustomMapping).IsAssignableFrom(t))
                 .Select(Activator.CreateInstance)
                 .Cast<IHaveCustomMapping>()
-                .ToList()
-                .ForEach(mapping => mapping.ConfigureMapping(this));
+                .ToArray();
+
+            foreach (var mapping in withCustomMapping)
+            {
+                mapping.ConfigureMapping(this);
+            }
         }
     }
 }

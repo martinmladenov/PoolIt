@@ -4,7 +4,7 @@ namespace PoolIt.Web.Models
     using Infrastructure.Mapping;
     using Services.Models;
 
-    public class ContactMessageBindingModel : IMapWith<ContactMessageServiceModel>
+    public class ContactMessageBindingModel : BaseReCaptchaModel, IMapWith<ContactMessageServiceModel>
     {
         [Required]
         [StringLength(50, MinimumLength = 3)]
