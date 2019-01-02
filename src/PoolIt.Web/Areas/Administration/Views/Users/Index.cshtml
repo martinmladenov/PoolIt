@@ -3,6 +3,16 @@
 
 @{
     ViewData["Title"] = "Users";
+
+    var isCurrentUserSeniorAdmin = User.IsInRole(GlobalConstants.SeniorAdminRoleName);
+}
+
+@if (!isCurrentUserSeniorAdmin)
+{
+    <div class="alert bg-darker-gray shadow text-dark" role="alert">
+        <i class="fas fa-info-circle"></i> &nbsp;
+        As you are not a senior administrator, some options may be unavailable
+    </div>
 }
 
 <table class="table table-hover mt-3 dt-responsive dataTable nowrap">
@@ -16,7 +26,10 @@
         <th>Rides participating in</th>
         <th>Sent join requests</th>
         <th>Email</th>
-        <th class="none">Change role</th>
+        @if (isCurrentUserSeniorAdmin)
+        {
+            <th class="none">Change role</th>
+        }
         <th class="none">Actions</th>
     </tr>
     </thead>
@@ -34,61 +47,76 @@
             <td>@user.ParticipatingRideCount</td>
             <td>@user.SentRequestCount</td>
             <td>@user.Email</td>
-            <td>
-                <div class="btn-group ml-3" role="group">
-                    @if (user.Role == UsersController.SeniorAdminRoleName)
-                    {
-                        <button class="btn px-2 btn-primary">
-                            @UsersController.SeniorAdminRoleName
-                        </button>
-                    }
-                    else
-                    {
-                        <button class="btn px-2 btn-outline-primary" data-toggle="modal" data-target="#updateRoleModal"
-                                data-id="@user.Id" data-name="@userFullName">
-                            @UsersController.SeniorAdminRoleName
-                        </button>
-                    }
+            @if (isCurrentUserSeniorAdmin)
+            {
+                <td>
+                    <div class="btn-group ml-3" role="group">
+                        @if (user.Role == UsersController.SeniorAdminRoleName)
+                        {
+                            <button class="btn px-2 btn-primary">
+                                @UsersController.SeniorAdminRoleName
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="btn px-2 btn-outline-primary" data-toggle="modal" data-target="#updateRoleModal"
+                                    data-id="@user.Id" data-name="@userFullName">
+                                @UsersController.SeniorAdminRoleName
+                            </button>
+                        }
 
-                    @if (user.Role == UsersController.AdminRoleName)
-                    {
-                        <button class="btn px-4 btn-primary">
-                            @UsersController.AdminRoleName
-                        </button>
-                    }
-                    else
-                    {
-                        <button class="btn px-4 btn-outline-primary" data-toggle="modal" data-target="#updateRoleModal"
-                                data-id="@user.Id" data-name="@userFullName">
-                            @UsersController.AdminRoleName
-                        </button>
-                    }
+                        @if (user.Role == UsersController.AdminRoleName)
+                        {
+                            <button class="btn px-4 btn-primary">
+                                @UsersController.AdminRoleName
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="btn px-4 btn-outline-primary" data-toggle="modal" data-target="#updateRoleModal"
+                                    data-id="@user.Id" data-name="@userFullName">
+                                @UsersController.AdminRoleName
+                            </button>
+                        }
 
-                    @if (user.Role == UsersController.UserRoleName)
-                    {
-                        <button class="btn px-4 btn-secondary">
-                            @UsersController.UserRoleName
-                        </button>
-                    }
-                    else
-                    {
-                        <button class="btn px-4 btn-outline-secondary" data-toggle="modal" data-target="#updateRoleModal"
-                                data-id="@user.Id" data-name="@userFullName">
-                            @UsersController.UserRoleName
-                        </button>
-                    }
-                </div>
-            </td>
+                        @if (user.Role == UsersController.UserRoleName)
+                        {
+                            <button class="btn px-4 btn-secondary">
+                                @UsersController.UserRoleName
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="btn px-4 btn-outline-secondary" data-toggle="modal" data-target="#updateRoleModal"
+                                    data-id="@user.Id" data-name="@userFullName">
+                                @UsersController.UserRoleName
+                            </button>
+                        }
+                    </div>
+                </td>
+            }
             <td>
-                <button class="btn btn-outline-primary" data-toggle="modal"
-                        data-target="#resetPasswordModal" data-id="@user.Id" data-name="@userFullName">
-                    <i class="fas fa-unlock"></i> Reset password
-                </button>
-                <button class="btn btn-outline-danger" data-toggle="modal"
-                        data-target="#deleteAccountModal" data-id="@user.Id" data-email="@user.Email"
-                        data-name="@userFullName">
-                    <i class="fas fa-trash"></i> Delete account
-                </button>
+                @if (isCurrentUserSeniorAdmin || user.Role == UsersController.UserRoleName)
+                {
+                    <button class="btn btn-outline-primary" data-toggle="modal"
+                            data-target="#resetPasswordModal" data-id="@user.Id" data-name="@userFullName">
+                        <i class="fas fa-unlock"></i> Reset password
+                    </button>
+                    <button class="btn btn-outline-danger" data-toggle="modal"
+                            data-target="#deleteAccountModal" data-id="@user.Id" data-email="@user.Email"
+                            data-name="@userFullName">
+                        <i class="fas fa-trash"></i> Delete account
+                    </button>
+                }
+                else
+                {
+                    <button class="btn btn-outline-primary" disabled="disabled">
+                        <i class="fas fa-unlock"></i> Reset password
+                    </button>
+                    <button class="btn btn-outline-danger" disabled="disabled">
+                        <i class="fas fa-trash"></i> Delete account
+                    </button>
+                }
             </td>
         </tr>
     }
@@ -139,11 +167,11 @@
     </div>
 </div>
 
-<div class="modal fade" id="resetPasswordSuccessModal" tabindex="-1" role="dialog">
+<div class="modal fade" id="resetPasswordResultModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Password reset successfully</h5>
+                <h5 class="modal-title"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -233,8 +261,18 @@
                             $('#resetPasswordModal input[name=__RequestVerificationToken]').val()
                     },
                     success: function(result) {
-                        var modal = $('#resetPasswordSuccessModal');
-                        modal.find('.modal-body').text(result.name + '\'s password was reset to ' + result.newPassword);
+                        var modal = $('#resetPasswordResultModal');
+                        modal.find('.modal-title').text('Password reset successfully');
+                        modal.find('.modal-body')
+                            .text(result.name + '\'s password was reset to ' + result.newPassword);
+
+                        modal.modal('show');
+                    },
+                    error: function() {
+                        var modal = $('#resetPasswordResultModal');
+                        modal.find('.modal-title').text('Error');
+                        modal.find('.modal-body').text('An error occured while resetting password, try again later');
+
                         modal.modal('show');
                     }
                 });

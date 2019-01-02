@@ -4,6 +4,7 @@ namespace PoolIt.Web.Areas.Administration.Controllers
     using System.Threading.Tasks;
     using AutoMapper.QueryableExtensions;
     using Infrastructure;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Models;
@@ -64,6 +65,7 @@ namespace PoolIt.Web.Areas.Administration.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = GlobalConstants.SeniorAdminRoleName)]
         public async Task<IActionResult> SetRole(string id, string role)
         {
             if (id == null || role == null)
@@ -138,9 +140,11 @@ namespace PoolIt.Web.Areas.Administration.Controllers
 
             var user = await this.userManager.FindByIdAsync(id);
 
-            if (user == null)
+            if (user == null ||
+                !this.User.IsInRole(GlobalConstants.SeniorAdminRoleName) &&
+                await this.userManager.IsInRoleAsync(user, GlobalConstants.AdminRoleName))
             {
-                return new JsonResult(new object());
+                return this.BadRequest();
             }
 
             var newPassword = this.randomStringGeneratorHelper.GenerateRandomString(8);
@@ -151,7 +155,7 @@ namespace PoolIt.Web.Areas.Administration.Controllers
 
             if (!result.Succeeded)
             {
-                return new JsonResult(new object());
+                return this.BadRequest();
             }
 
             return new JsonResult(new
@@ -173,6 +177,16 @@ namespace PoolIt.Web.Areas.Administration.Controllers
             if (!passwordValid)
             {
                 this.Error(NotificationMessages.InvalidPassword);
+                return this.RedirectToAction("Index");
+            }
+
+            var user = await this.userManager.FindByIdAsync(id);
+
+            if (user == null ||
+                !this.User.IsInRole(GlobalConstants.SeniorAdminRoleName) &&
+                await this.userManager.IsInRoleAsync(user, GlobalConstants.AdminRoleName))
+            {
+                this.Error(NotificationMessages.AccountDeleteAdminError);
                 return this.RedirectToAction("Index");
             }
 
