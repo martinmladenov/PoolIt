@@ -10,7 +10,7 @@ namespace PoolIt.Web.Extensions
 
     public static class ApplicationBuilderExtensions
     {
-        public static async Task EnsureAdminRoleCreatedAsync(this IApplicationBuilder app)
+        public static async Task InitializeDatabaseAsync(this IApplicationBuilder app)
         {
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {

@@ -149,7 +149,7 @@
         {
             Mapper.Initialize(config => config.AddProfile<AutoMapperProfile>());
 
-            app.EnsureAdminRoleCreatedAsync().Wait();
+            app.InitializeDatabaseAsync().GetAwaiter().GetResult();
 
             if (env.IsDevelopment())
             {
