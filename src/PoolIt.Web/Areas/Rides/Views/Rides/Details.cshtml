@@ -5,6 +5,7 @@
 
     var isUserParticipant = User.Identity.IsAuthenticated && Model.Participants.Any(p => p.UserEmail == User.Identity.Name);
     var isOrganiser = User.Identity.IsAuthenticated && Model.OrganiserEmail == User.Identity.Name;
+    var isAdmin = User.IsInRole(GlobalConstants.AdminRoleName);
 }
 
 <div class="my-4 pb-3">
@@ -12,7 +13,7 @@
     <hr>
     <div class="row">
         <div class="col-md-8 col-sm-12">
-            @if (isUserParticipant)
+            @if (isUserParticipant || isAdmin)
             {
                 <div class="card card-body mb-3 alert-info">
                     <div class="card-title text-center">
@@ -96,14 +97,14 @@
                 </div>
             </div>
 
-            @if (isUserParticipant)
+            @if (isUserParticipant || isAdmin)
             {
                 <div class="mb-3">
                     <partial name="_ParticipantsListPartial" model="@Model.Participants"/>
                 </div>
             }
 
-            @if (isOrganiser)
+            @if (isOrganiser || isAdmin)
             {
                 <div class="mb-3">
                     <div class="card text-center">
@@ -119,13 +120,16 @@
                                 </a>
                             }
 
-                            <form asp-controller="Invitations" asp-action="Generate" method="post" id="generateInvitationForm">
-                                <input type="hidden" name="rideId" value="@Model.Id">
-                            </form>
-                            <a class="list-group-item list-group-item-action text-primary"
-                               href="javascript:document.getElementById('generateInvitationForm').submit()">
-                                <i class="fas fa-plus"></i> Create an invitation link
-                            </a>
+                            @if (isOrganiser)
+                            {
+                                <form asp-controller="Invitations" asp-action="Generate" method="post" id="generateInvitationForm">
+                                    <input type="hidden" name="rideId" value="@Model.Id">
+                                </form>
+                                <a class="list-group-item list-group-item-action text-primary"
+                                   href="javascript:document.getElementById('generateInvitationForm').submit()">
+                                    <i class="fas fa-plus"></i> Create an invitation link
+                                </a>
+                            }
                         </div>
                     </div>
                 </div>

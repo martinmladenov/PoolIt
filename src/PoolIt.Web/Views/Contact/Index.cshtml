@@ -1,4 +1,5 @@
 @model ContactMessageBindingModel
+@addTagHelper PoolIt.Web.TagHelpers.ReCaptchaTagHelper, PoolIt.Web
 
 @{
     ViewData["Title"] = "Contact us";
@@ -40,9 +41,18 @@
             <textarea class="form-control" asp-for="Message" rows="10"></textarea>
             <span asp-validation-for="Message" class="text-danger"></span>
         </div>
+        <div class="form-group text-center">
+            <recaptcha/>
+            <span asp-validation-for="@Model.ReCaptchaResponse" class="text-danger"></span>
+        </div>
 
         <div class="form-group text-center">
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </form>
 </div>
+
+@section Scripts
+{
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+}
