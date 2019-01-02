@@ -12,6 +12,10 @@ namespace PoolIt.Web.Areas.Administration.Controllers
 
     public class UsersController : AdministrationController
     {
+        public const string SeniorAdminRoleName = "Senior Admin";
+        public const string AdminRoleName = "Admin";
+        public const string UserRoleName = "User";
+
         private readonly UserManager<PoolItUser> userManager;
         private readonly IPersonalDataService personalDataService;
         private readonly IRandomStringGeneratorHelper randomStringGeneratorHelper;
@@ -30,6 +34,11 @@ namespace PoolIt.Web.Areas.Administration.Controllers
                 .ProjectTo<UserAdminListingModel>()
                 .ToArray();
 
+            var seniorAdminIds = (await this.userManager
+                    .GetUsersInRoleAsync(GlobalConstants.SeniorAdminRoleName))
+                .Select(r => r.Id)
+                .ToHashSet();
+
             var adminIds = (await this.userManager
                     .GetUsersInRoleAsync(GlobalConstants.AdminRoleName))
                 .Select(r => r.Id)
@@ -37,70 +46,86 @@ namespace PoolIt.Web.Areas.Administration.Controllers
 
             foreach (var user in users)
             {
-                user.IsAdmin = adminIds.Contains(user.Id);
+                if (seniorAdminIds.Contains(user.Id))
+                {
+                    user.Role = SeniorAdminRoleName;
+                }
+                else if (adminIds.Contains(user.Id))
+                {
+                    user.Role = AdminRoleName;
+                }
+                else
+                {
+                    user.Role = UserRoleName;
+                }
             }
 
             return this.View(users);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Promote(string id)
+        public async Task<IActionResult> SetRole(string id, string role)
         {
-            if (id == null)
+            if (id == null || role == null)
             {
                 return this.NotFound();
             }
 
             var user = await this.userManager.FindByIdAsync(id);
 
-            if (user == null || await this.userManager.IsInRoleAsync(user, GlobalConstants.AdminRoleName))
+            if (user == null)
             {
-                this.Error(NotificationMessages.UserPromoteError);
+                this.Error(NotificationMessages.UserRoleUpdateError);
                 return this.RedirectToAction("Index");
             }
 
-            var result = await this.userManager.AddToRoleAsync(user, GlobalConstants.AdminRoleName);
+            switch (role)
+            {
+                case SeniorAdminRoleName:
+                    await this.AddToRolesAsync(user, GlobalConstants.SeniorAdminRoleName,
+                        GlobalConstants.AdminRoleName);
+                    break;
 
-            if (result.Succeeded)
-            {
-                this.Success(NotificationMessages.UserPromoted);
+                case AdminRoleName:
+                    await this.RemoveFromRolesAsync(user, GlobalConstants.SeniorAdminRoleName);
+                    await this.AddToRolesAsync(user, GlobalConstants.AdminRoleName);
+                    break;
+
+                case UserRoleName:
+                    await this.RemoveFromRolesAsync(user, GlobalConstants.SeniorAdminRoleName,
+                        GlobalConstants.AdminRoleName);
+                    break;
+
+                default:
+                    this.Error(NotificationMessages.UserRoleUpdateError);
+                    return this.RedirectToAction("Index");
             }
-            else
-            {
-                this.Error(NotificationMessages.UserPromoteError);
-            }
+
+            this.Success(NotificationMessages.UserRoleUpdated);
 
             return this.RedirectToAction("Index");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Demote(string id)
+        private async Task AddToRolesAsync(PoolItUser user, params string[] roles)
         {
-            if (id == null)
+            foreach (var role in roles)
             {
-                return this.NotFound();
+                if (!await this.userManager.IsInRoleAsync(user, role))
+                {
+                    await this.userManager.AddToRoleAsync(user, role);
+                }
             }
+        }
 
-            var user = await this.userManager.FindByIdAsync(id);
-
-            if (user == null || !await this.userManager.IsInRoleAsync(user, GlobalConstants.AdminRoleName))
+        private async Task RemoveFromRolesAsync(PoolItUser user, params string[] roles)
+        {
+            foreach (var role in roles)
             {
-                this.Error(NotificationMessages.UserDemoteError);
-                return this.RedirectToAction("Index");
+                if (await this.userManager.IsInRoleAsync(user, role))
+                {
+                    await this.userManager.RemoveFromRoleAsync(user, role);
+                }
             }
-
-            var result = await this.userManager.RemoveFromRoleAsync(user, GlobalConstants.AdminRoleName);
-
-            if (result.Succeeded)
-            {
-                this.Success(NotificationMessages.UserDemoted);
-            }
-            else
-            {
-                this.Error(NotificationMessages.UserDemoteError);
-            }
-
-            return this.RedirectToAction("Index");
         }
 
         [HttpPost]

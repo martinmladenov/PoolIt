@@ -23,7 +23,7 @@ namespace PoolIt.Web.Areas.Administration.Models
 
         public int ParticipatingRideCount { get; set; }
 
-        public bool IsAdmin { get; set; }
+        public string Role { get; set; }
 
         public void ConfigureMapping(Profile mapper)
         {
