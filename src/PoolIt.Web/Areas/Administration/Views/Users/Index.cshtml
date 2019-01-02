@@ -1,7 +1,18 @@
+@using PoolIt.Web.Areas.Administration.Controllers
 @model IEnumerable<PoolIt.Web.Areas.Administration.Models.UserAdminListingModel>
 
 @{
     ViewData["Title"] = "Users";
+
+    var isCurrentUserSeniorAdmin = User.IsInRole(GlobalConstants.SeniorAdminRoleName);
+}
+
+@if (!isCurrentUserSeniorAdmin)
+{
+    <div class="alert bg-darker-gray shadow text-dark" role="alert">
+        <i class="fas fa-info-circle"></i> &nbsp;
+        As you are not a senior administrator, some options may be unavailable
+    </div>
 }
 
 <table class="table table-hover mt-3 dt-responsive dataTable nowrap">
@@ -9,58 +20,110 @@
     <tr class="font-weight-bold">
         <th>First name</th>
         <th>Last name</th>
-        <th>Admin</th>
+        <th>Role</th>
         <th>Cars</th>
         <th>Organised rides</th>
         <th>Rides participating in</th>
         <th>Sent join requests</th>
         <th>Email</th>
-        <th>Actions</th>
+        @if (isCurrentUserSeniorAdmin)
+        {
+            <th class="none">Change role</th>
+        }
+        <th class="none">Actions</th>
     </tr>
     </thead>
     <tbody>
     @foreach (var user in Model)
     {
-        <tr class="@(user.IsAdmin ? "font-weight-bold" : "")">
+        var userFullName = $"{user.FirstName} {user.LastName}";
+
+        <tr class="@(user.Role != UsersController.UserRoleName ? "font-weight-bold" : "")">
             <td>@user.FirstName</td>
             <td>@user.LastName</td>
-            <td>@(user.IsAdmin ? "Yes" : "No")</td>
+            <td>@user.Role</td>
             <td>@user.CarCount</td>
             <td>@user.OrganisedRideCount</td>
             <td>@user.ParticipatingRideCount</td>
             <td>@user.SentRequestCount</td>
             <td>@user.Email</td>
+            @if (isCurrentUserSeniorAdmin)
+            {
+                <td>
+                    <div class="btn-group ml-3" role="group">
+                        @if (user.Role == UsersController.SeniorAdminRoleName)
+                        {
+                            <button class="btn px-2 btn-primary">
+                                @UsersController.SeniorAdminRoleName
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="btn px-2 btn-outline-primary" data-toggle="modal" data-target="#updateRoleModal"
+                                    data-id="@user.Id" data-name="@userFullName">
+                                @UsersController.SeniorAdminRoleName
+                            </button>
+                        }
+
+                        @if (user.Role == UsersController.AdminRoleName)
+                        {
+                            <button class="btn px-4 btn-primary">
+                                @UsersController.AdminRoleName
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="btn px-4 btn-outline-primary" data-toggle="modal" data-target="#updateRoleModal"
+                                    data-id="@user.Id" data-name="@userFullName">
+                                @UsersController.AdminRoleName
+                            </button>
+                        }
+
+                        @if (user.Role == UsersController.UserRoleName)
+                        {
+                            <button class="btn px-4 btn-secondary">
+                                @UsersController.UserRoleName
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="btn px-4 btn-outline-secondary" data-toggle="modal" data-target="#updateRoleModal"
+                                    data-id="@user.Id" data-name="@userFullName">
+                                @UsersController.UserRoleName
+                            </button>
+                        }
+                    </div>
+                </td>
+            }
             <td>
-                <button class="btn btn-outline-primary" data-toggle="modal"
-                        data-target="#resetPasswordModal" data-id="@user.Id" data-name="@($"{user.FirstName} {user.LastName}")">
-                    <i class="fas fa-unlock"></i> Reset password
-                </button>
-                @if (user.IsAdmin)
+                @if (isCurrentUserSeniorAdmin || user.Role == UsersController.UserRoleName)
                 {
+                    <button class="btn btn-outline-primary" data-toggle="modal"
+                            data-target="#resetPasswordModal" data-id="@user.Id" data-name="@userFullName">
+                        <i class="fas fa-unlock"></i> Reset password
+                    </button>
                     <button class="btn btn-outline-danger" data-toggle="modal"
-                            data-target="#demoteModal" data-id="@user.Id" data-name="@($"{user.FirstName} {user.LastName}")">
-                        <i class="fas fa-chevron-down"></i> Demote
+                            data-target="#deleteAccountModal" data-id="@user.Id" data-email="@user.Email"
+                            data-name="@userFullName">
+                        <i class="fas fa-trash"></i> Delete account
                     </button>
                 }
                 else
                 {
-                    <button class="btn btn-outline-success" data-toggle="modal"
-                            data-target="#promoteModal" data-id="@user.Id" data-name="@($"{user.FirstName} {user.LastName}")">
-                        <i class="fas fa-chevron-up"></i> Promote
+                    <button class="btn btn-outline-primary" disabled="disabled">
+                        <i class="fas fa-unlock"></i> Reset password
+                    </button>
+                    <button class="btn btn-outline-danger" disabled="disabled">
+                        <i class="fas fa-trash"></i> Delete account
                     </button>
                 }
-                <button class="btn btn-outline-danger" data-toggle="modal"
-                        data-target="#deleteAccountModal" data-id="@user.Id" data-email="@user.Email"
-                        data-name="@($"{user.FirstName} {user.LastName}")">
-                    <i class="fas fa-trash"></i> Delete account
-                </button>
             </td>
         </tr>
     }
     </tbody>
 </table>
 
-<div class="modal fade" id="promoteModal" tabindex="-1" role="dialog">
+<div class="modal fade" id="updateRoleModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -73,31 +136,10 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Cancel</button>
 
-                <form asp-action="Promote" asp-controller="Users" method="post">
+                <form asp-action="SetRole" asp-controller="Users" method="post">
                     <input type="hidden" name="id">
-                    <button type="submit" class="btn btn-success">Promote</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="demoteModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body"></div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Cancel</button>
-
-                <form asp-action="Demote" asp-controller="Users" method="post">
-                    <input type="hidden" name="id">
-                    <button type="submit" class="btn btn-danger">Demote</button>
+                    <input type="hidden" name="role">
+                    <button type="submit" class="btn btn-primary">Change role</button>
                 </form>
             </div>
         </div>
@@ -125,11 +167,11 @@
     </div>
 </div>
 
-<div class="modal fade" id="resetPasswordSuccessModal" tabindex="-1" role="dialog">
+<div class="modal fade" id="resetPasswordResultModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Password reset successfully</h5>
+                <h5 class="modal-title"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -179,30 +221,19 @@
 
 @section Scripts {
     <script>
-        $('#promoteModal').on('show.bs.modal',
+        $('#updateRoleModal').on('show.bs.modal',
             function(event) {
                 var button = $(event.relatedTarget);
                 var id = button.data('id');
                 var name = button.data('name');
+                var role = button.text().trim();
                 var modal = $(this);
-                modal.find('.modal-title').text('Promote ' + name);
-                modal.find('.modal-body').text('Are you sure you would like to promote the user ' +
-                    name +
-                    ' to Administrator? This will give them unrestricted control over the website.');
+                modal.find('.modal-title').text('Change role of user ' + name);
+                modal.find('.modal-body').text(
+                    `Are you sure you would like to change the role of user ${name} to ${role}?`
+                );
                 modal.find('.modal-footer input[name=id]').val(id);
-            }
-        );
-
-        $('#demoteModal').on('show.bs.modal',
-            function(event) {
-                var button = $(event.relatedTarget);
-                var id = button.data('id');
-                var name = button.data('name');
-                var modal = $(this);
-                modal.find('.modal-title').text('Demote ' + name);
-                modal.find('.modal-body')
-                    .text('Are you sure you would like to demote the user ' + name + ' to a regular user?');
-                modal.find('.modal-footer input[name=id]').val(id);
+                modal.find('.modal-footer input[name=role]').val(role);
             }
         );
 
@@ -230,8 +261,18 @@
                             $('#resetPasswordModal input[name=__RequestVerificationToken]').val()
                     },
                     success: function(result) {
-                        var modal = $('#resetPasswordSuccessModal');
-                        modal.find('.modal-body').text(result.name + '\'s password was reset to ' + result.newPassword);
+                        var modal = $('#resetPasswordResultModal');
+                        modal.find('.modal-title').text('Password reset successfully');
+                        modal.find('.modal-body')
+                            .text(result.name + '\'s password was reset to ' + result.newPassword);
+
+                        modal.modal('show');
+                    },
+                    error: function() {
+                        var modal = $('#resetPasswordResultModal');
+                        modal.find('.modal-title').text('Error');
+                        modal.find('.modal-body').text('An error occured while resetting password, try again later');
+
                         modal.modal('show');
                     }
                 });

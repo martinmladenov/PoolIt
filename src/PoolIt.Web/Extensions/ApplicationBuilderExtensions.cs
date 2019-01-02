@@ -10,7 +10,7 @@ namespace PoolIt.Web.Extensions
 
     public static class ApplicationBuilderExtensions
     {
-        public static async Task EnsureAdminRoleCreatedAsync(this IApplicationBuilder app)
+        public static async Task InitializeDatabaseAsync(this IApplicationBuilder app)
         {
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
@@ -23,6 +23,11 @@ namespace PoolIt.Web.Extensions
                 if (!await roleManager.RoleExistsAsync(GlobalConstants.AdminRoleName))
                 {
                     await roleManager.CreateAsync(new IdentityRole(GlobalConstants.AdminRoleName));
+                }
+
+                if (!await roleManager.RoleExistsAsync(GlobalConstants.SeniorAdminRoleName))
+                {
+                    await roleManager.CreateAsync(new IdentityRole(GlobalConstants.SeniorAdminRoleName));
                 }
             }
         }
