@@ -1,4 +1,5 @@
 # PoolIt
+[![Build Status](https://dev.azure.com/martinml/PoolIt/_apis/build/status/PoolIt-ASP.NET%20Core-CI?branchName=master)](https://dev.azure.com/martinml/PoolIt/_build/latest?definitionId=3&branchName=master)
 ## Create initial administrator
 1. Make an account in the application.
 2. Connect to the SQL database using a tool such as SSMS or DataGrip.
